@@ -188,6 +188,36 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/%20" rel="section">
             
@@ -297,6 +327,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/02/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/02/记一次网络配置故障排查记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -338,13 +379,11 @@
 <h4 id="三、排查故障及解决过程"><a href="#三、排查故障及解决过程" class="headerlink" title="三、排查故障及解决过程"></a>三、排查故障及解决过程</h4><ol>
 <li><p>错误提示<br> 客户每次运行软件，都会弹出<code>Failed to execute script ***</code>的错误提示窗口，此外没有其他信息。</p>
 </li>
-<li><p>重新打包<br> 之前的打包方式为 <code>pyinstall -F -w ***.py</code>，生成的为不带命令行窗口的单个EXE文件。为了查看更多、更详细的错误提示信息，需要重新打包软件，使用以下命令可以打包成使用命令行窗口执行的EXE文件。<br> <code>pyinstall -F -c ***.py</code><br> 在命令行窗口中再次运行程序，观察命令行窗口错误信息，主要有如下信息：<br> <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/error.png" alt><br> 发现是在通过 <code>requests</code>库连接目标网址的时候，连接失败了。</p>
-</li>
-</ol>
+<li><p>重新打包<br> 之前的打包方式为 <code>pyinstall -F -w ***.py</code>，生成的为不带命令行窗口的单个EXE文件。为了查看更多、更详细的错误提示信息，需要重新打包软件，使用以下命令可以打包成使用命令行窗口执行的EXE文件。<br> <code>pyinstall -F -c ***.py</code><br> 在命令行窗口中再次运行程序，观察命令行窗口错误信息，主要有如下信息：<br> <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/error.png" alt=""><br> 发现是在通过 <code>requests</code>库连接目标网址的时候，连接失败了。</p>
 <blockquote>
-<p>考虑到客户说他网络不好，首先怀疑是网速的原因，但通过在浏览器网页打开目标网站的速度来看，应该不是由网速引起的，决定进一步排查。</p>
+<p> 考虑到客户说他网络不好，首先怀疑是网速的原因，但通过在浏览器网页打开目标网站的速度来看，应该不是由网速引起的，决定进一步排查。</p>
 </blockquote>
-<ol start="3">
+</li>
 <li><p>检查网络配置<br> 借助win10 自带工具<code>ping</code> 和 <code>telnet</code> 在命令行窗口排查故障</p>
 <ul>
 <li><p>在命令行中 <code>ping www.目标网址.com</code> ：<strong>提示找不到主机，请检查名称，然后重试。</strong>（博主自己的电脑可以）</p>
@@ -493,6 +532,17 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/29/Hexo-GitHub%E6%90%AD%E5%BB%BA%E9%83%A8%E7%BD%B2%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/02/29/Hexo-GitHub搭建部署个人网站/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -675,10 +725,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
-                
+                </a>
               </div>
             
 
@@ -686,10 +736,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -697,6 +747,16 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/linbo-lin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -853,6 +913,14 @@
 
   
 
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
 
   
 
