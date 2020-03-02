@@ -85,13 +85,13 @@
 <meta property="og:url" content="http://yoursite.com/2020/03/02/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="Begin Now">
 <meta property="og:description" content="一、问题出现问题源自之前做的一个项目，客户换了新电脑之后，无论如何都打不开软件。 在多台电脑上测试后，都可以正常运行，唯独客户打不开，简单检查排除了软件自身的原因。 之后经过长时间检查，发现是客户新电脑网络配置的问题，以此文来记录下排查故障的过程和问题解决的方式。  二、基本环境 项目基础： Python3 + PyQt5 制作的桌面应用程序，在win10系统下使用，主要使用的模块还有reques">
-<meta property="og:image" content="http://yoursite.com/2020/03/02/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95/error.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/error.png">
 <meta property="article:published_time" content="2020-03-02T07:25:54.000Z">
-<meta property="article:modified_time" content="2020-03-02T07:37:58.485Z">
+<meta property="article:modified_time" content="2020-03-02T08:12:27.781Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/02/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95/error.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/error.png">
 
 
 
@@ -338,9 +338,7 @@
 <h4 id="三、排查故障及解决过程"><a href="#三、排查故障及解决过程" class="headerlink" title="三、排查故障及解决过程"></a>三、排查故障及解决过程</h4><ol>
 <li><p>错误提示<br> 客户每次运行软件，都会弹出<code>Failed to execute script ***</code>的错误提示窗口，此外没有其他信息。</p>
 </li>
-<li><p>重新打包<br> 之前的打包方式为 <code>pyinstall -F -w ***.py</code>，生成的为不带命令行窗口的单个EXE文件。为了查看更多、更详细的错误提示信息，需要重新打包软件，使用以下命令可以打包成使用命令行窗口执行的EXE文件。<br> <code>pyinstall -F -c ***.py</code><br> 在命令行窗口中再次运行程序，观察命令行窗口错误信息，主要有如下信息：</p>
- <img src="/2020/03/02/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95/error.png" class title="error message">
-<p> 发现是在通过 <code>requests</code>库连接目标网址的时候，连接失败了。</p>
+<li><p>重新打包<br> 之前的打包方式为 <code>pyinstall -F -w ***.py</code>，生成的为不带命令行窗口的单个EXE文件。为了查看更多、更详细的错误提示信息，需要重新打包软件，使用以下命令可以打包成使用命令行窗口执行的EXE文件。<br> <code>pyinstall -F -c ***.py</code><br> 在命令行窗口中再次运行程序，观察命令行窗口错误信息，主要有如下信息：<br> <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/error.png" alt><br> 发现是在通过 <code>requests</code>库连接目标网址的时候，连接失败了。</p>
 </li>
 </ol>
 <blockquote>
