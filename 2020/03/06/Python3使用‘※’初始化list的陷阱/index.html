@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Begin Now">
 <meta property="og:description" content="问题发现：   12345678list1 &#x3D; [[0]*2]*3list2 &#x3D; [[0]*2 for i in range(3)]list1[0][0] &#x3D; 1list2[0][0] &#x3D; 1print(list1)  # [[1, 0], [1, 0], [1, 0]]print(list2)  # [[1, 0], [0, 0], [0, 0]]   在上述示例代码中，list1, list">
 <meta property="article:published_time" content="2020-03-06T10:20:20.000Z">
-<meta property="article:modified_time" content="2020-03-06T10:22:13.222Z">
+<meta property="article:modified_time" content="2020-03-06T10:24:24.719Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="Python3">
 <meta name="twitter:card" content="summary">
@@ -375,8 +375,14 @@
 <p>  <strong>list1:</strong> 将同一个对象x添加到list1当中三次，即list1中三个元素为同一个对象<br>  <strong>list2:</strong> 每次迭代创建一个新的对象，并将其添加到list2中</p>
 </li>
 <li><p>验证：</p>
-  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(list1[<span class="number">0</span>] <span class="keyword">is</span> list1[<span class="number">1</span>])  <span class="comment"># True</span></span><br><span class="line">print(list2[<span class="number">0</span>] <span class="keyword">is</span> list2[<span class="number">1</span>])  <span class="comment"># False</span></span><br></pre></td></tr></table></figure></li>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(list1[<span class="number">0</span>] <span class="keyword">is</span> list1[<span class="number">1</span>])  <span class="comment"># True</span></span><br><span class="line">print(list2[<span class="number">0</span>] <span class="keyword">is</span> list2[<span class="number">1</span>])  <span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
+<hr>
+<blockquote>
+<p>文中有什么错误或不足之处欢迎指出~</p>
+</blockquote>
 
       
     </div>
