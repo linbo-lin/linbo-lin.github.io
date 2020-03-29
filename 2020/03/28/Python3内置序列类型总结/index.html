@@ -88,7 +88,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200329174757.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200329174949.png">
 <meta property="article:published_time" content="2020-03-28T07:59:43.000Z">
-<meta property="article:modified_time" content="2020-03-29T13:50:04.542Z">
+<meta property="article:modified_time" content="2020-03-29T14:04:29.240Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="Python3">
 <meta property="article:tag" content="内置序列类型">
@@ -635,7 +635,7 @@
 <li><p>创建一个具名元组需要两个参数：类名和类的各个字段的名字。后者可以是由数个字符串组成的可迭代对象，或者是由空格所分隔开的字段名组成的字符串。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上述示例中的创建具名元组等价于下面这种方式</span></span><br><span class="line">City = namedtuple(<span class="string">'City'</span>, [<span class="string">"name"</span>, <span class="string">"country"</span>, <span class="string">"population"</span>, <span class="string">"coordinates"</span>])</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>存放在对应字段里的数据要以一串参数的形式传入到构造函数转给中。需要注意的是，构造函数可接受的参数形式单一，只接受可迭代对象。</p>
+<li><p>存放在对应字段里的数据要以一串参数的形式传入到构造函数参数中。需要注意的是，构造函数可接受的参数形式单一，只接受可迭代对象。</p>
 </li>
 <li><p>可以通过字段名或位置来获取一个字段的位置。</p>
 </li>
