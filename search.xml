@@ -1,6 +1,534 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python3内置序列类型总结</title>
+    <url>/2020/03/28/Python3%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h4 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h4><p>Python 标准库用C实现了丰富的序列类型，这些类型大都支持迭代、排序、切片、拼接等操作。</p>
+<h5 id="按照存储的内容可以分为："><a href="#按照存储的内容可以分为：" class="headerlink" title="按照存储的内容可以分为："></a>按照存储的内容可以分为：</h5><ul>
+<li><p>容器序列：可以存放不同类型的数据</p>
+<blockquote>
+<p>list、tuple、collections.deque</p>
+</blockquote>
+</li>
+<li><p>扁平序列：只能容纳一种类型</p>
+<blockquote>
+<p>str、bytes、bytearray、memoryview、array.array</p>
+</blockquote>
+</li>
+</ul>
+<p>容器序列存放的是它们所包含的任意类型的对象的引用，而扁平序列里存放的是值而不是引用。换句话说，扁平序列其实是一段连续的内存空间。</p>
+<h5 id="按照能否被修改可以分为："><a href="#按照能否被修改可以分为：" class="headerlink" title="按照能否被修改可以分为："></a>按照能否被修改可以分为：</h5><ul>
+<li><p>可变序列：序列内容可以被修改</p>
+<blockquote>
+<p>list、bytearray、array.array、collections.deque、memoryview</p>
+</blockquote>
+</li>
+<li><p>不可变序列</p>
+<blockquote>
+<p>tuple、str、bytes</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h4 id="列表list"><a href="#列表list" class="headerlink" title="列表list"></a><a href="https://runestone.academy/runestone/books/published/pythonds/AlgorithmAnalysis/Lists.html" target="_blank" rel="noopener">列表list</a></h4><h5 id="特性："><a href="#特性：" class="headerlink" title="特性："></a>特性：</h5><ul>
+<li>属于容器序列：可以存放不同类型的数据</li>
+<li>属于可变序列：序列内容可以被修改</li>
+</ul>
+<h5 id="内置函数："><a href="#内置函数：" class="headerlink" title="内置函数："></a>内置函数：</h5><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>index[]</td>
+<td>取值</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>index assignment</td>
+<td>赋值</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>list.append(value)</td>
+<td>Append object to the end of the list.</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>list.clear()</td>
+<td>Remove all items from list.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.copy()</td>
+<td>Return a shallow copy of the list.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.count(value)</td>
+<td>Return number of occurrences of value.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.extend()</td>
+<td>Extend list by appending elements from the iterable.</td>
+<td>O(k)</td>
+</tr>
+<tr>
+<td>list.index(value,[start,[stop])</td>
+<td>Return first index of value.<br />Raises ValueError if the value is not present.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.insert(index, value)</td>
+<td>Insert object before index.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.pop()</td>
+<td>Remove and return item at  last.</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>list.pop(index)</td>
+<td>Remove and return item at index (default last).</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.remove()</td>
+<td>Remove first occurrence of value.<br />Raises ValueError if the value is not present.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.reverse()</td>
+<td>Reverse <em>IN PLACE</em>.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>list.sort()</td>
+<td>Stable sort <em>IN PLACE</em>.</td>
+<td>O(n log n)</td>
+</tr>
+<tr>
+<td>len(list)</td>
+<td>求列表长度</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>get slice [x:y]</td>
+<td>切片</td>
+<td>O(k)</td>
+</tr>
+<tr>
+<td>in 关键字</td>
+<td>判断元素是否在列表中</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>multiply</td>
+<td>列表乘法</td>
+<td>O(nk)</td>
+</tr>
+</tbody></table>
+<ul>
+<li>‘n’是容器中当前的元素数， ‘k’是需要操作的元素个数。</li>
+</ul>
+<h5 id="列表推导-list-comprehension，简称-listcomps"><a href="#列表推导-list-comprehension，简称-listcomps" class="headerlink" title="列表推导(list comprehension，简称: listcomps):"></a>列表推导(list comprehension，简称: listcomps):</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_a = <span class="string">"1234567890"</span></span><br><span class="line">list_a = []</span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> str_a:</span><br><span class="line">    list_a.append(int(c))</span><br><span class="line">print(list_a)</span><br><span class="line"></span><br><span class="line">list_b = [int(c) <span class="keyword">for</span> c <span class="keyword">in</span> str_a]</span><br><span class="line">print(list_b)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码就是一个用<strong>列表推导</strong>代替<strong>for循环</strong>来新建列表的示例。</p>
+<p>通常只使用<strong>列表推导</strong>来创建新的列表，并且使代码尽量简短。如果列表推导的代码超过了两行，就要考虑是不是要使用<strong>for循环</strong>进行重写。</p>
+<ul>
+<li>Python2中列表推导存在变量泄露问题，Python3中不存在。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># python2</span></span><br><span class="line">c = <span class="string">"ABC"</span></span><br><span class="line">list_a = [c <span class="keyword">for</span> c <span class="keyword">in</span> <span class="string">"DEF"</span>]</span><br><span class="line">print(c)  <span class="comment"># F</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># python3</span></span><br><span class="line">c = <span class="string">"ABC"</span></span><br><span class="line">list_a = [c <span class="keyword">for</span> c <span class="keyword">in</span> <span class="string">"DEF"</span>]</span><br><span class="line">print(c)  <span class="comment"># ABC</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="列表推导的性能："><a href="#列表推导的性能：" class="headerlink" title="列表推导的性能："></a>列表推导的性能：</h5><p>列表推导可以实现的操作也有一些替代选择，这里比较一下他们的性能，具体见如下代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line"></span><br><span class="line">TIMES = <span class="number">10000</span></span><br><span class="line"></span><br><span class="line">SETUP = <span class="string">"""</span></span><br><span class="line"><span class="string">symbols = '$¢£¥€¤'</span></span><br><span class="line"><span class="string">def non_ascii(c):</span></span><br><span class="line"><span class="string">    return c &gt; 127</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clock</span><span class="params">(label, cmd)</span>:</span></span><br><span class="line">    res = timeit.repeat(cmd, setup=SETUP, number=TIMES)</span><br><span class="line">    print(label, *(<span class="string">'&#123;:.3f&#125;'</span>.format(x) <span class="keyword">for</span> x <span class="keyword">in</span> res))</span><br><span class="line"></span><br><span class="line">clock(<span class="string">'listcomp        :'</span>, <span class="string">'[ord(s) for s in symbols if ord(s) &gt; 127]'</span>)</span><br><span class="line">clock(<span class="string">'listcomp + func :'</span>, <span class="string">'[ord(s) for s in symbols if non_ascii(ord(s))]'</span>)</span><br><span class="line">clock(<span class="string">'filter + lambda :'</span>, <span class="string">'list(filter(lambda c: c &gt; 127, map(ord, symbols)))'</span>)</span><br><span class="line">clock(<span class="string">'filter + func   :'</span>, <span class="string">'list(filter(non_ascii, map(ord, symbols)))'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="comment"># listcomp        : 0.016 0.015 0.015 0.014 0.015</span></span><br><span class="line"><span class="comment"># listcomp + func : 0.025 0.019 0.020 0.077 0.030</span></span><br><span class="line"><span class="comment"># filter + lambda : 0.022 0.022 0.019 0.020 0.023</span></span><br><span class="line"><span class="comment"># filter + func   : 0.017 0.018 0.024 0.020 0.020</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>代码出处为：<a href="https://github.com/fluentpython/example-code/blob/master/02-array-seq/listcomp_speed.py" target="_blank" rel="noopener">流畅的Python-listcomp_speed.py </a></p>
+</blockquote>
+<hr>
+<h4 id="元组tuple"><a href="#元组tuple" class="headerlink" title="元组tuple"></a><a href="https://docs.python.org/3.5/library/stdtypes.html#tuple" target="_blank" rel="noopener">元组tuple</a></h4><h5 id="特性：-1"><a href="#特性：-1" class="headerlink" title="特性："></a>特性：</h5><ul>
+<li>属于容器序列：可以存放不同类型的数据</li>
+<li>属于不可变序列：序列内容不可以被修改</li>
+</ul>
+<h5 id="内置函数：-1"><a href="#内置函数：-1" class="headerlink" title="内置函数："></a>内置函数：</h5><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count()</td>
+<td>Return number of occurrences of value.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>index(value,[start,[stop])</td>
+<td>Return first index of value.<br />Raises ValueError if the value is not present.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>in 关键字</td>
+<td>判断是否在元组中</td>
+<td>O(n)</td>
+</tr>
+</tbody></table>
+<h5 id="元组与记录："><a href="#元组与记录：" class="headerlink" title="元组与记录："></a>元组与记录：</h5><p>元组其实是<strong>对数据的记录</strong>：<strong>元组中的每个元素都对应记录中一个字段的数据，外加这个字段的位置，</strong>正是这个位置信息给数据赋予了意义。</p>
+<p>如果只是把元组理解为不可变的列表，那其他信息——它所含有的元素的总数和元素的位置——似乎就变得可有可无。但是如果把元组当做是一些字段的集合，那么数量和位置信息就变得非常重要的。</p>
+<ul>
+<li><strong>示例：</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">city, year, pop, chg, area = (<span class="string">'Tokyo'</span>, <span class="number">2003</span>, <span class="number">32450</span>, <span class="number">0.66</span>, <span class="number">8014</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上是东京市的一条数据记录，包含了市名、年份、人口、人口变化和面积五个字段的信息。 如何我们对元组内的数据排序，那这些元素所携带的信息就会丢失。</p>
+<p><strong>拆包</strong>让元组可以完美地被当作记录来使用。</p>
+<h5 id="元组拆包："><a href="#元组拆包：" class="headerlink" title="元组拆包："></a>元组拆包：</h5><p>元组拆包可以应用到任何可迭代对象上。有如下几种应用方式：</p>
+<ul>
+<li>平行赋值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">lax_coordinates = (<span class="number">33.9425</span>, <span class="number">-118.408056</span>)</span><br><span class="line">latitude, longitude = lax_coordinates <span class="comment"># 元组拆包</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不使用中间变量交换两个变量的值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a, b = b, a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用<code>*</code>运算符把一个可迭代对象拆开作为函数的参数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">divmod(<span class="number">20</span>, <span class="number">8</span>)  <span class="comment"># (2, 4)</span></span><br><span class="line">t = (<span class="number">20</span>, <span class="number">8</span>)</span><br><span class="line">divmod(*t)  <span class="comment"># (2, 4)</span></span><br><span class="line">quotient, remainder = divmod(*t)  <span class="comment"># 2, 4</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用<code>*</code>处理剩下的元素</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a, b, *rest = range(<span class="number">5</span>)  <span class="comment"># 0, 1, [2, 3, 4]</span></span><br><span class="line">a, b, *rest = range(<span class="number">3</span>)  <span class="comment"># 0, 1, [2]</span></span><br><span class="line">a, b, *rest = range(<span class="number">2</span>)  <span class="comment"># 0, 1, []</span></span><br><span class="line"><span class="comment"># *前缀只能用在一个变量名前面，但是这个变量可以出现在赋值表达式的任意位置</span></span><br><span class="line">a, *body, c, d = range(<span class="number">5</span>)  <span class="comment"># 0, [1, 2], 3, 4</span></span><br><span class="line">*head, b, c, d = range(<span class="number">5</span>)  <span class="comment"># [0, 1], 2, 3, 4</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="嵌套元组拆包："><a href="#嵌套元组拆包：" class="headerlink" title="嵌套元组拆包："></a>嵌套元组拆包：</h5><p>接受表达式的元组可以是嵌套式的，例如(a, b, (c, d))。需要接受元组的嵌套结构符合表达式本身的嵌套结构。</p>
+<ul>
+<li>示例：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">metro_areas = [</span><br><span class="line">    (<span class="string">'Tokyo'</span>, <span class="string">'JP'</span>, <span class="number">36.933</span>, (<span class="number">35.689722</span>, <span class="number">139.691667</span>)),</span><br><span class="line">    (<span class="string">'Delhi NCR'</span>, <span class="string">'IN'</span>, <span class="number">21.935</span>, (<span class="number">28.613889</span>, <span class="number">77.208889</span>)),</span><br><span class="line">    (<span class="string">'Mexico City'</span>, <span class="string">'MX'</span>, <span class="number">20.142</span>, (<span class="number">19.433333</span>, <span class="number">-99.133333</span>)),</span><br><span class="line">    (<span class="string">'New York-Newark'</span>, <span class="string">'US'</span>, <span class="number">20.104</span>, (<span class="number">40.808611</span>, <span class="number">-74.020386</span>)),</span><br><span class="line">    (<span class="string">'Sao Paulo'</span>, <span class="string">'BR'</span>, <span class="number">19.649</span>, (<span class="number">-23.547778</span>, <span class="number">-46.635833</span>)),</span><br><span class="line">]</span><br><span class="line">print(<span class="string">'&#123;:15&#125; | &#123;:^9&#125; | &#123;:^9&#125;'</span>.format(<span class="string">''</span>, <span class="string">'lat.'</span>, <span class="string">'long.'</span>))</span><br><span class="line">fmt = <span class="string">'&#123;:15&#125; | &#123;:9.4f&#125; | &#123;:9.4f&#125;'</span></span><br><span class="line"><span class="keyword">for</span> name, cc, pop, (latitude, longitude) <span class="keyword">in</span> metro_areas:</span><br><span class="line">    <span class="keyword">if</span> longitude &lt;= <span class="number">0</span>:</span><br><span class="line">        print(fmt.format(name, latitude, longitude))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment">#                 |   lat.    |   long.  </span></span><br><span class="line"><span class="comment"># Mexico City     |   19.4333 |  -99.1333</span></span><br><span class="line"><span class="comment"># New York-Newark |   40.8086 |  -74.0204</span></span><br><span class="line"><span class="comment"># Sao Paulo       |  -23.5478 |  -46.6358</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="具名元组："><a href="#具名元组：" class="headerlink" title="具名元组："></a>具名元组：</h5><p><code>collections.namedtuple</code>模块可以用来构建一个带字段名的元组和一个有名字的类。</p>
+<p>使用<code>namedtuple</code>构建的类的实例所消耗的内存跟元组是一样的，因为字段名都被存在对应的类里面。这个实例跟普通的对象实例比起来也要小一些，因为Python不会用<code>__dict__</code>来存放这些实例的属性。</p>
+<ul>
+<li>示例：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"><span class="comment"># 创建具名元组</span></span><br><span class="line">City = namedtuple(<span class="string">'City'</span>, <span class="string">'name country population coordinates'</span>) </span><br><span class="line"><span class="comment"># 创建实例</span></span><br><span class="line">tokyo = City(<span class="string">'Tokyo'</span>, <span class="string">'JP'</span>, <span class="number">36.933</span>, (<span class="number">35.689722</span>, <span class="number">139.691667</span>))</span><br><span class="line">print(tokyo)</span><br><span class="line">print(tokyo.population)</span><br><span class="line">print(tokyo.coordinates)</span><br><span class="line">print(tokyo[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># City(name='Tokyo', country='JP', population=36.933, coordinates=(35.689722, 139.691667))</span></span><br><span class="line"><span class="comment"># 36.933</span></span><br><span class="line"><span class="comment"># (35.689722, 139.691667)</span></span><br><span class="line"><span class="comment"># JP</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建一个具名元组需要两个参数：类名和类的各个字段的名字。后者可以是由数个字符串组成的可迭代对象，或者是由空格所分隔开的字段名组成的字符串。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 上述示例中的创建具名元组等价于下面这种方式</span></span><br><span class="line">City = namedtuple(<span class="string">'City'</span>, [<span class="string">"name"</span>, <span class="string">"country"</span>, <span class="string">"population"</span>, <span class="string">"coordinates"</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存放在对应字段里的数据要以一串参数的形式传入到构造函数转给中。需要注意的是，构造函数可接受的参数形式单一，只接受可迭代对象。</p>
+</li>
+<li><p>可以通过字段名或位置来获取一个字段的位置。</p>
+</li>
+</ul>
+<p>具名元组继承自普通元组，除普通元组的属性外，还有自己专有的属性，比如<strong>_fields类属性</strong>、<strong>类方法_make(iterable)</strong>和<strong>实例方法_asdict()</strong>。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(City._fields)</span><br><span class="line">LatLong = namedtuple(<span class="string">'LatLong'</span>, <span class="string">'lat long'</span>)</span><br><span class="line">delhi_data = (<span class="string">'Delhi NCR'</span>, <span class="string">'IN'</span>, <span class="number">21.935</span>, LatLong(<span class="number">28.613889</span>, <span class="number">77.208889</span>))</span><br><span class="line">delhi = City._make(delhi_data)</span><br><span class="line">print(delhi._asdict())</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> delhi._asdict().items():</span><br><span class="line">    print(key + <span class="string">':'</span>, value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ('name', 'country', 'population', 'coordinates')</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># OrderedDict([('name', 'Delhi NCR'), ('country', 'IN'), ('population', 21.935), ('coordinates', LatLong(lat=28.613889, long=77.208889))])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># name: Delhi NCR</span></span><br><span class="line"><span class="comment"># country: IN</span></span><br><span class="line"><span class="comment"># population: 21.935</span></span><br><span class="line"><span class="comment"># coordinates: LatLong(lat=28.613889, long=77.208889)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>_fields</strong>属性是一个包含这个类所有字段名称的元组</p>
+</li>
+<li><p>用<strong>_make()</strong>接收一个可迭代对象来生成这个类的一个实例，等价于如下写法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">City(*delhi_data)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>_asdict()</strong> 把具名元组以<code>collections.OrderedDict</code>的形式返回。</p>
+</li>
+</ul>
+<hr>
+<h4 id="数组array-array"><a href="#数组array-array" class="headerlink" title="数组array.array"></a><a href="https://docs.python.org/3.5/library/array.html#module-array" target="_blank" rel="noopener">数组array.array</a></h4><h5 id="特性：-2"><a href="#特性：-2" class="headerlink" title="特性："></a>特性：</h5><ul>
+<li>扁平序列：只能容纳一种类型的数据</li>
+<li>可变序列：序列内容可以被修改</li>
+</ul>
+<p>如果我们需要一个只包含数字的列表，那么array.array比list会更高效。数组支持所有跟可变序列有关的操作。另外，还提供了从文件读取和存入文件的更快的方法。</p>
+<h5 id="内置函数：-2"><a href="#内置函数：-2" class="headerlink" title="内置函数："></a>内置函数：</h5><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>append()</td>
+<td>append a new item to the end of the array</td>
+<td></td>
+</tr>
+<tr>
+<td>buffer_info()</td>
+<td>Return a tuple (address, length) giving the current memory address and the length in items of the buffer used to hold array’s contents.<br />The length should be multiplied by the itemsize attribute to calculatethe buffer length in bytes.</td>
+<td></td>
+</tr>
+<tr>
+<td>byteswap()</td>
+<td>Byteswap all items of the array.<br />If the items in the array are not 1, 2, 4, or 8 bytes in size, RuntimeError israised.</td>
+<td></td>
+</tr>
+<tr>
+<td>count()</td>
+<td>Return number of occurrences of v in the array.</td>
+<td></td>
+</tr>
+<tr>
+<td>extend()</td>
+<td>Append items to the end of the array.</td>
+<td></td>
+</tr>
+<tr>
+<td>fromfile()</td>
+<td>Read n objects from the file object f and append them to the end of the array.</td>
+<td></td>
+</tr>
+<tr>
+<td>fromlist()</td>
+<td>Append items to array from list.</td>
+<td></td>
+</tr>
+<tr>
+<td>frombytes()</td>
+<td>Appends items from the string, interpreting it as an array of machine values, as if it had been read from a file using the fromfile() method).</td>
+<td></td>
+</tr>
+<tr>
+<td>fromunicode()</td>
+<td>Extends this array with data from the unicode string ustr.<br />The array must be a unicode type array; otherwise a ValueError is raised.<br />Use array.frombytes(ustr.encode(…)) to append Unicode data to an array ofsome other type.</td>
+<td></td>
+</tr>
+<tr>
+<td>index()</td>
+<td>Return index of first occurrence of v in the array.</td>
+<td></td>
+</tr>
+<tr>
+<td>insert()</td>
+<td>Insert a new item v into the array before position i.</td>
+<td></td>
+</tr>
+<tr>
+<td>pop()</td>
+<td>Return the i-th element and delete it from the array.<br />i defaults to -1.</td>
+<td></td>
+</tr>
+<tr>
+<td>remove()</td>
+<td>Remove the first occurrence of v in the array.</td>
+<td></td>
+</tr>
+<tr>
+<td>reverse()</td>
+<td>Reverse the order of the items in the array.</td>
+<td></td>
+</tr>
+<tr>
+<td>tofile()</td>
+<td>Write all items (as machine values) to the file object f.</td>
+<td></td>
+</tr>
+<tr>
+<td>tolist()</td>
+<td>Convert array to an ordinary list with the same items.</td>
+<td></td>
+</tr>
+<tr>
+<td>tobytes()</td>
+<td>Convert the array to an array of machine values and return the bytes representation.</td>
+<td></td>
+</tr>
+<tr>
+<td>tounicode()</td>
+<td>Extends this array with data from the unicode string ustr.<br />Convert the array to a unicode string.  The array must be a unicode type array;otherwise a ValueError is raised.  <br />Use array.tobytes().decode() to obtain aunicode string from an array of some other type.</td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id="类属性：typecode-amp-itemsize"><a href="#类属性：typecode-amp-itemsize" class="headerlink" title="类属性：typecode&amp;itemsize"></a>类属性：typecode&amp;itemsize</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line">a = array(<span class="string">'i'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">print(a.itemsize)</span><br><span class="line">print(a.typecode)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4</span></span><br><span class="line"><span class="comment"># i</span></span><br><span class="line"><span class="comment"># array('i', [1, 2, 3, 4])</span></span><br></pre></td></tr></table></figure>
+
+<p>创建数组需要指定<strong>类型码</strong>以及一个<strong>可迭代对象</strong>，两者可以分别通过内置的类属性<code>typecode</code>以及<code>itemsize</code>来查看。</p>
+<ul>
+<li>类型码用来表示在底层的C语言应该存放怎样的数据类型，有以下种类：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Type code</th>
+<th align="left">C Type</th>
+<th align="left">Python Type</th>
+<th align="left">Minimum size in bytes</th>
+<th align="left">Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>&#39;b&#39;</code></td>
+<td align="left">signed char</td>
+<td align="left">int</td>
+<td align="left">1</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;B&#39;</code></td>
+<td align="left">unsigned char</td>
+<td align="left">int</td>
+<td align="left">1</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;u&#39;</code></td>
+<td align="left">Py_UNICODE</td>
+<td align="left">Unicode character</td>
+<td align="left">2</td>
+<td align="left">(1)</td>
+</tr>
+<tr>
+<td align="left"><code>&#39;h&#39;</code></td>
+<td align="left">signed short</td>
+<td align="left">int</td>
+<td align="left">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;H&#39;</code></td>
+<td align="left">unsigned short</td>
+<td align="left">int</td>
+<td align="left">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;i&#39;</code></td>
+<td align="left">signed int</td>
+<td align="left">int</td>
+<td align="left">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;I&#39;</code></td>
+<td align="left">unsigned int</td>
+<td align="left">int</td>
+<td align="left">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;l&#39;</code></td>
+<td align="left">signed long</td>
+<td align="left">int</td>
+<td align="left">4</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;L&#39;</code></td>
+<td align="left">unsigned long</td>
+<td align="left">int</td>
+<td align="left">4</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;q&#39;</code></td>
+<td align="left">signed long long</td>
+<td align="left">int</td>
+<td align="left">8</td>
+<td align="left">(2)</td>
+</tr>
+<tr>
+<td align="left"><code>&#39;Q&#39;</code></td>
+<td align="left">unsigned long long</td>
+<td align="left">int</td>
+<td align="left">8</td>
+<td align="left">(2)</td>
+</tr>
+<tr>
+<td align="left"><code>&#39;f&#39;</code></td>
+<td align="left">float</td>
+<td align="left">float</td>
+<td align="left">4</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>&#39;d&#39;</code></td>
+<td align="left">double</td>
+<td align="left">float</td>
+<td align="left">8</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p>Notes:</p>
+<ol>
+<li><p>The <code>&#39;u&#39;</code> type code corresponds to Python’s obsolete unicode character (<a href="https://docs.python.org/3.5/c-api/unicode.html#c.Py_UNICODE" target="_blank" rel="noopener"><code>Py_UNICODE</code></a> which is <code>wchar_t</code>). Depending on the platform, it can be 16 bits or 32 bits.</p>
+<p><code>&#39;u&#39;</code> will be removed together with the rest of the <a href="https://docs.python.org/3.5/c-api/unicode.html#c.Py_UNICODE" target="_blank" rel="noopener"><code>Py_UNICODE</code></a> API.</p>
+<p><em>Deprecated since version 3.3, will be removed in version 4.0.</em> </p>
+</li>
+<li><p>The <code>&#39;q&#39;</code> and <code>&#39;Q&#39;</code> type codes are available only if the platform C compiler used to build Python supports C <code>long long</code>, or, on Windows, <code>__int64</code>.</p>
+</li>
+</ol>
+<hr>
+<h4 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h4><h5 id="序列的增量赋值："><a href="#序列的增量赋值：" class="headerlink" title="序列的增量赋值："></a>序列的增量赋值：</h5><p>增量赋值运算符 <code>+=</code>和<code>*=</code>的表现取决于它们的第一个操作对象。</p>
+<p>考虑表达式<code>a += b</code>，<code>+=</code>背后的特殊方法是<code>__iadd__</code>(用于“就地加法”)，对于可变序列来说，a就会就地改动，就像调用了<code>a.extend(b)</code>这样。如果一个类没有实现这个方法的话，Python会退一步调用<code>__add__</code>，这样<code>a += b</code>的效果就变得跟<code>a = a + b</code>一样了：首先计算<code>a + b</code>，得到一个新的对象，然后赋值给a。</p>
+<p>总体来讲，可变序列一般都实现了<code>__iadd__</code>方法，因而<code>+=</code>是就地加法。而不可变序列根本就不支持这个操作，对这个方法的实现也就无从谈起了。</p>
+<p>上面所说的这些关于<code>+=</code>的概念也适用于<code>*=</code>，不同的是，后者对应的是<code>__imul__</code>。</p>
+<ul>
+<li>示例：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># list</span></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">print(id(a))  <span class="comment"># 2862020911752</span></span><br><span class="line">a += [<span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">print(id(a))  <span class="comment"># 2862020911752</span></span><br><span class="line">a *= <span class="number">2</span></span><br><span class="line">print(id(a))  <span class="comment"># 2862020911752</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># tuple</span></span><br><span class="line">b = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)  <span class="comment"># 2862021748992</span></span><br><span class="line">print(id(b))</span><br><span class="line">b += (<span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">print(id(b))  <span class="comment"># 2862020978208</span></span><br><span class="line">b *= <span class="number">2</span></span><br><span class="line">print(id(b))  <span class="comment"># 2862020594632</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># array</span></span><br><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line">c = array(<span class="string">'i'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">d = array(<span class="string">'i'</span>, [<span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">print(id(c))  <span class="comment"># 2862021863536</span></span><br><span class="line">c += d</span><br><span class="line">print(id(c))  <span class="comment"># 2862021863536</span></span><br><span class="line">c *= <span class="number">2</span></span><br><span class="line">print(id(c))  <span class="comment"># 2862021863536</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># str</span></span><br><span class="line">a = <span class="string">"123"</span></span><br><span class="line">print(id(a))  <span class="comment"># 2316514911712</span></span><br><span class="line">a += <span class="string">"456"</span></span><br><span class="line">print(id(a))  <span class="comment"># 2316515702128</span></span><br><span class="line">a *= <span class="number">2</span></span><br><span class="line">print(id(a))  <span class="comment"># 2316516515952</span></span><br></pre></td></tr></table></figure>
+
+<p>对于不可变序列进行重复拼接操作的话，效率会很低，因为每次都要建立一个新对象，而解释器需要把原来对象的元素先复制到新的对象里，然后再追加新的元素。</p>
+<h5 id="改变不可变元组中的列表："><a href="#改变不可变元组中的列表：" class="headerlink" title="改变不可变元组中的列表："></a>改变不可变元组中的列表：</h5><ul>
+<li>看下面一段代码：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = (<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>] += [<span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">TypeError: <span class="string">'tuple'</span> object does <span class="keyword">not</span> support item assignment</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+
+<p>a的类型为不可变类型tuple，其中第二个元素为可变类型list，可以看到我们在修改a[2]这个元素时，运行报错，但a还是被修改成功。</p>
+<ul>
+<li>让我们先来看一下代码运行前后a的状态</li>
+</ul>
+<ol>
+<li><code>a = (1, 2, [3, 4])</code></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200329174757.png" alt=""></p>
+<ol start="2">
+<li><code>a[2] += [4, 5]</code></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200329174949.png" alt=""></p>
+<p>可以发现a[2]存储的并不是列表[3, 4]的值，而是列表的引用。</p>
+<blockquote>
+<p><a href="http://www.pythontutor.com" target="_blank" rel="noopener">Python Tutor</a> 是一个对 Python 运行原理进行可视化分析的工具。  </p>
+</blockquote>
+<ul>
+<li><p>接下来看一下Python 表达式<code>s[a] += b</code>生成的字节码：</p>
+<p>为简化分析，我们将前面的示例代码改为：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = (<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">b = [<span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">a[<span class="number">2</span>] += b</span><br></pre></td></tr></table></figure>
+
+<p>利用python的<a href="https://docs.python.org/3/library/dis.html" target="_blank" rel="noopener">dis模块</a>查看<code>a[2]+=b</code>的执行字节码：</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dis.dis(<span class="string">'a[2]+=b'</span>)</span><br><span class="line">    <span class="number">1</span>           <span class="number">0</span> LOAD_NAME                <span class="number">0</span> (a)  </span><br><span class="line">                <span class="number">2</span> LOAD_CONST               <span class="number">0</span> (<span class="number">2</span>)</span><br><span class="line">                <span class="number">4</span> DUP_TOP_TWO</span><br><span class="line">                <span class="number">6</span> BINARY_SUBSCR                    <span class="comment"># node 1</span></span><br><span class="line">                <span class="number">8</span> LOAD_NAME                <span class="number">1</span> (b)</span><br><span class="line">               <span class="number">10</span> INPLACE_ADD                      <span class="comment"># node 2</span></span><br><span class="line">               <span class="number">12</span> ROT_THREE</span><br><span class="line">               <span class="number">14</span> STORE_SUBSCR                     <span class="comment"># node 3</span></span><br><span class="line">               <span class="number">16</span> LOAD_CONST               <span class="number">1</span> (<span class="literal">None</span>)</span><br><span class="line">               <span class="number">18</span> RETURN_VALUE</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>node 1：</strong>将a[2]的值存入TOS(Top Of Stack，栈的顶端)</li>
+<li><strong>node 2：</strong>计算TOS + b。这一步能够完成，是因为TOS指向的是一个可变对象。</li>
+<li><strong>node3：</strong>a[2] = TOS赋值。这一步会失败。因为a是不可变的元组tuple。</li>
+</ul>
+</li>
+</ul>
+<p>由以上分析，我们可以发现：<strong>增量赋值</strong>操作不是原子操作。前面示例可以看到，代码抛出了异常，但还是完成了操作。</p>
+<hr>
+<blockquote>
+<p>本篇博客内容大部分总结自《流畅的Python》一书，文中有什么写的不清楚的，读者可以阅读《流畅的Python》自己分析一下。</p>
+<p>另外，文中有什么错误或不足之处，欢迎指出~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>Python3</tag>
+        <tag>内置序列类型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>阿里3月27日笔试算法题记录</title>
     <url>/2020/03/27/%E9%98%BF%E9%87%8C3%E6%9C%8827%E6%97%A5%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>上午参加了阿里巴巴2020-3-27场次的笔试，笔试内容为两道算法题，笔试形式为牛客网在线编程(考试形式)，允许使用本地IDE进行调式。</p>
@@ -429,7 +957,7 @@
 <tr>
 <td>clear()</td>
 <td>删除所有元素</td>
-<td></td>
+<td>O(n)</td>
 </tr>
 <tr>
 <td>copy()</td>
@@ -439,7 +967,7 @@
 <tr>
 <td>count(value)</td>
 <td>统计Value出现的次数</td>
-<td></td>
+<td>O(n)</td>
 </tr>
 <tr>
 <td>extend(value)</td>
@@ -454,12 +982,12 @@
 <tr>
 <td>index(value)</td>
 <td>返回value的第一个位置的索引</td>
-<td></td>
+<td>O(n)</td>
 </tr>
 <tr>
 <td>insert(index, value)</td>
 <td>在指定位置插入元素</td>
-<td></td>
+<td>O(n)</td>
 </tr>
 <tr>
 <td>pop()</td>
@@ -479,7 +1007,7 @@
 <tr>
 <td>reverse()</td>
 <td>reverse IN PLACE</td>
-<td></td>
+<td>O(n)</td>
 </tr>
 <tr>
 <td>rotate()</td>
