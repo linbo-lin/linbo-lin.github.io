@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>阿里测开电话一面面经</title>
+    <url>/2020/03/31/%E9%98%BF%E9%87%8C%E6%B5%8B%E5%BC%80%E7%94%B5%E8%AF%9D%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<p>2020/03/27参加了阿里的笔试，30号电话约了面试，31号晚19:30-20:20完成了第一轮的电话面试。</p>
+<hr>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ul>
+<li><p>自我介绍</p>
+</li>
+<li><p>Python内存管理</p>
+</li>
+<li><p>Python函数定义</p>
+</li>
+<li><p>在函数内设置/引用全局变量</p>
+</li>
+<li><p>Python except 关键字及异常处理，举例</p>
+</li>
+<li><p>python filter 函数</p>
+</li>
+<li><p>常用排序算法介绍</p>
+</li>
+<li><p>乐观锁、悲观锁</p>
+</li>
+<li><p>介绍一下项目（遇到的难点，如何解决的，负责的模块，软件界面使用的模块）</p>
+</li>
+<li><p>http与https</p>
+</li>
+<li><p>数据库索引</p>
+</li>
+<li><p>数据库为什么使用B+树做索引</p>
+</li>
+<li><p>sql语句，在表中查询不包含某个字段的记录</p>
+</li>
+<li><p>为什么做数据库，给你带来了什么，兴趣在哪里</p>
+</li>
+<li><p>为什么选择测试岗位。</p>
+</li>
+<li><p>TCP三次连接的过程</p>
+</li>
+<li><p>为百度搜索设计测试用例</p>
+</li>
+<li><p>算法题：两个长度为n的序列A和B，交换A和B中的元素，使得序列A元素总和与序列B元素总和差值最小。</p>
+</li>
+<li><p>同学怎么评价你</p>
+</li>
+<li><p>有什么成果（比赛、论文）</p>
+</li>
+<li><p>比较遗憾的事情</p>
+</li>
+<li><p>最大的优点</p>
+</li>
+<li><p>喜欢写代码吗</p>
+</li>
+<li><p>喜欢逛什么技术论坛、看的书</p>
+</li>
+</ul>
+<p>还有些记不得了，问题顺序不是上面的顺序。</p>
+<hr>
+<h3 id="体验："><a href="#体验：" class="headerlink" title="体验："></a>体验：</h3><p>总体感觉问题问的不是很难，但自己准备的不好，面试过程发挥的也不好，有几个准备了的问题都没答好。</p>
+<p>需要补充一下Python的基础知识，底层知识，数据库理论、操作系统等相关内容。</p>
+<p>还有，为什么一面问了这么多开放性的非技术问题呀？难道是因为我技术太弱，不想问了吗？</p>
+]]></content>
+      <categories>
+        <category>面试/笔试</category>
+      </categories>
+      <tags>
+        <tag>阿里</tag>
+        <tag>电话面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode刷题打卡提醒程序实现与部署</title>
     <url>/2020/03/30/leetcode%E5%88%B7%E9%A2%98%E6%89%93%E5%8D%A1%E6%8F%90%E9%86%92%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0%E4%B8%8E%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<h3 id="前因后果"><a href="#前因后果" class="headerlink" title="前因后果"></a>前因后果</h3><p>今天是3月30号，还差一天 <a href="https://leetcode-cn.com/circle/article/9EZfRE/" target="_blank" rel="noopener">leetcode-cn每日一题</a> 活动就满一个月了，下面这张图是博主这一个月的打卡记录：</p>
@@ -85,6 +154,24 @@
 
 <hr>
 <h3 id="后台运行单个Python程序"><a href="#后台运行单个Python程序" class="headerlink" title="后台运行单个Python程序"></a>后台运行单个Python程序</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一:"></a>方法一:</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python test.py &gt;test.log &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><ul>
+<li>安装</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">"Your Name"</span></span><br><span class="line">git config --global user.email <span class="string">"email@example.com"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成公钥</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
