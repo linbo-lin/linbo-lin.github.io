@@ -1,6 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python内存管理机制</title>
+    <url>/2020/04/13/Python%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>在之前的面试中有被问到Python的内存管理机制，回答的不好，之后查阅了一些文章，这里简单做下总结。Python的内存管理机制主要包含以下几个方面：</p>
+<ul>
+<li>引用计数</li>
+<li>垃圾回收</li>
+<li>内存池机制</li>
+</ul>
+<hr>
+<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><p>在Python中，一切皆可视为对象。对每一个对象，都维护了一个指向该对象的引用总数，即引用计数。我们可以使用<code>sys</code>包中的<code>getrefcount()</code>来查看指定对象的引用计数。需要注意的是，<code>getrefcount()</code>函数本身会为参数中对象创建一个引用。因此，<code>getrefcount()</code>的返回值会比期望的多1个。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> getrefcount</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = a</span><br><span class="line">print(getrefcount(a))  <span class="comment"># 结果为3而不是2</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="引用计数增加："><a href="#引用计数增加：" class="headerlink" title="引用计数增加："></a>引用计数增加：</h4><ul>
+<li>对象被创建：<code>a = [1, 2, 3]</code> </li>
+<li>对象被赋值给其他变量：<code>b = a</code></li>
+<li>被作为参数传递给函数：<code>func(a)</code></li>
+<li>作为容器对象中的一个元素：<code>b = [a, a]</code></li>
+</ul>
+<h4 id="引用计数减少："><a href="#引用计数减少：" class="headerlink" title="引用计数减少："></a>引用计数减少：</h4><ul>
+<li>一个本地引用离开了它的作用域。比如上面的<code>func(a)</code>函数结束时，<code>a</code>指向的对象引用减1。</li>
+<li>对象的别名被显示的销毁：<code>del a</code>。</li>
+<li>对象的一个别名被赋值给其他对象：如上面置<code>b = [2, 3, 4]</code>，那么<code>a</code>指向的对象引用减1。</li>
+<li>对象从一个容器对象中移除：<code>b.remove(a)</code></li>
+<li>容器对象本身被销毁：<code>del b</code>；或者容器对象本身离开了作用域。</li>
+</ul>
+<h4 id="引用环："><a href="#引用环：" class="headerlink" title="引用环："></a>引用环：</h4><p>两个对象可能相互引用，或者一个对象自己引用自己，从而造成所谓的<strong>引用环</strong>(reference cycle)。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 相互引用</span></span><br><span class="line">a = []</span><br><span class="line">b = [a]</span><br><span class="line">a.append(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自身引用</span></span><br><span class="line">a = []</span><br><span class="line">a.append(a)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><p>Python为每个对象维护着引用计数，当某个对象的引用计数为0时，说明没有任何引用指向该对象，即用户不能通过任何方式接触或者运用这个对象。那么这个对象就成为了要被回收的垃圾。</p>
+<p>在进行垃圾回收时，Python不能进行其它人任务。频繁的垃圾回收将大大降低Python的工作效率。如果内存中的对象不多，就没有必要立刻启动垃圾回收。所以，Python只会在特定的条件下启动垃圾回收。</p>
+<p>在Python运行时，会记录其中<strong>分配对象</strong>(object allocation)和<strong>取消分配对象</strong>(object deallocation)的次数，当两者的差值高于某个阈值时，垃圾回收才会启动。</p>
+<p>此阈值可以通过<code>gc</code>模块的<code>get_threshold()</code>函数查看：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br><span class="line">print(gc.get_threshold())  <span class="comment"># (700, 10, 10)</span></span><br></pre></td></tr></table></figure>
+
+<p>返回（700， 10， 10）。其中700即是垃圾回收启动的阈值，后面的两个10是与<strong>分代回收</strong>相关的阈值。可以通过<code>gc</code>模块中的<code>set_threshold()</code>函数重新设置。</p>
+<p>我们也可以使用<code>gc.collect()</code>函数手动启动垃圾回收。</p>
+<h4 id="分代回收："><a href="#分代回收：" class="headerlink" title="分代回收："></a>分代回收：</h4><p>Python同时采用了<strong>分代回收</strong>(generation)的策略。这一策略的假设是：存活时间越久的对象，越不可能在后面的程序中变成垃圾。</p>
+<p>我们的程序往往会产生大量的对象，许多对象很快产生和消失，但也有一些对象长期被使用。出于信任和效率，对于这些<em>长寿</em>的对象，我们相信它们的用处，所以减少在垃圾回收中扫描它们的频率。</p>
+<p>Python将所有的对象分为0，1，2三代。所有的新建对象都是0代对象。当某一代对象经历过垃圾回收，依然存活，那么它就被归入下一代对象。垃圾回收启动时，一定会扫描所有的0代对象。如果0代经过<strong>一定次数</strong>的垃圾回收，那么就启动对0代和1代的扫描清理。当1代也经历了<strong>一定次数</strong>的垃圾回收后，那么会启动对0，1，2，即对所有对象进行扫描。</p>
+<p>这两个次数即为上面<code>get_threshold()</code>函数结果中的两个值。也就是说，每10次0代垃圾回收，会配合1次1代的垃圾回收；而每10次1代的垃圾回收，才会有1次的2代垃圾回收。</p>
+<p>同样可以使用<code>set_threshold()</code>来调整。</p>
+<h4 id="引用环：-1"><a href="#引用环：-1" class="headerlink" title="引用环："></a>引用环：</h4><p>引用环的存在会给上面的垃圾回收机制带来很大的困难。这些引用环可能构成无法使用，但引用计数不为0的一些对象。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = []</span><br><span class="line">b = [a]</span><br><span class="line">a.append(b)</span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span> a</span><br><span class="line"><span class="keyword">del</span> b</span><br></pre></td></tr></table></figure>
+
+<p>上面我们先创建了两个列表对象，并相互引用对方，构成了一个引用环。删除了a, b引用之后，这两个对象都不能再从程序中调用，就没什么用处了。但是由于引用环的存在，这两个对象的引用计数都没有降到0，不会被垃圾回收。</p>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200413214658.png" alt=""></p>
+<p>为了回收这样的引用环，Python复制每个对象的引用计数，可以记为<code>gc_ref</code>。假设，每个对象i，该计数为<code>gc_ref_i</code>。Python会遍历所有的对象i。对于每个对象i引用对象j，将相应的<code>gc_ref_j</code>减1。</p>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200413214933.png" alt=""></p>
+<p>在结束遍历后，<code>gc_ref</code>不为0的对象，和这些对象引用的对象，以及继续更下游引用的对象，需要被保留。而其它的对象则被垃圾回收。</p>
+<hr>
+<h3 id="内存池机制"><a href="#内存池机制" class="headerlink" title="内存池机制"></a>内存池机制</h3><p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200413215259.png" alt=""></p>
+<p>Python的内存机制呈金字塔型：</p>
+<ul>
+<li>-1，-2层主要由操作系统进行操作。</li>
+<li>第0层是C中的<code>malloc()</code>、<code>free()</code>等内存分配和释放函数进行操作。</li>
+<li>第1层和第2层是内存池，由Python的接口函数<code>PyMem_API</code>函数实现，当对象小于256K时由该层直接分配内存。</li>
+<li>第3层是最上层，也就是我们对Python对象的直接操作。</li>
+</ul>
+<p>在C中如果频繁的调用<code>malloc()</code>与<code>free()</code>，是会产生性能问题的。再加上频繁的分配与释放小块内存会产生内存碎片。</p>
+<ul>
+<li><p>经由内存池登记的内存到最后还是会回收到内存池，并不会调用<code>free()</code>释放掉，以便下次使用。</p>
+</li>
+<li><p>对于一些特定的Python对象，例如<code>int</code>，<code>string</code>、<code>list</code>、<code>dict</code>等，会分别有专门的内存来存储，即这些内存只能存储指定类型的对象。</p>
+</li>
+</ul>
+<hr>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><ul>
+<li><a href="https://www.cnblogs.com/CBDoctor/p/3781078.html" target="_blank" rel="noopener">python的内存管理机制</a></li>
+<li><a href="https://www.cnblogs.com/vamei/p/3232088.html" target="_blank" rel="noopener">Python深入06 Python的内存管理</a></li>
+<li><a href="https://docs.python.org/zh-cn/3.6/c-api/memory.html" target="_blank" rel="noopener">内存管理</a></li>
+</ul>
+<blockquote>
+<p>文中有什么错误或者不足之处，欢迎指出~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>内存管理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python3基本数据类型defaultdict</title>
     <url>/2020/04/05/Python3%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bdefaultdict/</url>
     <content><![CDATA[<h3 id="字典中的KeyError异常"><a href="#字典中的KeyError异常" class="headerlink" title="字典中的KeyError异常"></a>字典中的KeyError异常</h3><p>Python中字典（Dict）这种数据类型是通过键值（key）来存取的，当使用一个不存在的键值取值时，会引发<code>keyerror</code>异常。为避免这种情况，有以下几种方法：</p>
