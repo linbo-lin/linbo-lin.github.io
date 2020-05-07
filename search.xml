@@ -20,7 +20,7 @@
 <h4 id="函数注册："><a href="#函数注册：" class="headerlink" title="函数注册："></a>函数注册：</h4><p>假设我们已经实现了一个自定义函数，比如<code>regexp_count()</code>，PG如何才能知道该函数的存在呢？答案是通过函数注册实现。</p>
 <p>需要将自定义函数的相关信息添加到<code>src/include/catalog/pg_prco.dat</code>中，在PG编译时，perl脚本会根据<code>pg_proc.dat</code>文件生成<code>src/backend/catalog/postgres.bki</code>文件，该文件在执行<code>initdb</code>被解析成一条条的SQL语句，并插入到系统表<code>pg_proc</code>中。</p>
 <hr>
-<h3 id="实现过程："><a href="#实现过程：" class="headerlink" title="实现过程："></a>实现过程：</h3><h4 id="第一步：函数定义及实现"><a href="#第一步：函数定义及实现" class="headerlink" title="第一步：函数定义及实现"></a>第一步：函数定义及实现</h4><p>经过分析Oracle的<code>regexp_count()</code>函数，根据不同的参数个，有如下调用形式：</p>
+<h3 id="实现过程："><a href="#实现过程：" class="headerlink" title="实现过程："></a>实现过程：</h3><h4 id="第一步：函数定义及实现"><a href="#第一步：函数定义及实现" class="headerlink" title="第一步：函数定义及实现"></a>第一步：函数定义及实现</h4><p>经过分析Oracle的<code>regexp_count()</code>函数，根据不同的参数个数，有如下调用形式：</p>
 <ul>
 <li><p>regexp_count(source_char, pattern)</p>
 </li>
