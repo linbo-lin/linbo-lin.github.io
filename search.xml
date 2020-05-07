@@ -1,6 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PostgreSQL内核-添加自定义系统函数</title>
+    <url>/2020/05/07/PostgreSQL%E5%86%85%E6%A0%B8-%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<p>最近在做的项目是要在PG数据库上兼容实现Oracle的部分功能，其中一个点就是在PG上去兼容Oracle的四个正则表达式函数，分别是：</p>
+<ul>
+<li>regexp_count()</li>
+<li>regexp_substr()</li>
+<li>regexp_instr()</li>
+<li>regexp_replace()</li>
+</ul>
+<p>实现的方式就是在PG中添加同名的内置系统函数，并实现相应功能。</p>
+<p>本文的重点在于介绍如何在PG中添加自定义的函数作为内置系统函数，而不是如何实现相关函数。接下来将以兼容实现<code>regexp_count()</code>函数为例进行说明。</p>
+<hr>
+<h3 id="基础知识："><a href="#基础知识：" class="headerlink" title="基础知识："></a>基础知识：</h3><h4 id="Oid："><a href="#Oid：" class="headerlink" title="Oid："></a>Oid：</h4><p>Object identifiers (OIDs) are used internally by PostgreSQL as primary keys for various system tables. Type <code>oid</code> represents an object identifier.</p>
+<h4 id="pg-proc系统表："><a href="#pg-proc系统表：" class="headerlink" title="pg_proc系统表："></a>pg_proc系统表：</h4><p>在PG中，所有内置系统函数的基本信息都保存在<code>pg_proc</code>系统表中，每个函数都对应一个<code>Oid</code>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">test</span>=<span class="comment"># select oid,proname from pg_proc limit 10; </span></span><br><span class="line"> oid  | proname  </span><br><span class="line">------+----------</span><br><span class="line"> 1242 | boolin</span><br><span class="line"> 1243 | boolout</span><br><span class="line"> 1244 | byteain</span><br><span class="line">   31 | byteaout</span><br><span class="line"> 1245 | charin</span><br><span class="line">   33 | charout</span><br><span class="line">   34 | namein</span><br><span class="line">   35 | nameout</span><br><span class="line">   38 | int2in</span><br><span class="line">   39 | int2out</span><br><span class="line">(10 rows)</span><br></pre></td></tr></table></figure>
+
+<h4 id="函数注册："><a href="#函数注册：" class="headerlink" title="函数注册："></a>函数注册：</h4><p>假设我们已经实现了一个自定义函数，比如<code>regexp_count()</code>，PG如何才能知道该函数的存在呢？答案是通过函数注册实现。</p>
+<p>需要将自定义函数的相关信息添加到<code>src/include/catalog/pg_prco.dat</code>中，在PG编译时，perl脚本会根据<code>pg_proc.dat</code>文件生成<code>src/backend/catalog/postgres.bki</code>文件，该文件在执行<code>initdb</code>被解析成一条条的SQL语句，并插入到系统表<code>pg_proc</code>中。</p>
+<hr>
+<h3 id="实现过程："><a href="#实现过程：" class="headerlink" title="实现过程："></a>实现过程：</h3><h4 id="第一步：函数定义及实现"><a href="#第一步：函数定义及实现" class="headerlink" title="第一步：函数定义及实现"></a>第一步：函数定义及实现</h4><p>经过分析Oracle的<code>regexp_count()</code>函数，根据不同的参数个，有如下调用形式：</p>
+<ul>
+<li><p>regexp_count(source_char, pattern)</p>
+</li>
+<li><p>regexp_count_with_position(source_char, pattern, position)</p>
+</li>
+<li><p>regexp_count_with_flags(source_char, pattern, position, flags)</p>
+</li>
+</ul>
+<p>函数返回值类型为：<strong>int4</strong>。</p>
+<p>实现的代码大致为：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">Datum</span><br><span class="line">regexp_count(PG_FUNCTION_ARGS)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">text</span>	   *orig_str = PG_GETARG_TEXT_PP(<span class="number">0</span>);</span><br><span class="line">	<span class="built_in">text</span>	   *pattern = PG_GETARG_TEXT_PP(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">int</span>        <span class="built_in">position</span> = PG_NARGS() &gt; <span class="number">2</span> ? PG_GETARG_INT32(<span class="number">2</span>) : <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">text</span>	   *flags = PG_GETARG_TEXT_PP_IF_EXISTS(<span class="number">3</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">position</span> &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">		ereport(ERROR,</span><br><span class="line">			(errcode(ERRCODE_INVALID_PARAMETER_VALUE),</span><br><span class="line">			errmsg(<span class="string">"argument %d is out of range"</span>, <span class="built_in">position</span>)));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	orig_str = text_substring(PG_GETARG_DATUM(<span class="number">0</span>), <span class="built_in">position</span>, <span class="number">-1</span>, <span class="literal">true</span>);			</span><br><span class="line">			</span><br><span class="line">	pg_re_flags re_flags;</span><br><span class="line">	regexp_matches_ctx *matchctx;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* Determine options */</span></span><br><span class="line">	<span class="comment">// parse_re_flags(&amp;re_flags, flags);</span></span><br><span class="line">	custom_parse_re_flags(&amp;re_flags, flags);</span><br><span class="line"></span><br><span class="line">	matchctx = setup_regexp_matches(orig_str, pattern, &amp;re_flags,</span><br><span class="line">									PG_GET_COLLATION(), <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">	PG_RETURN_INT32((int32)matchctx-&gt;nmatches);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Datum</span><br><span class="line">regexp_count_with_position(PG_FUNCTION_ARGS)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> regexp_count(fcinfo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Datum</span><br><span class="line">regexp_count_with_flags(PG_FUNCTION_ARGS)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> regexp_count(fcinfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：分配可用OID"><a href="#第二步：分配可用OID" class="headerlink" title="第二步：分配可用OID"></a>第二步：分配可用OID</h4><p>PG提供了<code>unused_oids</code>工具用于快速检索未使用的Oid，该工具位于：<code>src/include/catalog/unused_oids</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">totem@totem-vm:~/SGRDB-AK$ ./src/include/catalog/unused_oids</span><br><span class="line">4 - 9</span><br><span class="line">210</span><br><span class="line">270 - 273</span><br><span class="line">357</span><br><span class="line">380 - 381</span><br><span class="line">421</span><br><span class="line">560 - 583</span><br><span class="line">606</span><br><span class="line">702 - 704</span><br><span class="line">760 - 763</span><br><span class="line">...</span><br><span class="line">6107 - 6109</span><br><span class="line">6116</span><br><span class="line">6122 - 9999</span><br></pre></td></tr></table></figure>
+
+<p>根据列出的未使用的OID范围，为每个函数选择合适的OID，结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>OID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>regexp_count</td>
+<td>5101</td>
+</tr>
+<tr>
+<td>regexp_count_with_position</td>
+<td>5102</td>
+</tr>
+<tr>
+<td>regexp_count_with_flags</td>
+<td>5103</td>
+</tr>
+</tbody></table>
+<h4 id="第三步：函数注册"><a href="#第三步：函数注册" class="headerlink" title="第三步：函数注册"></a>第三步：函数注册</h4><p>在文件<code>src/include/catalog/pg_proc.dat</code>中添加如下函数注册信息：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123; oid =&gt; '5101', descr =&gt; 'find match_count for regexp',</span><br><span class="line">  proname =&gt; 'regexp_count',  prorows =&gt; '1', prorettype =&gt; 'int4',</span><br><span class="line">  proargtypes =&gt; 'text text', prosrc =&gt; 'regexp_count' </span><br><span class="line">&#125;,</span><br><span class="line">&#123; oid =&gt; '5102', descr =&gt; 'find match_count for regexp',</span><br><span class="line">  proname =&gt; 'regexp_count',  prorows =&gt; '1', prorettype =&gt; 'int4',</span><br><span class="line">  proargtypes =&gt; 'text text int4', prosrc =&gt; 'regexp_count_with_position' </span><br><span class="line">&#125;,</span><br><span class="line">&#123; oid =&gt; '5103', descr =&gt; 'find match_count for regexp',</span><br><span class="line">  proname =&gt; 'regexp_count',  prorows =&gt; '1', prorettype =&gt; 'int4',</span><br><span class="line">  proargtypes =&gt; 'text text int4 text', prosrc =&gt; 'regexp_count_with_flags' </span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>在编译成功后，上面几条记录在<code>postgres.bki</code>中对应的形式为：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">insert</span> ( <span class="number">5101</span> regexp_count <span class="number">11</span> <span class="number">10</span> <span class="number">12</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> f f f t f i s <span class="number">2</span> <span class="number">0</span> <span class="number">23</span> <span class="string">"25 25"</span> _null_ _null_ _null_ _null_ _null_ regexp_count _null_ _null_ _null_ )</span><br><span class="line"><span class="keyword">insert</span> ( <span class="number">5102</span> regexp_count <span class="number">11</span> <span class="number">10</span> <span class="number">12</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> f f f t f i s <span class="number">3</span> <span class="number">0</span> <span class="number">23</span> <span class="string">"25 25 23"</span> _null_ _null_ _null_ _null_ _null_ regexp_count_with_position _null_ _null_ _null_ )</span><br><span class="line"><span class="keyword">insert</span> ( <span class="number">5103</span> regexp_count <span class="number">11</span> <span class="number">10</span> <span class="number">12</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> f f f t f i s <span class="number">4</span> <span class="number">0</span> <span class="number">23</span> <span class="string">"25 25 23 25"</span> _null_ _null_ _null_ _null_ _null_ regexp_count_with_flags _null_ _null_ _null_ )</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h4 id="第四步：添加函数到PG源码"><a href="#第四步：添加函数到PG源码" class="headerlink" title="第四步：添加函数到PG源码"></a>第四步：添加函数到PG源码</h4><p>将自定义函数代码添加到合适的源代码文件中，这里将<code>regexp_count()</code>函数代码添加到了<code>src/backend/utils/adt/regex.c</code>文件中。</p>
+<h4 id="第五步：编译安装"><a href="#第五步：编译安装" class="headerlink" title="第五步：编译安装"></a>第五步：编译安装</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make clean</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h4 id="第六步：初始化、启动数据库"><a href="#第六步：初始化、启动数据库" class="headerlink" title="第六步：初始化、启动数据库"></a>第六步：初始化、启动数据库</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./initdb -D ../data</span><br><span class="line">./pg_ctl -D ../data start</span><br><span class="line">./createdb <span class="built_in">test</span></span><br><span class="line">./psql <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第七步：验证："><a href="#第七步：验证：" class="headerlink" title="第七步：验证："></a>第七步：验证：</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">test</span>=<span class="comment"># select regexp_count('abc'||CHR(10)||'ABC', 'abc');</span></span><br><span class="line"> regexp_count </span><br><span class="line">--------------</span><br><span class="line">            1</span><br><span class="line">(1 row)</span><br><span class="line"><span class="built_in">test</span>=<span class="comment"># select regexp_count('abc'||CHR(10)||'ABC', 'abc', 2);</span></span><br><span class="line"> regexp_count </span><br><span class="line">--------------</span><br><span class="line">            0</span><br><span class="line">(1 row)</span><br><span class="line"><span class="built_in">test</span>=<span class="comment"># select regexp_count('abc'||CHR(10)||'ABC', 'abc', 1, 'i');</span></span><br><span class="line"> regexp_count </span><br><span class="line">--------------</span><br><span class="line">            2</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ul>
+<li><a href="https://www.postgresql.org/docs/12/functions-string.html" target="_blank" rel="noopener">PG-9.4. String Functions and Operators</a></li>
+<li><a href="https://www.postgresql.org/docs/12/functions-matching.html#FUNCTIONS-POSIX-REGEXP" target="_blank" rel="noopener">PG-9.7. Pattern Matching</a></li>
+<li><a href="https://www.postgresql.org/docs/12/catalog-pg-proc.html" target="_blank" rel="noopener">PG-51.39. pg_proc</a></li>
+<li><a href="https://docs.oracle.com/database/121/SQLRF/functions161.htm#SQLRF20014" target="_blank" rel="noopener">Oracle-REGEXP_COUNT</a></li>
+<li><a href="https://www.postgresql.org/docs/12/catalog-pg-proc.html" target="_blank" rel="noopener">PG-51.39. pg_proc</a></li>
+<li><a href="https://docs.oracle.com/database/121/ADFNS/adfns_regexp.htm#ADFNS1003" target="_blank" rel="noopener">Oracle-Using Regular Expressions in Database Applications</a></li>
+<li><a href="https://www.postgresql.org/docs/current/datatype-oid.html" target="_blank" rel="noopener">PG-8.19. Object Identifier Types</a></li>
+<li><a href="http://blog.itpub.net/6906/viewspace-2642750/" target="_blank" rel="noopener">PostgreSQL 源码解读（180）- 内核研发#4(如何实现自定义系统函数)</a></li>
+</ul>
+<blockquote>
+<p>文中有什么错误或者不足之处，欢迎指出~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgreSQL</tag>
+        <tag>数据库内核开发</tag>
+        <tag>兼容Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python内存管理机制</title>
     <url>/2020/04/13/Python%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>在之前的面试中有被问到Python的内存管理机制，回答的不好，之后查阅了一些文章，这里简单做下总结。Python的内存管理机制主要包含以下几个方面：</p>
