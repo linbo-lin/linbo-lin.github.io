@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>字节跳动视频一面面经</title>
+    <url>/2020/07/06/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E8%A7%86%E9%A2%91%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<p>字节跳动提前批一面，视频面试。2020-07-06 19:30开始，持续40分钟左右。</p>
+<hr>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ul>
+<li>自我介绍</li>
+<li>做过哪些项目</li>
+<li>主要使用的语言</li>
+<li>代码题：<ul>
+<li>求二叉树的深度(递归/迭代)</li>
+<li>判断回文链表</li>
+<li>SQL题：Person表中有id/email两列，找重复邮箱</li>
+</ul>
+</li>
+<li>浏览器从输入URL按下回车到显示页面的过程</li>
+<li>常见的HTTP状态码</li>
+<li>如何标识一个TCP连接，端口号的作用，TCP位于哪一层</li>
+<li>做过的项目</li>
+<li>什么是SSH？java还有哪些web框架</li>
+<li>常见排序算法/算法复杂度</li>
+<li>对于一个基本排好序的数组，使用哪种排序算法比较好</li>
+<li>数据库索引相关：有一个组合索引(id， phone)，查找phone=123的记录，会不会使用到索引</li>
+</ul>
+<ul>
+<li>反问：你们部门业务目前使用的技术栈</li>
+</ul>
+<hr>
+<h3 id="体验："><a href="#体验：" class="headerlink" title="体验："></a>体验：</h3><p>面试官人挺不错，刚开始算法题，由于不熟悉标准输入输出，还给换了道题。但是做完题之后也没有要求更多的优化，明明不是最优解，却不想之前那样提示着一步一步进行优化。其他问题也是，回答了之后，也没有问的特别深。</p>
+<p>总体感觉不是很难，但自己回答的应该不准确。</p>
+<p>期望还有二面，二面一定好好准备。</p>
+]]></content>
+      <categories>
+        <category>面试/笔试</category>
+      </categories>
+      <tags>
+        <tag>字节跳动</tag>
+        <tag>视频面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PostgreSQL内核-添加自定义系统函数</title>
     <url>/2020/05/07/PostgreSQL%E5%86%85%E6%A0%B8-%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<p>最近在做的项目是要在PG数据库上兼容实现Oracle的部分功能，其中一个点就是在PG上去兼容Oracle的四个正则表达式函数，分别是：</p>
