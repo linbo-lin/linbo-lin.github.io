@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="阿里,笔试,算法题," />
+  <meta name="keywords" content="爬虫,Python,动态网页," />
 
 
 
@@ -79,19 +79,21 @@
 
 
 
-<meta name="description" content="上午参加了阿里巴巴2020-3-27场次的笔试，笔试内容为两道算法题，笔试形式为牛客网在线编程(考试形式)，允许使用本地IDE进行调式。 博主本身算法题基础不是很好，加上是第一次参加这种形式的笔试（需要自己处理输入输出，之前刷LeetCode只需要实现函数就行了），题答的不好，结束后决定把这两道题搞清楚并记录一下。  算法题一的大致内容如下： 两行输入，分别为S和T，每行是一个字符串，字符串S和T">
+<meta name="description" content="上一篇文章中我们介绍了爬取动态网页的一种方式：逆向工程 这种方式有一点美中不足：这种方式要求我们对JavaScript以及Ajax有一定的了解，而且当网页的JS代码混乱，难以分析的时候，上述过程会花费我们大量的时间和精力。 这时候，如果对爬虫的执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，我们可以尝试另一种方式——渲染动态网页 。  浏览器渲染">
 <meta property="og:type" content="article">
-<meta property="og:title" content="阿里3月27日笔试算法题记录">
-<meta property="og:url" content="http://yoursite.com/2020/03/27/%E9%98%BF%E9%87%8C3%E6%9C%8827%E6%97%A5%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:title" content="爬虫篇-动态网页的处理方式中:渲染动态网页">
+<meta property="og:url" content="http://yoursite.com/2020/07/26/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/index.html">
 <meta property="og:site_name" content="Begin Now">
-<meta property="og:description" content="上午参加了阿里巴巴2020-3-27场次的笔试，笔试内容为两道算法题，笔试形式为牛客网在线编程(考试形式)，允许使用本地IDE进行调式。 博主本身算法题基础不是很好，加上是第一次参加这种形式的笔试（需要自己处理输入输出，之前刷LeetCode只需要实现函数就行了），题答的不好，结束后决定把这两道题搞清楚并记录一下。  算法题一的大致内容如下： 两行输入，分别为S和T，每行是一个字符串，字符串S和T">
-<meta property="article:published_time" content="2020-03-27T03:45:46.000Z">
-<meta property="article:modified_time" content="2020-03-27T06:37:34.071Z">
+<meta property="og:description" content="上一篇文章中我们介绍了爬取动态网页的一种方式：逆向工程 这种方式有一点美中不足：这种方式要求我们对JavaScript以及Ajax有一定的了解，而且当网页的JS代码混乱，难以分析的时候，上述过程会花费我们大量的时间和精力。 这时候，如果对爬虫的执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，我们可以尝试另一种方式——渲染动态网页 。  浏览器渲染">
+<meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/aHR0cHM6Ly9waWMwMDIuY25ibG9ncy5jb20vaW1hZ2VzLzIwMTEvMjY1MTczLzIwMTExMTAzMTYyNjM3MTUucG5n.jfif">
+<meta property="article:published_time" content="2020-07-26T12:36:12.000Z">
+<meta property="article:modified_time" content="2020-07-26T12:51:02.460Z">
 <meta property="article:author" content="linbo">
-<meta property="article:tag" content="阿里">
-<meta property="article:tag" content="笔试">
-<meta property="article:tag" content="算法题">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="动态网页">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/aHR0cHM6Ly9waWMwMDIuY25ibG9ncy5jb20vaW1hZ2VzLzIwMTEvMjY1MTczLzIwMTExMTAzMTYyNjM3MTUucG5n.jfif">
 
 
 
@@ -121,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/03/27/阿里3月27日笔试算法题记录/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/07/26/爬虫篇-动态网页的处理方式中-渲染动态网页/"/>
 
 
 
 
 
-  <title>阿里3月27日笔试算法题记录 | Begin Now</title>
+  <title>爬虫篇-动态网页的处理方式中:渲染动态网页 | Begin Now</title>
   
 
 
@@ -298,7 +300,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/27/%E9%98%BF%E9%87%8C3%E6%9C%8827%E6%97%A5%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/26/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linbo">
@@ -315,7 +317,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">阿里3月27日笔试算法题记录</h1>
+          <h1 class="post-title" itemprop="name headline">爬虫篇-动态网页的处理方式中:渲染动态网页</h1>
         
 
         <div class="post-meta">
@@ -327,8 +329,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-27T11:45:46+08:00">
-                2020-03-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-26T20:36:12+08:00">
+                2020-07-26
               </time>
             
 
@@ -350,8 +352,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%A2%E8%AF%95-%E7%AC%94%E8%AF%95/" itemprop="url" rel="index">
-                    <span itemprop="name">面试/笔试</span>
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
                   </a>
                 </span>
 
@@ -368,9 +370,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/27/%E9%98%BF%E9%87%8C3%E6%9C%8827%E6%97%A5%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%E8%AE%B0%E5%BD%95/#comments" itemprop="discussionUrl">
+                <a href="/2020/07/26/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2020/03/27/阿里3月27日笔试算法题记录/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2020/07/26/爬虫篇-动态网页的处理方式中-渲染动态网页/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -378,7 +380,7 @@
 
           
           
-             <span id="/2020/03/27/%E9%98%BF%E9%87%8C3%E6%9C%8827%E6%97%A5%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%E8%AE%B0%E5%BD%95/" class="leancloud_visitors" data-flag-title="阿里3月27日笔试算法题记录">
+             <span id="/2020/07/26/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/" class="leancloud_visitors" data-flag-title="爬虫篇-动态网页的处理方式中:渲染动态网页">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -409,94 +411,116 @@
       
 
       
-        <p>上午参加了阿里巴巴2020-3-27场次的笔试，笔试内容为两道算法题，笔试形式为牛客网在线编程(考试形式)，允许使用本地IDE进行调式。</p>
-<p>博主本身算法题基础不是很好，加上是第一次参加这种形式的笔试（需要自己处理输入输出，之前刷LeetCode只需要实现函数就行了），题答的不好，结束后决定把这两道题搞清楚并记录一下。</p>
+        <p>上一篇文章中我们介绍了爬取动态网页的一种方式：<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/#more" target="_blank" rel="noopener">逆向工程</a></p>
+<p>这种方式有一点美中不足：这种方式要求我们对JavaScript以及Ajax有一定的了解，而且当网页的JS代码混乱，难以分析的时候，上述过程会花费我们大量的时间和精力。</p>
+<p>这时候，如果对爬虫的执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，我们可以尝试另一种方式——<strong>渲染动态网页</strong> 。</p>
 <hr>
-<h4 id="算法题一的大致内容如下："><a href="#算法题一的大致内容如下：" class="headerlink" title="算法题一的大致内容如下："></a>算法题一的大致内容如下：</h4><ul>
-<li>两行输入，分别为S和T，每行是一个字符串，字符串S和T长度相等</li>
-<li>允许的操作是：将S中任意一个字符移至字符串的末尾</li>
-<li>计算需要操作几次可以将S转换为T，输出操作次数；若S无法转换为T，则输出-1</li>
-</ul>
-<h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><ul>
-<li><p>输入：</p>
-<blockquote>
-<p>ackd<br>cdak</p>
-</blockquote>
-</li>
-<li><p>输出</p>
-<blockquote>
-<p>2</p>
-</blockquote>
-</li>
-</ul>
-<h5 id="解题思路："><a href="#解题思路：" class="headerlink" title="解题思路："></a>解题思路：</h5><ul>
-<li><p>首先判断字符串S能否转换为T，即判断S和T中字符出现的次数是都完全一致</p>
-</li>
-<li><p>接下来寻找S中不需要移动的字符数，即寻找T的最长的一个首部，满足：S中可以找到一个子序列，包含此首部中出现的所有字符，并且这些字符出现的顺序相同。不需要移动的字符数即为此首部的长度。</p>
-<p>如上例中T满足要求的最长首部为<code>cd</code>，对应S中的子序列为<code>ckd</code>。</p>
-</li>
-<li><p>输出需要操作的次数，即为T的长度减去不需要移动的字符数</p>
-</li>
-</ul>
-<h5 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(S, T)</span>:</span></span><br><span class="line">    <span class="comment"># 首先统计字符串S和T每个字符出现的次数是否相等</span></span><br><span class="line">    hashmap = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> S:</span><br><span class="line">        <span class="keyword">if</span> c <span class="keyword">in</span> hashmap:</span><br><span class="line">            hashmap[c] += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            hashmap[c] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> T:</span><br><span class="line">        <span class="keyword">if</span> c <span class="keyword">in</span> hashmap:</span><br><span class="line">            hashmap[c] -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> hashmap.values():</span><br><span class="line">        <span class="keyword">if</span> value != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    <span class="comment"># 然后寻找不需要移动的字符数</span></span><br><span class="line">    i, j = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; len(S) <span class="keyword">and</span> j &lt; len(T):</span><br><span class="line">        <span class="keyword">while</span> i &lt; len(S) <span class="keyword">and</span> T[j] != S[i]:</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> len(T)-j</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    S = sys.stdin.readline().strip()</span><br><span class="line">    T = sys.stdin.readline().strip()</span><br><span class="line">    print(func(S, T))</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="算法题2的大致内容如下："><a href="#算法题2的大致内容如下：" class="headerlink" title="算法题2的大致内容如下："></a>算法题2的大致内容如下：</h4><ul>
-<li><p>求n个随机数中最小值的期望值</p>
-</li>
-<li><p>三行输入，分别为：</p>
+<h4 id="浏览器渲染引擎："><a href="#浏览器渲染引擎：" class="headerlink" title="浏览器渲染引擎："></a>浏览器渲染引擎：</h4><p>在介绍这种方式之前，我们需要首先了解一些浏览器渲染引擎的基本知识。渲染引擎的职责就是渲染，即在浏览器窗口中显示所请求的内容。浏览器向服务器发送请求，得到服务器返回的资源文件后，经过需要渲染引擎的处理，将资源文件显示在浏览器窗口中。目前使用较为广泛的渲染引擎有两种：</p>
 <ul>
-<li>n:  随机数的个数</li>
-<li>l1, l2, … ln  :  l<em>i</em> 为第i个随机数的最小值</li>
-<li>r1, r2, … rn  ：r<em>i</em> 为第i个随机数的最大值</li>
+<li>webkit——使用者有Chrome, Safari</li>
+<li>Geoko——使用者有Firefox</li>
 </ul>
-<p>即第i个随机数的取值区间是 [l<em>i</em>, r<em>i</em>]，取到区间里数字的概率相等</p>
+<p><strong>渲染主流程：</strong></p>
+<ul>
+<li><p>渲染引擎首先通过网络获得所请求文档的内容；</p>
 </li>
-<li><p>输出为随机数最小值的期望</p>
+<li><p>下面是渲染引擎在取得内容之后的基本流程：</p>
+<p><code>解析html以构建dom树</code> -&gt; <code>构建render树</code> -&gt; <code>布局render树</code> -&gt; <code>绘制render树</code></p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/aHR0cHM6Ly9waWMwMDIuY25ibG9ncy5jb20vaW1hZ2VzLzIwMTEvMjY1MTczLzIwMTExMTAzMTYyNjM3MTUucG5n.jfif" style="zoom:67%;" />
 </li>
-<li><p>还有一些关于浮点数的要求（记不清楚了）</p>
+<li><p>渲染引擎开始解析html，并将标签转化为内容树中的dom节点。如果遇到JS，那么此时会启用单独连接进行下载，并且在下载后进行解析。</p>
 </li>
-</ul>
-<h5 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h5><ul>
-<li><p>输入：</p>
-<blockquote>
-<p>2</p>
-<p>1 2</p>
-<p>3 3</p>
-</blockquote>
+<li><p>接着，它解析外部CSS文件及style标签中的样式信息。这些样式信息以及html中的可见性指令将被用来构建另一棵树—render树。</p>
+<p>Render树由一些包含有颜色和大小等属性的矩形组成，它们将被按照正确的顺序显示到屏幕上。</p>
 </li>
-<li><p>输出</p>
-<blockquote>
-<p>1.83333</p>
-</blockquote>
+<li><p>Render树构建好了之后，将会执行布局过程，它将确定每个节点在屏幕上的确切坐标。</p>
 </li>
-<li><p>解释：</p>
-<blockquote>
-<p>最小值为1：（1，2）（1，3）：概率为2/6</p>
-<p>最小值为2：（2，2）（2，3）（3，2）：概率为3/6</p>
-<p>最小值为3：（3，3）：概率为1/6</p>
-<p>结果为：1*(2/6) + 2*(3/6) + 3*(1/6) = 1.83333</p>
-</blockquote>
+<li><p>再下一步就是绘制，即遍历render树，并使用UI后端层绘制每个节点。</p>
 </li>
 </ul>
-<h5 id="解题思路：暴力破解"><a href="#解题思路：暴力破解" class="headerlink" title="解题思路：暴力破解"></a>解题思路：暴力破解</h5><ul>
-<li>首先找到n个随机数的所有情况</li>
-<li>然后找到最小值的范围</li>
-<li>然后寻找每个可能值可能出现的次数并计算概率, 更新期望:<ul>
-<li>依次让第i个随机数为num，统计可能的出现的次数</li>
-<li>在统计其他位置可能的情况的时候，要略过已经统计过的情况（见代码）</li>
-</ul>
+<p>想要了解更多有关浏览器渲染引擎的知识，可以阅读这些：</p>
+<ul>
+<li><p><a href="http://www.cnblogs.com/lhb25/p/how-browsers-work.html#Resources" target="_blank" rel="noopener">前端文摘：深入解析浏览器的幕后工作原理</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/xiaozhuxmen/article/details/52014901" target="_blank" rel="noopener">浏览器加载、解析、渲染的过程</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/xifeijian/article/details/10813339" target="_blank" rel="noopener">浏览器加载和渲染html的顺序-css渲染效率的探究</a></p>
 </li>
 </ul>
-<h5 id="代码：-1"><a href="#代码：-1" class="headerlink" title="代码："></a>代码：</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(N, LS, RS)</span>:</span></span><br><span class="line">    <span class="comment"># 首先找到n个随机数的所有情况</span></span><br><span class="line">    total = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">        total *= (RS[i] - LS[i]) + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 然后找到最小值的范围</span></span><br><span class="line">    min_num = min(LS)</span><br><span class="line">    max_num = min(RS)</span><br><span class="line"></span><br><span class="line">    ans = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 然后寻找每个可能值的概率, 并计算期望: 依次让第i个随机数为num，统计可能的出现的次数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> range(min_num, max_num+<span class="number">1</span>):</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">            tmp = <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> LS[i] &lt;= num &lt;= RS[i]:  <span class="comment"># 第i个随机数可以取到num才计算：</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(N):</span><br><span class="line">                    <span class="keyword">if</span> j != i:  <span class="comment"># 统计其他位置可能的情况</span></span><br><span class="line">                        <span class="keyword">if</span> j &lt; i <span class="keyword">and</span> LS[j] &lt;= num:  <span class="comment"># 略过已经统计过的情况</span></span><br><span class="line">                            pro = min(RS[j] - LS[j], RS[j]-num)  <span class="comment">#例如：示例中统计最小值为2的情况时，取第一位为2，有(2, 2),(2,3);取第二位为2时，应略过(2, 2), 此时只有(3,2)</span></span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            pro = min(RS[j] - LS[j], RS[j] - num) + <span class="number">1</span></span><br><span class="line">                        tmp *= pro</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                tmp = <span class="number">0</span></span><br><span class="line">            count += tmp</span><br><span class="line">        p = count / total  <span class="comment"># 计算概率</span></span><br><span class="line">        ans += num*p  <span class="comment"># 更新期望</span></span><br><span class="line">    <span class="keyword">return</span> ans</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    n = int(sys.stdin.readline())</span><br><span class="line">    line = sys.stdin.readline().strip()</span><br><span class="line">    ls = list(map(int, line.split()))</span><br><span class="line">    line = sys.stdin.readline().strip()</span><br><span class="line">    rs = list(map(int, line.split()))</span><br><span class="line">    print(func(n, ls, rs))</span><br></pre></td></tr></table></figure>
-
+<p><strong>思考：</strong></p>
+<p>了解了浏览器渲染引擎的基本原理，我们可以发现：</p>
+<ul>
+<li>当浏览器渲染引擎完成了dom树以及render树的构建之后，树中就已经包含了我们在浏览器窗口中可以看到的所有数据。</li>
+</ul>
+<p>那么我们就有了一种爬取动态网页的新思路：</p>
+<ul>
+<li>在浏览器渲染引擎执行<code>layout</code>以及<code>printing</code>之前，得到<code>dom</code>树或者<code>render</code>树，从树中获取动态加载的数据。</li>
+</ul>
 <hr>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>笔试时间为一个小时，调试第一题不知不觉就花了半个多小时，第二题慌慌张张只写了一个大概，跑通是不可能跑通的。</p>
-<p>看来以后刷题的时候要刻意的控制下解题时间，不可以像现在这样慢慢的做。</p>
-<p>有了思路之后要多考虑几个测试用例，不然写到一半或者写完测试时发现思路是错的，再改也没有时间了。</p>
+<h4 id="渲染动态网页："><a href="#渲染动态网页：" class="headerlink" title="渲染动态网页："></a>渲染动态网页：</h4><p>有两种选择：</p>
+<ul>
+<li><p>自己从头实现一个浏览器渲染引擎，在合适的时机返回构建的<code>dom</code>树或<code>render</code>树。这需要进行大量的工作，需要考虑html、js、css等不同格式文件的解析方式以及解析顺序等。</p>
+<p>本人参考以下资料进行了尝试，但最终没有成功，有兴趣的可以尝试下。</p>
+<ul>
+<li><p><a href="http://ju.outofmemory.cn/entry/36085" target="_blank" rel="noopener">使用PyV8解析HTML 文档</a> （文中提到的demo可以从下面的链接得到）</p>
+</li>
+<li><p><a href="https://storage.googleapis.com/google-code-archive-source/v2/code.google.com/pyv8/source-archive.zip" target="_blank" rel="noopener">PyV8源码以及demo</a></p>
+</li>
+</ul>
+</li>
+<li><p>利用已有的渲染引擎。</p>
+</li>
+</ul>
+<p>接下来将使用WebKit 渲染引擎，通过 <a href="http://pyside.github.io/docs/pyside/" target="_blank" rel="noopener">PySide</a> 这个python库可以获得该引擎的一个便捷接口。</p>
+<hr>
+<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>还是以 <a href="http://book.sina.com.cn/excerpt/rwws/" target="_blank" rel="noopener">新浪读书——书摘</a> 为例，可以发现：页面中文章列表的部分是动态加载的。</p>
+<p><strong>爬虫代码：</strong></p>
+<p>使用<code>PySide</code>库进行处理的示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PySide.QtGui <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> PySide.QtCore <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> PySide.QtWebKit <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    url = <span class="string">"http://book.sina.com.cn/excerpt/rwws/"</span></span><br><span class="line"></span><br><span class="line">    app = QApplication([])  <span class="comment"># 完成其他Qt对象之前，必须先创建该对象</span></span><br><span class="line">    webview = QWebView()  <span class="comment"># 该对象是Web 对象的容器</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用show方法显示窗口</span></span><br><span class="line">    <span class="comment"># webview.show()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置循环事件， 并等待网页加载完成</span></span><br><span class="line">    loop = QEventLoop()</span><br><span class="line">    webview.loadFinished.connect(loop.quit)</span><br><span class="line">    webview.load(QUrl(url))</span><br><span class="line">    loop.exec_()</span><br><span class="line"></span><br><span class="line">    frame = webview.page().mainFrame()  <span class="comment"># QWebFrame类有很多与网页交互的有用方法</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 得到页面渲染后的html代码</span></span><br><span class="line">    html = frame.toHtml()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> html</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>print</code>语句，我们可以发现：页面的源码<code>html</code>中已经包含了动态加载的内容。</p>
+<p><strong>与网站交互：</strong></p>
+<p>得到动态加载的内容后，需要解决的另一个问题是翻页问题。还好<code>PySide</code>库的<code>QWebKit</code>模块还有一个名为<code>QWebFrame</code>的类，支持很多与网页的交互操作。如“点击”：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 根据CSS Selector 找到所需“进行翻页”的元素</span></span><br><span class="line">elem = frame.findFirstElement(<span class="string">'#subShowContent1_loadMore'</span>)</span><br><span class="line"><span class="comment"># 点击：通过evaluateJavaScript()函数可以执行Js代码</span></span><br><span class="line">elem.evaluateJavaScript(<span class="string">'this.click()'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>除了点击事件，还可以进行填充表单，滚动窗口等操作。</p>
+<p><strong>数据加载时间：</strong></p>
+<p>需要注意的是，在进行了翻页、或者获取更多内容时，一个最大的难点在于如何确定页面是否完成了加载，因为我们难以估计Ajax事件或者Js准备数据的时间。对于这个问题有两种解决思路：</p>
+<ul>
+<li><p>等待固定的一段时间，比如<code>time.sleep(3)</code>：这种方法容易实现，但效率较低；</p>
+</li>
+<li><p>轮询网页，等待特定内容出现；这种方法虽然会在检查是否加载完成时浪费CPU周期，但更加可靠。以下是一个简单的实现：</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">elem = <span class="literal">None</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">not</span> elem:</span><br><span class="line">    app.processEvents()</span><br><span class="line">    elem = frame.findAllElemnets(<span class="string">'#pattern'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>代码循环，直到出现特定元素。每次循环，调用<code>app.processEvents()</code>方法，用于给Qt事件循环执行任务的时间，比如响应点击事件。</p>
 <blockquote>
-<p>文中有什么错误或者不足之处，欢迎指出~</p>
-<p>题二有什么更好的解法也欢迎指教~</p>
+<p>更多有关PySide的内容请看这里：<a href="http://pyside.github.io/docs/pyside/" target="_blank" rel="noopener">PySide官方文档</a></p>
+</blockquote>
+<hr>
+<h4 id="ghost-py"><a href="#ghost-py" class="headerlink" title="ghost.py"></a>ghost.py</h4><p>但是<code>PySide</code>毕竟是一个为了Python的GUI 编程而开发的， 其功能对于爬虫来说实在是太过于庞大，所以我们可以把爬虫经常使用的功能进行封装，来提升编写爬虫的效率。<a href="http://ghost-py.readthedocs.io/en/latest/#" target="_blank" rel="noopener">ghost.py</a>  是目前一个针对爬虫且功能比较完善的<code>PySide</code>的封装模块，使用它可以很方便的进行数据采集。</p>
+<p>还是以获取列表页中每篇文章详情页地址为目标，直接看示例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ghost <span class="keyword">import</span> Ghost, Session</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaBookSpider</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化相关参数</span></span><br><span class="line">    gh = Ghost()</span><br><span class="line">    ss = Session(gh, display=<span class="literal">True</span>)  <span class="comment"># 设置display为true, 方便调试</span></span><br><span class="line"></span><br><span class="line">    total = <span class="number">1526</span>  <span class="comment"># 预先计算的总数据量</span></span><br><span class="line">    count = <span class="number">0</span>  <span class="comment"># 已爬取的数据量</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 记录解析以及翻页位置</span></span><br><span class="line">    location = <span class="number">0</span></span><br><span class="line">    click_times = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        开始爬虫</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 打开网页</span></span><br><span class="line">        self.ss.open(<span class="string">"http://book.sina.com.cn/excerpt/rwws/"</span>)</span><br><span class="line">        <span class="comment"># 等待数据加载完成</span></span><br><span class="line">        self.ss.wait_for_selector(<span class="string">'#subShowContent1_static &gt; div:nth-child(20)'</span>)</span><br><span class="line"></span><br><span class="line">        self.parselist()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.count &lt; self.total:</span><br><span class="line">            <span class="keyword">if</span> self.click_times <span class="keyword">is</span> <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># 点击加载更多</span></span><br><span class="line">                self.ss.click(<span class="string">'#subShowContent1_loadMore'</span>)</span><br><span class="line">                <span class="comment"># 每次翻页，或加载更多，要等待至加载完成</span></span><br><span class="line">                self.ss.wait_for_selector(<span class="string">'#subShowContent1_static &gt; div:nth-child(21)'</span>)</span><br><span class="line"></span><br><span class="line">                self.click_times += <span class="number">1</span></span><br><span class="line">                self.parselist()</span><br><span class="line">            <span class="keyword">elif</span> self.click_times <span class="keyword">is</span> <span class="number">1</span>:</span><br><span class="line">                self.ss.click(<span class="string">'#subShowContent1_loadMore'</span>)</span><br><span class="line">                self.ss.wait_for_selector(<span class="string">'#subShowContent1_static &gt; div:nth-child(41)'</span>)</span><br><span class="line"></span><br><span class="line">                self.click_times += <span class="number">1</span></span><br><span class="line">                self.parselist()</span><br><span class="line">            <span class="keyword">elif</span> self.click_times <span class="keyword">is</span> <span class="number">2</span>:</span><br><span class="line">                self.ss.click(<span class="string">'#subShowContent1_page .pagebox_next a'</span>)</span><br><span class="line">                self.ss.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">                self.click_times = <span class="number">0</span></span><br><span class="line">                self.location = <span class="number">0</span></span><br><span class="line">                self.parselist()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parselist</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        解析列表页</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        html = self.ss.content.encode(<span class="string">'utf8'</span>)</span><br><span class="line">        <span class="comment"># print html</span></span><br><span class="line"></span><br><span class="line">        pattern = re.compile(<span class="string">r'&lt;div class="item"&gt;&lt;h4&gt;&lt;a href="(.*?)" target="_blank"&gt;'</span>, re.M)</span><br><span class="line">        links = pattern.findall(html)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.location, len(links)):</span><br><span class="line">            <span class="keyword">print</span> links[i]</span><br><span class="line">            self.count += <span class="number">1</span></span><br><span class="line">            self.location += <span class="number">1</span></span><br><span class="line">        <span class="keyword">print</span> self.count</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    spider = SinaBookSpider()</span><br><span class="line">    spider.run()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> 代码地址：<a href="https://github.com/linbo-lin/dynamic-web-process" target="_blank" rel="noopener">dynamic-web-process —— GitHub</a></p>
+</blockquote>
+<p><strong>补充：</strong></p>
+<ul>
+<li><p><code>ghost.py</code>对直接获取元素支持的不是很好，但可以借助<code>BeautifulSoup</code>或<code>正则表达式</code>来解决。</p>
+</li>
+<li><p><code>ghost.py</code>支持与网页的简单交互，如点击，填充表单等</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set_field_value(*args, **kwargs)</span><br><span class="line">fill(*args, **kwargs)</span><br><span class="line">click(*args, **kwargs)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ghost.py</code>很好的解决了<strong>确定元素加载完成</strong>的问题，通过以下方法可以让爬虫等待，直到满足设置的条件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wait_for(condition, timeout_message, timeout=<span class="literal">None</span>)</span><br><span class="line">wait_for_page_loaded(timeout=<span class="literal">None</span>)</span><br><span class="line">wait_for_selector(selector, timeout=<span class="literal">None</span>)</span><br><span class="line">wait_for_text(text, timeout=<span class="literal">None</span>)</span><br><span class="line">wait_while_selector(selector, timeout=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>有关更多<code>ghost.py</code>的方法请看这里：<a href="http://ghost-py.readthedocs.io/en/latest/#" target="_blank" rel="noopener">Ghost.py</a></p>
+<hr>
+<blockquote>
+<p>文中有什么错误或不足之处，欢迎指出~~</p>
 </blockquote>
 
       
@@ -515,11 +539,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%98%BF%E9%87%8C/" rel="tag"># 阿里</a>
+            <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
           
-            <a href="/tags/%E7%AC%94%E8%AF%95/" rel="tag"># 笔试</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
-            <a href="/tags/%E7%AE%97%E6%B3%95%E9%A2%98/" rel="tag"># 算法题</a>
+            <a href="/tags/%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/" rel="tag"># 动态网页</a>
           
         </div>
       
@@ -532,8 +556,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/25/Python%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97bisect/" rel="next" title="Python内置模块bisect">
-                <i class="fa fa-chevron-left"></i> Python内置模块bisect
+              <a href="/2020/07/21/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E8%A7%86%E9%A2%91%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/" rel="next" title="字节跳动视频二面面经">
+                <i class="fa fa-chevron-left"></i> 字节跳动视频二面面经
               </a>
             
           </div>
@@ -541,10 +565,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/28/Python%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/" rel="prev" title="Python内置序列类型总结">
-                Python内置序列类型总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -700,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法题一的大致内容如下："><span class="nav-number">1.</span> <span class="nav-text">算法题一的大致内容如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例："><span class="nav-number">1.1.</span> <span class="nav-text">示例：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路："><span class="nav-number">1.2.</span> <span class="nav-text">解题思路：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码："><span class="nav-number">1.3.</span> <span class="nav-text">代码：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法题2的大致内容如下："><span class="nav-number">2.</span> <span class="nav-text">算法题2的大致内容如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#示例：-1"><span class="nav-number">2.1.</span> <span class="nav-text">示例：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路：暴力破解"><span class="nav-number">2.2.</span> <span class="nav-text">解题思路：暴力破解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码：-1"><span class="nav-number">2.3.</span> <span class="nav-text">代码：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结："><span class="nav-number">3.</span> <span class="nav-text">总结：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器渲染引擎："><span class="nav-number">1.</span> <span class="nav-text">浏览器渲染引擎：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#渲染动态网页："><span class="nav-number">2.</span> <span class="nav-text">渲染动态网页：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫示例："><span class="nav-number">3.</span> <span class="nav-text">爬虫示例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ghost-py"><span class="nav-number">4.</span> <span class="nav-text">ghost.py</span></a></li></ol></div>
             
 
           </div>
@@ -870,9 +890,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2020/03/27/%E9%98%BF%E9%87%8C3%E6%9C%8827%E6%97%A5%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%E8%AE%B0%E5%BD%95/';
-          this.page.identifier = '2020/03/27/阿里3月27日笔试算法题记录/';
-          this.page.title = '阿里3月27日笔试算法题记录';
+          this.page.url = 'http://yoursite.com/2020/07/26/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/';
+          this.page.identifier = '2020/07/26/爬虫篇-动态网页的处理方式中-渲染动态网页/';
+          this.page.title = '爬虫篇-动态网页的处理方式中:渲染动态网页';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://.disqus.com/embed.js';
