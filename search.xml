@@ -2020,7 +2020,7 @@
 </blockquote>
 <hr>
 <h4 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h4><p>本文以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘 </a>这个示例，介绍了如何得到Ajax请求链接，这是爬取动态网页时可以采取的一种方式，这种方式可能会在寻找Ajax请求的过程中浪费一点时间，并且要求对JavaScript有一定的了解，但找到链接后，爬取的过程可以很迅速。</p>
-<p>如果对爬虫执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，可以参看下一篇文章  <a href="">爬虫篇-动态网页的处理方式中: 渲染动态网页</a>，这篇文章提供了爬取动态网页的另一种思路。</p>
+<p>如果对爬虫执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，可以参看下一篇文章<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/#more" target="_blank" rel="noopener">爬虫篇-动态网页的处理方式中: 渲染动态网页</a>，这篇文章提供了爬取动态网页的另一种思路。</p>
 <blockquote>
 <p>文中有什么错误或不足之处，欢迎指出~~</p>
 </blockquote>
