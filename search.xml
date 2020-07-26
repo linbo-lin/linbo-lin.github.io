@@ -1804,6 +1804,64 @@
       </tags>
   </entry>
   <entry>
+    <title>爬虫篇-动态网页的处理方式下:模拟浏览器行为</title>
+    <url>/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8B-%E6%A8%A1%E6%8B%9F%E6%B5%8F%E8%A7%88%E5%99%A8%E8%A1%8C%E4%B8%BA/</url>
+    <content><![CDATA[<p>在上篇文章<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/#more" target="_blank" rel="noopener">爬虫篇-动态网页的处理方式中:渲染动态网页</a>中，我们使用<code>WebKit</code>库，可以自定义浏览器渲染引擎，这样就可以完全控制想要执行的行为。如果不需要那么高的灵活性，那么还有一个不错的替代品 <a href="https://docs.seleniumhq.org/" target="_blank" rel="noopener">Selenium</a> 可以选择，它提供了使浏览器自动化的API 接口。</p>
+<hr>
+<h4 id="Selenium-简介："><a href="#Selenium-简介：" class="headerlink" title="Selenium 简介："></a>Selenium 简介：</h4><p>Selenium 是一个用于Web应用程序测试的工具。Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。支持市面上几乎所有的主流浏览器。</p>
+<p>本来打算使用的是selenium + PhantomJS的组合，但发现Chrome以及FireFox也相继推出无头 ( <em>headless</em> ) 浏览器模式，个人比较倾向Chrome。本文采用的是Selenium+Chrome的组合。</p>
+<hr>
+<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>运用到爬虫中的思路是：</p>
+<ul>
+<li>使用Selenium 渲染网页，解析渲染后的网页源码，或者直接通过Selenium 接口获取页面中的元素。</li>
+</ul>
+<p>还是以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘</a> 这个网站为例，目标是获取列表中每篇文章详情页的地址，直接看示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaBookSpider</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建可见的Chrome浏览器， 方便调试</span></span><br><span class="line">    driver = webdriver.Chrome()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建Chrome的无头浏览器</span></span><br><span class="line">    <span class="comment"># opt = webdriver.ChromeOptions()</span></span><br><span class="line">    <span class="comment"># opt.set_headless()</span></span><br><span class="line">    <span class="comment"># driver = webdriver.Chrome(options=opt)</span></span><br><span class="line"></span><br><span class="line">    driver.implicitly_wait(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    total = <span class="number">1526</span>  <span class="comment"># 预先计算的总数据量</span></span><br><span class="line">    count = <span class="number">0</span>  <span class="comment"># 已爬取的数据量</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 记录解析以及翻页位置</span></span><br><span class="line">    location = <span class="number">0</span></span><br><span class="line">    click_times = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        开始爬虫</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># get方式打开网页</span></span><br><span class="line">        self.driver.get(<span class="string">"http://book.sina.com.cn/excerpt/rwws/"</span>)</span><br><span class="line"></span><br><span class="line">        self.parselist()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.count &lt; self.total:</span><br><span class="line">            <span class="keyword">if</span> self.click_times <span class="keyword">is</span> <span class="number">2</span>:</span><br><span class="line">                self.driver.find_element_by_css_selector(<span class="string">'#subShowContent1_page &gt; span:nth-child(6) &gt; a'</span>).click()</span><br><span class="line">                <span class="comment"># 等待页面加载完成</span></span><br><span class="line">                time.sleep(<span class="number">5</span>)</span><br><span class="line">                self.click_times = <span class="number">0</span></span><br><span class="line">                self.location = <span class="number">0</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.driver.find_element_by_css_selector(<span class="string">'#subShowContent1_loadMore'</span>).click()</span><br><span class="line">                <span class="comment"># 等待页面加载完成</span></span><br><span class="line">                time.sleep(<span class="number">3</span>)</span><br><span class="line">                self.click_times += <span class="number">1</span></span><br><span class="line">            <span class="comment"># 分析加载的新内容，从location开始</span></span><br><span class="line">            self.parselist()</span><br><span class="line">        self.driver.quit()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parselist</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        解析列表</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        divs = self.driver.find_elements_by_class_name(<span class="string">"item"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.location, len(divs)):</span><br><span class="line">            link = divs[i].find_element_by_tag_name(<span class="string">'a'</span>).get_attribute(<span class="string">"href"</span>)</span><br><span class="line">            <span class="keyword">print</span> link</span><br><span class="line">            self.location += <span class="number">1</span></span><br><span class="line">            self.count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">print</span> self.count</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    spider = SinaBookSpider()</span><br><span class="line">    spider.run()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 代码地址：<a href="https://github.com/linbo-lin/dynamic-web-process" target="_blank" rel="noopener">dynamic-web-process —— GitHub</a><br> 如果你想实际运行上述代码，请在运行之前确定：安装了与浏览器版本对应的驱动，并正确的添加到了环境变量中。</p>
+</blockquote>
+<p>使用<code>selenium</code>时同样要特别注意的是如何确定<strong>网页是否加载完成</strong>，有三种方式：</p>
+<ul>
+<li>强制等待</li>
+<li>隐形等待</li>
+<li>显性等待</li>
+</ul>
+<blockquote>
+<p>有关这三种方式的讲解可以看这里：<a href="https://huilansame.github.io/huilansame.github.io/archivers/sleep-implicitlywait-wait" target="_blank" rel="noopener">Python selenium —— 一定要会用selenium的等待，三种等待方式解读 —— 灰蓝的博客</a></p>
+</blockquote>
+<hr>
+<h4 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h4><p>到此，我们介绍了动态页面处理的三种思路：</p>
+<ul>
+<li><a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" target="_blank" rel="noopener">逆向工程</a></li>
+<li>渲染动态页面：<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/" target="_blank" rel="noopener">使用<code>PySide</code>或<code>ghost.py</code></a></li>
+<li><a href="">selenium 模拟浏览器</a></li>
+</ul>
+<p>做一下简单的比较：</p>
+<ul>
+<li>前者在运行上更快，开销更小。在实际情况中，大多数网页都可以被逆向，但是有些网页足够复杂逆向要花费极大的功夫。</li>
+<li>后两者在思路上更直观，更容易被接受和理解。浏览器渲染引擎能够为我们节省了解网站后端工作原理的时间，但是渲染网页增大了开销，使其比单纯下载HTML更慢。另外，使用后两者通常需要轮训网页来检查是否已经得到所需的HTML元素，这种方式非常脆弱，在网络较慢时经常会失败。</li>
+</ul>
+<p>采用哪种方法，取决于爬虫活动中的具体情况：</p>
+<ul>
+<li>易于逆向、对速度和资源要求高的，应使用前者；</li>
+<li>难以逆向、没有工程上的优化的要求的，可以使用后者。</li>
+</ul>
+<p>个人认为模拟浏览器的方法应尽量避免，因为浏览器环境对内存和CPU的消耗非常多，可以作为短期决绝方案，此时长期的性能和可靠性并不算重要；而作为长期解决方案，我会尽最大努力对网站进行逆向工程。</p>
+<blockquote>
+<p>本文有什么错误或不足之处，欢迎指出~~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>爬虫</tag>
+        <tag>Python</tag>
+        <tag>selenium</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>爬虫篇-动态网页的处理方式中:渲染动态网页</title>
     <url>/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/</url>
     <content><![CDATA[<p>上一篇文章中我们介绍了爬取动态网页的一种方式：<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/#more" target="_blank" rel="noopener">逆向工程</a></p>
