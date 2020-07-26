@@ -1804,6 +1804,115 @@
       </tags>
   </entry>
   <entry>
+    <title>爬虫篇-动态网页的处理方式上:逆向工程</title>
+    <url>/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</url>
+    <content><![CDATA[<h4 id="动态网页简介："><a href="#动态网页简介：" class="headerlink" title="动态网页简介："></a>动态网页简介：</h4><p>在我们编写爬虫时，可能会碰到以下两种问题：</p>
+<ul>
+<li>我们所需要爬取的数据在网页源代码中并不存在；</li>
+<li>点击下一页跳转页面时，网页的URL 并没与发生变化；</li>
+</ul>
+<p>造成这种问题原因是，你所正在爬取的页面采取了动态加载的方式，是一个动态网页。所谓的动态网页，是指跟静态网页相对的一种网页编程技术。静态网页，随着html代码生成，页面的内容和显示效果就不会发生变化了。而动态网页则不然，其显示的页面则是经过Javascript处理数据后生成的结果，可以发生改变。这些数据的来源有多种，可能是经过Javascript计算生成的，也可能是通过Ajax加载的。动态网页经常使用的一种技术是Ajax请求技术。</p>
+<p><code>Ajax(Asynchronous JavaScript and XML)</code>，其最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页的内容。想要了解更多有关Ajax技术的可以看这里：</p>
+<ol>
+<li><a href="http://www.runoob.com/ajax/ajax-tutorial.html" target="_blank" rel="noopener">AJAX教程——菜鸟教程</a></li>
+<li><a href="http://www.w3school.com.cn/jquery/ajax_ajax.asp" target="_blank" rel="noopener">jQuery ajax -ajax()方法——W3school</a></li>
+</ol>
+<p>目前，越来越多的网站采取的是这种动态加载网页的方式，一来是可以实现web开发的前后端分离，减少服务器直接渲染页面的压力；二来是可以作为反爬虫的一种手段。</p>
+<hr>
+<h4 id="爬虫处理动态页面的三种方式："><a href="#爬虫处理动态页面的三种方式：" class="headerlink" title="爬虫处理动态页面的三种方式："></a>爬虫处理动态页面的三种方式：</h4><ul>
+<li>逆向工程</li>
+<li>渲染动态网页：使用<code>pyside</code>或<code>ghost.py</code><ul>
+<li>selenium模拟浏览器</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="逆向工程："><a href="#逆向工程：" class="headerlink" title="逆向工程："></a>逆向工程：</h4><p>对于动态加载的网页，我们想要获取其网页数据，需要了解网页是如何加载数据的，该过程就被成为<strong>逆向工程</strong>。对于使用了Ajax 请求技术的网页，我们可以找到Ajax请求的具体链接，直接得到Ajax请求得到的数据。需要注意的是，构造Ajax请求有两种方式：</p>
+<ul>
+<li>原生的Ajax请求，会直接创建一个<code>XMLHTTPReques</code>t对象。</li>
+<li>调用jQuery的ajax()方法。一般情况下，<code>$.ajax()</code>会返回其创建的<code>XMLHTTPRequest</code>对象；但是，如果<code>$.ajax()</code>的<code>dataType</code>参数指定了为<code>script</code>或<code>jsonp</code>类型，<code>$.ajax()</code>不再返回其创建的<code>XMLHTTPRequest</code>对象。</li>
+</ul>
+<p>对于这两种方式，只要创建返回了<code>XMLHTTPRequest</code>对象，就可以通过Chrome浏览器的调试工具在<code>NetWork</code>窗口通过设置<code>XHR</code>过滤条件，直接筛选出Ajax请求的链接；如果是<code>$.ajax()</code>并且<code>dataType</code>指定了为<code>script</code>或<code>jsonp</code>，则无法通过这种方式筛选出来。</p>
+<hr>
+<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>接下来以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘</a> 这个网站的爬取为例，介绍如何得到无法筛选出来的Ajax请求链接：</p>
+<p>在Chrome中打开网页，右键<code>检查</code>，会发现首页中书摘列表包含在一个id为<code>subShowContent1_static</code>的div中，而<code>查看网页源代码</code>会发现id为<code>subShowContent1_static</code>的div为空。点击<code>更多书摘</code>或<code>下一页</code>时，网页URL并没有发生变化。与我们最前面所说的两种情况相同。</p>
+<p><code>F12</code>打开调试工具，打开<code>NetWork</code>窗口<em>（功能是记录浏览器的活动记录<code>network activities</code>）</em>，<code>F5</code>刷新，可以看到浏览器发送以及接收到的数据记录，其实我们所找的Ajax请求链接就是其中一条。</p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194144329.png" alt="活动记录" style="zoom:80%;" />
+
+<p><strong>第一步：</strong></p>
+<p>首先设置<code>XHR</code>过滤条件，发现筛选结果为空白，可以推断出这个网页采用的Ajax请求应该是设置了<code>dataType</code>为<code>script</code>或者<code>jsonp</code>。</p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194303975.png" alt="xhr" style="zoom:80%;" /> 
+
+<p>重新打开调试工具，点击网页上的<code>更多书摘</code>，发现<code>NetWork</code>窗口出现了很多记录，网页也多了新的内容，说明浏览器向服务器发送了请求。在网页上，右键<code>检查</code> <code>更多书摘</code>，观察此元素绑定的JavaScript事件：</p>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/2019012119433920.png" alt="Javascript"></p>
+<blockquote>
+<p>根据JavaScript的知识：<code>javascript:</code>是一个伪协议，表示在触发<code>&lt;a&gt;</code>时，执行一段JavaScript代码，而<code>javascript:;</code>表示什么都不执行，这样点击<code>&lt;a&gt;</code>时就没有任何反应。但一般在这种情况下，会给<code>&lt;a&gt;</code>绑定一个事件回调，来执行业务.</p>
+</blockquote>
+<p>接下来就需要在网页的JavaSCript代码中找到<code>更多书摘</code>所触发的回调函数。</p>
+<p><strong>第二步：</strong></p>
+<p>右键<code>检查网页源代码</code>，<code>Ctrl+F</code>搜索<code>subShowContent1_loadMore”</code>(元素<code>更多书摘</code>的id)，发现并没有某个具体的函数与之相关：</p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194406987.png" alt="函数" style="zoom:80%;" />
+
+<p>这说明<code>更多书摘</code>的回调函数不在网页自身写的JavaScript代码中，那就应该在网页嵌入的JS文件中（通过<code>&lt;script type=”text/javascript” src=“***.js”&gt; &lt;script&gt;</code>这种形式调用的JS文件）。</p>
+<p><strong>第三步：</strong></p>
+<p>逐个打开嵌入的JS文件，查找与<code>更多书摘</code>绑定的函数，终于在“<a href="http://n.sinaimg.cn/book/js/feedlist.js”这个JS文件中发现函数`$()`如下：" target="_blank" rel="noopener">http://n.sinaimg.cn/book/js/feedlist.js”这个JS文件中发现函数`$()`如下：</a></p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194456854.png" alt="函数" style="zoom:80%;" />
+
+<p>但此函数中并没有直接构造Ajax请求，而是通过调用<code>ListMore()</code>函数执行。继续查找<code>ListMore()</code>函数，发现其内部还是未构造Ajax请求，通过<code>ListMore()</code>内部调用的函数进一步寻找，经过以下过程：<code>$()</code> -&gt; <code>ListMore()</code> -&gt; <code>GetmoreList()</code> -&gt; <code>getMore()</code> 。终于在<code>getMore()</code>函数中发现了Ajax请求的构造过程，发现<code>dataType</code>确实是<code>jsonp</code>：</p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194526155.png" alt="函数" style="zoom:80%;" />
+
+<p><strong>第四步：</strong></p>
+<p>在<code>NetWork</code>窗口<code>Initiator</code>栏点击<code>feedlist.js</code>进入<code>Sources</code>窗口，在<code>$.ajax()</code>处添加断点，<code>F5</code>刷新，Javascript执行到断点处会停止，鼠标分别指在<code>url</code>,<code>data</code>处观察数据：</p>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194551812.png" style="zoom:80%;" />          <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194605181.png" style="zoom:80%;" />       <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/2019012119463585.png" style="zoom:80%;" /></p>
+<ul>
+<li>得到了url以及data的格式，就可以根据<code>jQuery</code>的<code>ajax()</code>用法构造正确的Ajax 请求链接：</li>
+</ul>
+<blockquote>
+<p><a href="http://feed.mix.sina.com.cn/api/roll/get?callback=jsonp1522410869405&amp;pageid=96&amp;lid=560&amp;num=20&amp;page=1" target="_blank" rel="noopener">http://feed.mix.sina.com.cn/api/roll/get?callback=jsonp1522410869405&amp;pageid=96&amp;lid=560&amp;num=20&amp;page=1</a></p>
+</blockquote>
+<ul>
+<li>在浏览器输入构造的链接进行验证，对比网页数据，发现这就是我们需要的Ajax请求链接。</li>
+</ul>
+<p><strong>第五步：</strong></p>
+<p>之前我们说过，在<code>NetWork</code>窗口就有我们需要的Ajax请求链接，对比发现，果然存在：</p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194719925.png" style="zoom:80%;" />
+
+<p>当我们点击<code>更多书摘</code>、<code>下一页</code>时，发现又多了几条这样的请求：</p>
+<img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194737517.png" style="zoom:80%;" />
+
+<p>对比发现：只有<code>jsonp**********</code>与<code>page=*</code>这两部分不同， <code>jsonp</code>后面跟的数字为当前时间的时间戳，是<code>jQuery.ajax()</code>方法自动计算添加的，<code>page</code>后面就是页数，这时候我们只要改变page后面的数字就可以构造翻页的链接了。</p>
+<hr>
+<h4 id="方法小结："><a href="#方法小结：" class="headerlink" title="方法小结："></a>方法小结：</h4><ul>
+<li>首先通过设置<code>XHR</code>过滤条件，观察是否可以直接得到Ajax 请求；如果不可以，继续下一步。</li>
+<li>查找能够发送Ajax请求的元素绑定的事件或回调函数：首先在网页源代码中查找，没有的话，逐个查找嵌入的JS文件。</li>
+<li>找到之后，看函数内部是否直接构造Ajax请求，没有直接构造的话，根据函数调用关系一步一步查找，直到找到构造过程为止。</li>
+<li>添加断点，调试，根据Ajax请求的构造方式以及数据形式手动构造链接。 </li>
+<li>验证构造的链接的正确性。</li>
+</ul>
+<p>其实当你有了经验之后，对一些不是很复杂的网页，根本就不用进行这么复杂的逆向工程，凭URL形式可以很快的在<code>NetWork</code>窗口很快的 <strong>选择-验证</strong> 出所需的Ajax请求。</p>
+<p>得到Ajax请求链接之后，可以直接得到请求的数据，一般为json格式，处理后即可使用。</p>
+<blockquote>
+<p>代码见：<a href="https://github.com/linbo-lin/dynamic-web-process" target="_blank" rel="noopener">dynamic-web-process —— GitHub</a></p>
+</blockquote>
+<hr>
+<h4 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h4><p>本文以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘 </a>这个示例，介绍了如何得到Ajax请求链接，这是爬取动态网页时可以采取的一种方式，这种方式可能会在寻找Ajax请求的过程中浪费一点时间，并且要求对JavaScript有一定的了解，但找到链接后，爬取的过程可以很迅速。</p>
+<p>如果对爬虫执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，可以参看下一篇文章  <a href="">爬虫篇-动态网页的处理方式中: 渲染动态网页</a>，这篇文章提供了爬取动态网页的另一种思路。</p>
+<blockquote>
+<p>文中有什么错误或不足之处，欢迎指出~~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>爬虫</tag>
+        <tag>Python</tag>
+        <tag>scrapy</tag>
+        <tag>Ajax</tag>
+        <tag>逆向工程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决ConfigParser模块读取、写入文件时自动转换为小写字符的问题</title>
     <url>/2018/01/03/%C2%96%E8%A7%A3%E5%86%B3ConfigParser%E6%A8%A1%E5%9D%97%E8%AF%BB%E5%8F%96%E3%80%81%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6%E6%97%B6%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%B0%8F%E5%86%99%E5%AD%97%E7%AC%A6%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h4 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h4><p>最近在使用ConfigParser模块时，发现一个问题：</p>
