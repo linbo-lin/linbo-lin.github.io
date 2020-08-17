@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>计算机基础—数据结构与算法</title>
+    <url>/2020/08/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>面试基础知识</tag>
+        <tag>计算机基础</tag>
+        <tag>数据结构</tag>
+        <tag>算法基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机基础—计算机网络</title>
+    <url>/2020/08/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+        <tag>面试基础知识</tag>
+        <tag>计算机基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机基础—操作系统</title>
+    <url>/2020/08/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h3 id="一、死锁"><a href="#一、死锁" class="headerlink" title="一、死锁"></a>一、死锁</h3><h4 id="1-死锁："><a href="#1-死锁：" class="headerlink" title="1. 死锁："></a>1. 死锁：</h4><h4 id="2-死锁产生的条件："><a href="#2-死锁产生的条件：" class="headerlink" title="2. 死锁产生的条件："></a>2. 死锁产生的条件：</h4><h4 id="3-死锁避免："><a href="#3-死锁避免：" class="headerlink" title="3. 死锁避免："></a>3. 死锁避免：</h4>]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+        <tag>操作系统</tag>
+        <tag>面试基础知识</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机基础—数据库</title>
+    <url>/2020/08/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h4 id="一、数据库范式"><a href="#一、数据库范式" class="headerlink" title="一、数据库范式"></a>一、数据库范式</h4><h5 id="第一范式-1NF-："><a href="#第一范式-1NF-：" class="headerlink" title="第一范式(1NF)："></a>第一范式(1NF)：</h5><p>如果一个关系模式R的所有属性都是<strong>不可分</strong>的基本数据项，则这个关系模式属于第一范式；</p>
+<h5 id="第二范式-2NF-："><a href="#第二范式-2NF-：" class="headerlink" title="第二范式(2NF)："></a>第二范式(2NF)：</h5><p>如果关系模式R属于第一范式，且每个<strong>非主属性</strong>都<strong>完全函数依赖</strong>于键码，则R属于第二范式；</p>
+<p>第二范式消除了<strong>非主属性</strong>对键码的<strong>部分依赖</strong>；</p>
+<h5 id="第三范式-3NF-："><a href="#第三范式-3NF-：" class="headerlink" title="第三范式(3NF)："></a>第三范式(3NF)：</h5><p>如果关系模式R属于第一范式，且每个<strong>非主属性</strong>都<strong>不传递依赖</strong>于键码，则R属于第三范式；</p>
+<p>第三范式消除了<strong>非主属性</strong>对键码的<strong>传递依赖</strong>；</p>
+<h5 id="BC范式-BCNF-："><a href="#BC范式-BCNF-：" class="headerlink" title="BC范式(BCNF)："></a>BC范式(BCNF)：</h5><p>如果关系模式R属于第一范式，且<strong>每个属性</strong>都<strong>不传递依赖</strong>于键码，则R属于BC范式；</p>
+<h5 id="函数依赖："><a href="#函数依赖：" class="headerlink" title="函数依赖："></a><strong>函数依赖：</strong></h5><p>如果关系R的两个元组在属性A1, A2, …, An上一致，则它们在另一个属性B上也一致。那么，我们就说再关系R中属性B函数依赖于属性A1, A2, …, An。也可以说是”A1, A2, …, An 函数决定B”。其中，A1, A2, …, An称为决定因素。</p>
+<p><strong>示例：</strong></p>
+<p>考虑学生关系Student，该关系中所涉及的属性包括学生的学号Sno，姓名Sname，所在系Sdept，系主任姓名Mname，课程名Cname和成绩Grade。</p>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/Student.jpg" alt="student"></p>
+<p>由于一个学号只对应一个学生，一个学生只在一个系，因而当“学号”确定之后，姓名及其所在系也就唯一的确定了。</p>
+<p>因此说Sno函数决定Sname和Sdept，或者说Sname和Sdept函数依赖于Sno。记作Sno-&gt;Sname，Sno-&gt;Sdept。</p>
+<h5 id="关系键码："><a href="#关系键码：" class="headerlink" title="关系键码："></a>关系键码：</h5><p>如果一个或多个属性的集合<code>(A1, A2, ..., An)</code>满足如下条件，则称该集合为关系R的键码(key)：</p>
+<ul>
+<li>这些属性函数决定该关系的其他属性。也就是说，R中不可能有两个不同的元组，它们在<code>A1, A2, ..., An</code>上的取值完全相同；</li>
+<li><code>{A1, A2, ..., An}</code>的任何真子集都不能函数决定R的所有其他属性，也就是说，键码必须是最小的。</li>
+</ul>
+<p>键码所在的属性称为主属性，键码以外的属性称为非主属性。</p>
+<p><strong>示例：</strong></p>
+<p>在学生关系Student中，属性集<code>{Sno, Cname}</code>构成Student的键码。</p>
+<h5 id="函数依赖规则："><a href="#函数依赖规则：" class="headerlink" title="函数依赖规则："></a>函数依赖规则：</h5><ul>
+<li><p>分解/合并规则：</p>
+<p>我们可以把一个函数依赖<code>A1A2...An -&gt; B1B2...Bm</code>用一组函数依赖<code>A1A2...An -&gt; Bi(i=1, 2, ..., m)</code>来代替。这种转换称为“分解规则”；</p>
+<p>我们也可以把一组函数依赖<code>A1A2...An -&gt; Bi(i=1, 2, ..., m)</code>用一个函数依赖<code>A1A2...An -&gt; B1B2...Bm</code>来代替，这种转换称为”合并规则”； </p>
+</li>
+<li><p>平凡依赖规则：</p>
+<p>对于函数依赖<code>A1A2...An -&gt; B</code>，如果B是A中的某一个，则称之为“平凡的”。</p>
+<p>函数依赖<code>A1A2...An -&gt; B1B2...Bm</code>等价于<code>A1A2...An -&gt; C1C2...Ck</code>，其中C是B的子集，但不在A中出现。我们称这个规则为“平凡依赖规则”。</p>
+</li>
+<li><p>传递规则：</p>
+<p>如果<code>A1A2...An -&gt; B1B2...Bm</code>和<code>B1B2...Bm -&gt; C1C2...Ck</code>在关系R中成立，则<code>A1A2...An -&gt; C1C2...Ck</code>在R中也成立。这个规则就称为”传递规则“。</p>
+</li>
+</ul>
+<h5 id="完全依赖与部分依赖："><a href="#完全依赖与部分依赖：" class="headerlink" title="完全依赖与部分依赖："></a>完全依赖与部分依赖：</h5><p>对应函数依赖W -&gt; A，如果存在V(V是W的真子集)而函数依赖V -&gt; A成立，则称A部分依赖于W；否则，若不存在这种V，则称A完全依赖于W。</p>
+<p>在一个关系模式中，当存在非主属性属性对键码的部分依赖时，就会产生数据冗余和更新异常。比如上述的Student关系示例，对键码部分依赖的属性Sname，Sdept和Mname由于只函数依赖于Sno，因此当一个学生选修几门课时，这些数据就会多次重复出现，造成大量数据冗余；另一方面，当对一个学生的基本情况(学号、姓名、所在系)进行更新时，又会出现更新异常。</p>
+<h5 id="传递依赖："><a href="#传递依赖：" class="headerlink" title="传递依赖："></a>传递依赖：</h5><p>对于函数依赖X -&gt; Y，如果Y -/-&gt; X(X不函数依赖于Y)而函数依赖Y-&gt;Z成立，则称Z对X传递依赖。</p>
+<p>在学生关系中，Sno-&gt;Sdept，Sdept-&gt;Mname，Sno-&gt;Mname，Mname传递依赖于Sno。可以看出，当一个学生选修多门课时，系主任的名字也会多次重复出现；当对学生的基本情况进行更新时，同样会出现类似的更新异常。</p>
+<h4 id="二、数据库隔离级别"><a href="#二、数据库隔离级别" class="headerlink" title="二、数据库隔离级别"></a>二、数据库隔离级别</h4>]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>面试基础知识</tag>
+        <tag>计算机基础</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>拼多多视频一面面经</title>
     <url>/2020/08/11/%E6%8B%BC%E5%A4%9A%E5%A4%9A%E8%A7%86%E9%A2%91%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<p>拼多多提前批，视频面试。20:00-21:00。</p>
@@ -2141,7 +2231,7 @@
   </entry>
   <entry>
     <title>解决ConfigParser模块读取、写入文件时自动转换为小写字符的问题</title>
-    <url>/2018/01/03/%C2%96%E8%A7%A3%E5%86%B3ConfigParser%E6%A8%A1%E5%9D%97%E8%AF%BB%E5%8F%96%E3%80%81%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6%E6%97%B6%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%B0%8F%E5%86%99%E5%AD%97%E7%AC%A6%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <url>/2018/01/03/%E8%A7%A3%E5%86%B3ConfigParser%E6%A8%A1%E5%9D%97%E8%AF%BB%E5%8F%96%E3%80%81%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6%E6%97%B6%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%B0%8F%E5%86%99%E5%AD%97%E7%AC%A6%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h4 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h4><p>最近在使用ConfigParser模块时，发现一个问题：</p>
 <ul>
 <li><strong>在写入文件时，无论原字符是大写还是小写，ConfigParser option 总是把它转换为小写字符，然后再写入。</strong></li>
