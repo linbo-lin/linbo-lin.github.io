@@ -87,7 +87,7 @@
 <meta property="og:description" content="一、数据库范式第一范式(1NF)：如果一个关系模式R的所有属性都是不可分的基本数据项，则这个关系模式属于第一范式； 第二范式(2NF)：如果关系模式R属于第一范式，且每个非主属性都完全函数依赖于键码，则R属于第二范式； 第二范式消除了非主属性对键码的部分依赖； 第三范式(3NF)：如果关系模式R属于第一范式，且每个非主属性都不传递依赖于键码，则R属于第三范式； 第三范式消除了非主属性对键码的传递依">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/Student.jpg">
 <meta property="article:published_time" content="2020-08-17T12:14:30.000Z">
-<meta property="article:modified_time" content="2020-08-17T15:59:59.080Z">
+<meta property="article:modified_time" content="2020-08-18T14:44:26.074Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="面试基础知识">
 <meta property="article:tag" content="计算机基础">
@@ -448,7 +448,90 @@
 <p>在一个关系模式中，当存在非主属性属性对键码的部分依赖时，就会产生数据冗余和更新异常。比如上述的Student关系示例，对键码部分依赖的属性Sname，Sdept和Mname由于只函数依赖于Sno，因此当一个学生选修几门课时，这些数据就会多次重复出现，造成大量数据冗余；另一方面，当对一个学生的基本情况(学号、姓名、所在系)进行更新时，又会出现更新异常。</p>
 <h5 id="传递依赖："><a href="#传递依赖：" class="headerlink" title="传递依赖："></a>传递依赖：</h5><p>对于函数依赖X -&gt; Y，如果Y -/-&gt; X(X不函数依赖于Y)而函数依赖Y-&gt;Z成立，则称Z对X传递依赖。</p>
 <p>在学生关系中，Sno-&gt;Sdept，Sdept-&gt;Mname，Sno-&gt;Mname，Mname传递依赖于Sno。可以看出，当一个学生选修多门课时，系主任的名字也会多次重复出现；当对学生的基本情况进行更新时，同样会出现类似的更新异常。</p>
-<h4 id="二、数据库隔离级别"><a href="#二、数据库隔离级别" class="headerlink" title="二、数据库隔离级别"></a>二、数据库隔离级别</h4>
+<h4 id="二、数据库隔离级别"><a href="#二、数据库隔离级别" class="headerlink" title="二、数据库隔离级别"></a>二、数据库隔离级别</h4><h5 id="三种异常现象："><a href="#三种异常现象：" class="headerlink" title="三种异常现象："></a>三种异常现象：</h5><ul>
+<li>脏读(Dirty Read)</li>
+</ul>
+<p>事务T1修改了一个数据，事务T2在T1 commit或者rollback前读取了该数据，如果T1最终执行了rollback，T2将会读到一个不存在的数据。</p>
+<ul>
+<li>不可重复读(Non-repeatable Read)</li>
+</ul>
+<p>事务T1读取一个数据，之后事务T2修改了这个数据并且commit了，那么如果T1再次读取这个数据，将读不到该数据或者读到一个修改过的数据。</p>
+<ul>
+<li>幻读(Phantom)</li>
+</ul>
+<p>事务T1读取了一些满足某个条件的数据，之后事务T2插入或者删除了满足这个条件的一些数据并且Commit，如果T1再次按照该条件读取数据，将会读到和第一次不一样的数据。</p>
+<h5 id="四种隔离级别："><a href="#四种隔离级别：" class="headerlink" title="四种隔离级别："></a>四种隔离级别：</h5><table>
+<thead>
+<tr>
+<th>级别名</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读未提交<br />(Read Uncommited)</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>读已提交<br />(Read Commited)</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>可重复读<br />(Repeatable Read)</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>可串行化<br />(Serializable)</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody></table>
+<ul>
+<li>读未提交(Read Uncommited)  </li>
+</ul>
+<p>一个事务在执行过程中可以看到其他事务没有提交的新插入的记录，而且还能看到其他事务没有提交的对已有记录的更新。</p>
+<ul>
+<li>读已提交(Read Commited)</li>
+</ul>
+<p>一个事务在执行过程中可以看到其他事务已经提交过的新插入的记录，而且还能看到其他事务已经提交的对已有记录的更新。</p>
+<ul>
+<li>可重复读(Repeatable Read)</li>
+</ul>
+<p>一个事务在执行过程中可以看到其他事务已经提交的新插入的记录，但是不能看到其他事务已经提交的对已有记录的更新。</p>
+<ul>
+<li>串行化(Serializable)</li>
+</ul>
+<p>一个事务执行过程中完全看不到其他事务对数据库所做的更新。当两个事务同时操作数据库中相同数据时，如果第一个事务已经在访问该数据，第二个事务只能停下来等待，必须等到第一个事务结束后才能恢复运行。因此，这两个事务实际上是串行化方式运行。         </p>
+<p>MySQL默认的事务隔离级别是<strong>可重复读(Repeatable Read)</strong>；</p>
+<p>TiDBi默认的事务隔离级别是<strong>可重复读(Repeatable Read)</strong>；</p>
+<h5 id="基于锁的实现："><a href="#基于锁的实现：" class="headerlink" title="基于锁的实现："></a>基于锁的实现：</h5><p>数据库管理系统提供的基本类型有两种：排它锁(exclusive lock, 简记为X锁)以及共享锁(share lock, 简记为S锁)。</p>
+<p>若事务T对数据对象A加了X锁，则T就可以对A进行读取以及更新(X锁因此又称为写锁)；在T释放A上的X锁之前，任何其他事务都不能再对A加任何类型的锁，从而也不能读取和更新A。</p>
+<p>若事务T对A加了S锁，则T就可以对A进行读取，但不能进行更新(S锁因此又称为读锁)，在T释放A上的S锁之前，其他事务可以再对A加S锁，但不能加X锁，从而可以读取A，但不能更新A。</p>
+<h5 id="三级封锁协议："><a href="#三级封锁协议：" class="headerlink" title="三级封锁协议："></a>三级封锁协议：</h5><ul>
+<li>1级封锁协议</li>
+</ul>
+<p>事务T在修改数据A之前必须对先对其加X锁，直到事务结束（提交或者回滚）才释放该锁。</p>
+<p>1级封锁协议不要求事务在读数据之前加锁，这样“不可重复读”和“脏读”仍有可能发生。</p>
+<ul>
+<li>2级封锁协议</li>
+</ul>
+<p>在1级封锁协议的基础上加上这样的约定：事务T在读取A之前必须对其加S锁，读入该数据后即可立即释放S锁。</p>
+<p>2级封锁协议避免了“脏读”，不能避免“不可重复读”。</p>
+<ul>
+<li>3级封锁协议</li>
+</ul>
+<p>在1级封锁协议的基础上加上这样的约定：事务T在读取A之前必须对其加S锁，直到事务结束（提交或者回滚）才生释放S锁。</p>
+<p>3级封锁协议即避免了“脏读”，又避免了“不可重复读”。</p>
+<h5 id="两段锁协议："><a href="#两段锁协议：" class="headerlink" title="两段锁协议："></a>两段锁协议：</h5><p>事务T在对数据A进行读或写之前，必须先获得对A的封锁，并且在释放一个封锁之后，T不能再获得任何其他锁。这就是“两段”锁的含义：事务分成获得封锁和释放封锁即加锁和解锁两个阶段。</p>
+<h5 id="基于MVCC的实现："><a href="#基于MVCC的实现：" class="headerlink" title="基于MVCC的实现："></a>基于MVCC的实现：</h5>
       
     </div>
     
@@ -650,7 +733,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、数据库范式"><span class="nav-number">1.</span> <span class="nav-text">一、数据库范式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一范式-1NF-："><span class="nav-number">1.1.</span> <span class="nav-text">第一范式(1NF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二范式-2NF-："><span class="nav-number">1.2.</span> <span class="nav-text">第二范式(2NF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三范式-3NF-："><span class="nav-number">1.3.</span> <span class="nav-text">第三范式(3NF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BC范式-BCNF-："><span class="nav-number">1.4.</span> <span class="nav-text">BC范式(BCNF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数依赖："><span class="nav-number">1.5.</span> <span class="nav-text">函数依赖：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关系键码："><span class="nav-number">1.6.</span> <span class="nav-text">关系键码：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数依赖规则："><span class="nav-number">1.7.</span> <span class="nav-text">函数依赖规则：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#完全依赖与部分依赖："><span class="nav-number">1.8.</span> <span class="nav-text">完全依赖与部分依赖：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#传递依赖："><span class="nav-number">1.9.</span> <span class="nav-text">传递依赖：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、数据库隔离级别"><span class="nav-number">2.</span> <span class="nav-text">二、数据库隔离级别</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、数据库范式"><span class="nav-number">1.</span> <span class="nav-text">一、数据库范式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一范式-1NF-："><span class="nav-number">1.1.</span> <span class="nav-text">第一范式(1NF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二范式-2NF-："><span class="nav-number">1.2.</span> <span class="nav-text">第二范式(2NF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三范式-3NF-："><span class="nav-number">1.3.</span> <span class="nav-text">第三范式(3NF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BC范式-BCNF-："><span class="nav-number">1.4.</span> <span class="nav-text">BC范式(BCNF)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数依赖："><span class="nav-number">1.5.</span> <span class="nav-text">函数依赖：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关系键码："><span class="nav-number">1.6.</span> <span class="nav-text">关系键码：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数依赖规则："><span class="nav-number">1.7.</span> <span class="nav-text">函数依赖规则：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#完全依赖与部分依赖："><span class="nav-number">1.8.</span> <span class="nav-text">完全依赖与部分依赖：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#传递依赖："><span class="nav-number">1.9.</span> <span class="nav-text">传递依赖：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、数据库隔离级别"><span class="nav-number">2.</span> <span class="nav-text">二、数据库隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#三种异常现象："><span class="nav-number">2.1.</span> <span class="nav-text">三种异常现象：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四种隔离级别："><span class="nav-number">2.2.</span> <span class="nav-text">四种隔离级别：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基于锁的实现："><span class="nav-number">2.3.</span> <span class="nav-text">基于锁的实现：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三级封锁协议："><span class="nav-number">2.4.</span> <span class="nav-text">三级封锁协议：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#两段锁协议："><span class="nav-number">2.5.</span> <span class="nav-text">两段锁协议：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基于MVCC的实现："><span class="nav-number">2.6.</span> <span class="nav-text">基于MVCC的实现：</span></a></li></ol></li></ol></div>
             
 
           </div>
