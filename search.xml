@@ -1,6 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>秋招进度记录</title>
+    <url>/2020/08/20/%E7%A7%8B%E6%8B%9B%E8%BF%9B%E5%BA%A6%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h5 id="拼多多-—-服务端研发-—-提前批"><a href="#拼多多-—-服务端研发-—-提前批" class="headerlink" title="拼多多 — 服务端研发 —  提前批"></a><a href="https://careers.pinduoduo.com/campus/personal-center" target="_blank" rel="noopener">拼多多 — 服务端研发 —  提前批</a></h5><ul>
+<li>视频一面 2020年8月11日 20:00-21:00  <strong>（未通过）</strong></li>
+<li>已结束</li>
+</ul>
+<h5 id="百度-—-数据库内核开发-—-提前批"><a href="#百度-—-数据库内核开发-—-提前批" class="headerlink" title="百度 — 数据库内核开发 — 提前批"></a><a href="https://talent.baidu.com/external/baidu/campus.html#/individualCenter" target="_blank" rel="noopener">百度 — 数据库内核开发 — 提前批</a></h5><ul>
+<li>电话一面 2020年8月20日 20:00-20:30  （已面， 未出结果）</li>
+</ul>
+<h5 id="字节跳动-—-后端开发工程师-—"><a href="#字节跳动-—-后端开发工程师-—" class="headerlink" title="字节跳动 — 后端开发工程师 — "></a><a href="https://job.bytedance.com/society/position/application" target="_blank" rel="noopener">字节跳动 — 后端开发工程师 — </a></h5><ul>
+<li><p>笔试 2020年8月16日 10:00  <strong>（已通过）</strong></p>
+</li>
+<li><p>视频一面 2020年8月23日 14:00 <strong>（未进行）</strong></p>
+</li>
+</ul>
+<h5 id="华为-—-Cloud-BU-—-正式批"><a href="#华为-—-Cloud-BU-—-正式批" class="headerlink" title="华为 — Cloud BU — 正式批"></a><a href="http://career.huawei.com/reccampportal/portal5/user-index.html" target="_blank" rel="noopener">华为 — Cloud BU — 正式批</a></h5><ul>
+<li>笔试 2020年8月26日 <strong>（未进行）</strong></li>
+</ul>
+<h5 id="阿里-—-研发工程师C-C-数据库-—-正式批"><a href="#阿里-—-研发工程师C-C-数据库-—-正式批" class="headerlink" title="阿里 — 研发工程师C/C++(数据库) — 正式批"></a><a href="https://campus.alibaba.com/myJobApply.htm" target="_blank" rel="noopener">阿里 — 研发工程师C/C++(数据库) — 正式批</a></h5><ul>
+<li>笔试 2020年8月21日  <strong>(未进行)</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>面试/笔试</category>
+      </categories>
+      <tags>
+        <tag>秋招</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>百度数据库内核开发电话一面面经</title>
+    <url>/2020/08/20/%E7%99%BE%E5%BA%A6%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%85%E6%A0%B8%E5%BC%80%E5%8F%91%E7%94%B5%E8%AF%9D%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<p>百度数据库内核开发，电话面试，20:00-20:30</p>
+<hr>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ul>
+<li><p>没有自我介绍，照着简历问了下学历</p>
+</li>
+<li><p>问实习项目，在做什么</p>
+</li>
+<li><p>问实验室项目(数据库开发)，代码量</p>
+</li>
+<li><p>怎么测试开发完成后不会对原有数据库功能造成影响</p>
+</li>
+<li><p>问实验室项目，聊到了实验室自研的数据库，问了下性能优劣，为什么(空间换时间)</p>
+</li>
+<li><p>网络知识：cookie/session</p>
+</li>
+<li><p>三次握手、四次挥手</p>
+</li>
+<li><p>HTTP 请求报文 怎么找到报文实体</p>
+</li>
+<li><p>C/C++ const与static的区别</p>
+</li>
+<li><p>C/C++  map的实现</p>
+</li>
+<li><p>红黑树的查找时间复杂度，为什么</p>
+</li>
+<li><p>树的遍历实现形式</p>
+</li>
+<li><p>linux查看连接数，查看剩余内存，</p>
+</li>
+<li><p>服务器上如何查看一个大小为5G的日志</p>
+</li>
+<li><p>为什么想做数据库</p>
+</li>
+<li><p>考不考虑Python开发岗</p>
+</li>
+<li><p>部分问题忘记了，没有手撕算法，没有反问环节</p>
+</li>
+</ul>
+<hr>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>总体感觉蛮简单。但是C/C++语言方面问题不太会，中间引导面试官可以问下Python，但面试官估计对Python不太熟，就转为问计算机基础了。其它基础问题感觉答的还可以。</p>
+<p>期待二面。</p>
+]]></content>
+      <categories>
+        <category>面试/笔试</category>
+      </categories>
+      <tags>
+        <tag>电话面试</tag>
+        <tag>百度</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机基础—数据结构与算法</title>
     <url>/2020/08/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[]]></content>
