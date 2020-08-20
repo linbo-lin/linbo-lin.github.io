@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>计算机基础—Linux</title>
+    <url>/2020/08/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94Linux/</url>
+    <content><![CDATA[<h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h4 id="二、Linux-查看剩余内存"><a href="#二、Linux-查看剩余内存" class="headerlink" title="二、Linux 查看剩余内存"></a>二、Linux 查看剩余内存</h4><h4 id="三、服务器上如何查看一个5G大小的日志文件"><a href="#三、服务器上如何查看一个5G大小的日志文件" class="headerlink" title="三、服务器上如何查看一个5G大小的日志文件"></a>三、服务器上如何查看一个5G大小的日志文件</h4><p>Linux系统中使用以下命令来查看文件的内容：</p>
+<ul>
+<li>cat 由第一行开始显示文件内容</li>
+<li>tac 从最后一行开始显示，可以看出 tac 是 cat 的倒著写！</li>
+<li>nl  显示的时候，顺道输出行号！</li>
+<li>more 一页一页的显示文件内容</li>
+<li>less 与 more 类似，但是比 more 更好的是，他可以往前翻页！</li>
+<li>head 只看头几行</li>
+<li>tail 只看尾巴几行</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>面试基础知识</tag>
+        <tag>计算机基础</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机基础—C/C++</title>
     <url>/2020/08/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94C-C++/</url>
     <content><![CDATA[<h4 id="一、Const-Static-的区别"><a href="#一、Const-Static-的区别" class="headerlink" title="一、Const/Static 的区别"></a>一、Const/Static 的区别</h4><h5 id="static："><a href="#static：" class="headerlink" title="static："></a>static：</h5><ul>
