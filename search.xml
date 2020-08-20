@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>计算机基础—C/C++</title>
+    <url>/2020/08/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94C-C++/</url>
+    <content><![CDATA[<h4 id="一、Const-Static-的区别"><a href="#一、Const-Static-的区别" class="headerlink" title="一、Const/Static 的区别"></a>一、Const/Static 的区别</h4><h5 id="static："><a href="#static：" class="headerlink" title="static："></a>static：</h5><ul>
+<li>static 局部变量：将一个变量声明为函数的局部变量，但该变量在函数执行完成后不会被释放，而是继续保留在内存中，因此其值在下次调用时仍维持上次的值；</li>
+<li>static 全局变量：表示一个变量在当前文件的全局内可访问，不能被模块外其他函数访问；</li>
+<li>static 函数：表示一个函数只能在当前文件中被访问；</li>
+<li>static 类成员变量：表示这个成员为全类所共有，(所有该类的实例共享)，必须<strong>在类声明的外部进行初始化</strong>；</li>
+<li>static 类成员函数：表示这个函数为全类所共有，而且只能访问静态成员变量，这个函数不接受this指针；</li>
+</ul>
+<p>static成员变量和普通static变量一样，都在内存分区的全局数据区分配内存，到程序结束后释放。这就意味着，static成员变量不随对象的创建而分配内存，也不随对象的销毁而释放内存。而普通成员变量在对象创建时分配内存，在对象销毁时释放内存。</p>
+<h5 id="const"><a href="#const" class="headerlink" title="const:"></a>const:</h5><ul>
+<li>const 常量：定义时就初始化，以后不能更改；</li>
+<li>const 形参：该形参在函数里不能改变；</li>
+<li>const 修饰类成员函数：该函数对成员变量只能进行读操作；</li>
+</ul>
+<p>const关键字阻止一个变量被改变；声明常量指针和指针常量。</p>
+<p>对于类的成员函数，有时候必须指定其返回值为const类型，以使其返回值不为“左值”。</p>
+<p>C++中const修饰的全局常量的作用域LOCAL的，即只在本文件中。可以通过配合使用<code>extern</code>关键字来声明该常量可以作用于其他编译模块中。</p>
+<p>C中const修饰的全局常量的作用域是GLOBAL的，作用域整个编译工程。</p>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>面试基础知识</tag>
+        <tag>计算机基础</tag>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>秋招进度记录</title>
     <url>/2020/08/20/%E7%A7%8B%E6%8B%9B%E8%BF%9B%E5%BA%A6%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h5 id="拼多多-—-服务端研发-—-提前批"><a href="#拼多多-—-服务端研发-—-提前批" class="headerlink" title="拼多多 — 服务端研发 —  提前批"></a><a href="https://careers.pinduoduo.com/campus/personal-center" target="_blank" rel="noopener">拼多多 — 服务端研发 —  提前批</a></h5><ul>
