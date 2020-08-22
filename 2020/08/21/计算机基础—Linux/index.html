@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="一、Linux 查看打开的连接数二、Linux 查看剩余内存三、服务器上如何查看一个5G大小的日志文件Linux系统中使用以下命令来查看文件的内容：  cat 由第一行开始显示文件内容 tac 从最后一行开始显示，可以看出 tac 是 cat 的倒著写！ nl  显示的时候，顺道输出行号！ more 一页一页的显示文件内容 less 与 more 类似，但是比 more 更好的是，他可以往前翻页！">
+<meta name="description" content="一、Linux 查看打开的连接数二、Linux 查看剩余内存三、服务器上查看文件内容命令：cat:cat 命令用于连接文件并打印到标准输出设备上，一次显示全部数据。 可选参数：  -n: 显示行号（从1开始）  -b: 显示行号，但空行不显示  -s: 连续两个及以上空行，替换为一个空行  -E: 在每行结束时显示$   tac:将文件全部内容从尾到头连续输出到标准输出上。 nl:带行号查看文件，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机基础—Linux">
 <meta property="og:url" content="http://yoursite.com/2020/08/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94Linux/index.html">
 <meta property="og:site_name" content="Begin Now">
-<meta property="og:description" content="一、Linux 查看打开的连接数二、Linux 查看剩余内存三、服务器上如何查看一个5G大小的日志文件Linux系统中使用以下命令来查看文件的内容：  cat 由第一行开始显示文件内容 tac 从最后一行开始显示，可以看出 tac 是 cat 的倒著写！ nl  显示的时候，顺道输出行号！ more 一页一页的显示文件内容 less 与 more 类似，但是比 more 更好的是，他可以往前翻页！">
+<meta property="og:description" content="一、Linux 查看打开的连接数二、Linux 查看剩余内存三、服务器上查看文件内容命令：cat:cat 命令用于连接文件并打印到标准输出设备上，一次显示全部数据。 可选参数：  -n: 显示行号（从1开始）  -b: 显示行号，但空行不显示  -s: 连续两个及以上空行，替换为一个空行  -E: 在每行结束时显示$   tac:将文件全部内容从尾到头连续输出到标准输出上。 nl:带行号查看文件，">
 <meta property="article:published_time" content="2020-08-20T16:29:32.000Z">
-<meta property="article:modified_time" content="2020-08-20T16:37:08.264Z">
+<meta property="article:modified_time" content="2020-08-22T14:23:11.782Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="面试基础知识">
 <meta property="article:tag" content="计算机基础">
@@ -409,16 +409,48 @@
       
 
       
-        <h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h4 id="二、Linux-查看剩余内存"><a href="#二、Linux-查看剩余内存" class="headerlink" title="二、Linux 查看剩余内存"></a>二、Linux 查看剩余内存</h4><h4 id="三、服务器上如何查看一个5G大小的日志文件"><a href="#三、服务器上如何查看一个5G大小的日志文件" class="headerlink" title="三、服务器上如何查看一个5G大小的日志文件"></a>三、服务器上如何查看一个5G大小的日志文件</h4><p>Linux系统中使用以下命令来查看文件的内容：</p>
+        <h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h4 id="二、Linux-查看剩余内存"><a href="#二、Linux-查看剩余内存" class="headerlink" title="二、Linux 查看剩余内存"></a>二、Linux 查看剩余内存</h4><h4 id="三、服务器上查看文件内容命令："><a href="#三、服务器上查看文件内容命令：" class="headerlink" title="三、服务器上查看文件内容命令："></a>三、服务器上查看文件内容命令：</h4><h5 id="cat"><a href="#cat" class="headerlink" title="cat:"></a><a href="https://www.runoob.com/linux/linux-comm-cat.html" target="_blank" rel="noopener">cat:</a></h5><p>cat 命令用于连接文件并打印到标准输出设备上，一次显示全部数据。</p>
+<p><strong>可选参数：</strong></p>
 <ul>
-<li>cat 由第一行开始显示文件内容</li>
-<li>tac 从最后一行开始显示，可以看出 tac 是 cat 的倒著写！</li>
-<li>nl  显示的时候，顺道输出行号！</li>
-<li>more 一页一页的显示文件内容</li>
-<li>less 与 more 类似，但是比 more 更好的是，他可以往前翻页！</li>
-<li>head 只看头几行</li>
-<li>tail 只看尾巴几行</li>
+<li><p>-n: 显示行号（从1开始）</p>
+</li>
+<li><p>-b: 显示行号，但空行不显示</p>
+</li>
+<li><p>-s: 连续两个及以上空行，替换为一个空行</p>
+</li>
+<li><p>-E: 在每行结束时显示<code>$</code></p>
+</li>
 </ul>
+<h5 id="tac"><a href="#tac" class="headerlink" title="tac:"></a><a href="http://linux.51yip.com/search/tac" target="_blank" rel="noopener">tac:</a></h5><p>将文件全部内容从尾到头连续输出到标准输出上。</p>
+<h5 id="nl"><a href="#nl" class="headerlink" title="nl:"></a><a href="https://www.cnblogs.com/peida/archive/2012/11/01/2749048.html" target="_blank" rel="noopener">nl:</a></h5><p>带行号查看文件，默认空行不列出行号，类似<code>cat -b</code></p>
+<p><strong>参数配置：</strong></p>
+<ul>
+<li><p>-b: 指定行号显示的方式；<code>-b a</code>表示无论是否为空行，都列出行号，类似<code>cat -n</code>；<code>-b t</code>表示如果有空行，空行不列出行号（默认值）。</p>
+</li>
+<li><p>-n: 列出行号表示的方法；<code>-n ln</code>行号靠左显示；<code>-n rn</code>行号靠右显示，且不加<code>0</code>(占位，如<code>00001</code>行)；<code>-n rz</code>行号靠右显示，且加<code>0</code>。</p>
+</li>
+</ul>
+<h5 id="more"><a href="#more" class="headerlink" title="more:"></a><a href="https://www.runoob.com/linux/linux-comm-more.html" target="_blank" rel="noopener">more:</a></h5><p>一页一页的显示文件内容。</p>
+<p><strong>参数配置：</strong></p>
+<ul>
+<li><p>-num: 指定一次显示的行数</p>
+</li>
+<li><p>+num: 从第num行开始显示</p>
+</li>
+<li><p>+/pattern: 在文档显示前搜索该字符串(pattern)，从该字符串所在行的前两行开始显示</p>
+</li>
+</ul>
+<p><strong>指令：</strong></p>
+<ul>
+<li>空格键：向下滚动一屏</li>
+<li>b: 返回上一屏</li>
+<li>Enter：向下n行，默认为1行</li>
+<li>=：输出当前行号</li>
+<li>v: 调用vi编辑器</li>
+</ul>
+<h5 id="less："><a href="#less：" class="headerlink" title="less："></a><a href="https://www.runoob.com/linux/linux-comm-less.html" target="_blank" rel="noopener">less：</a></h5><p>与more类似，但less 在查看之前不会加载整个文件。</p>
+<p>可以向前翻页，滚动一页或滚动半页。</p>
+<h5 id="head-tail："><a href="#head-tail：" class="headerlink" title="head/tail："></a><a href="https://www.cnblogs.com/peida/archive/2012/11/06/2756278.html" target="_blank" rel="noopener">head</a>/<a href="https://www.runoob.com/linux/linux-comm-tail.html" target="_blank" rel="noopener">tail</a>：</h5><p>head 只看前几行；tail 只看末尾几行</p>
 
       
     </div>
@@ -617,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Linux-查看打开的连接数"><span class="nav-number">1.</span> <span class="nav-text">一、Linux 查看打开的连接数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Linux-查看剩余内存"><span class="nav-number">2.</span> <span class="nav-text">二、Linux 查看剩余内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、服务器上如何查看一个5G大小的日志文件"><span class="nav-number">3.</span> <span class="nav-text">三、服务器上如何查看一个5G大小的日志文件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Linux-查看打开的连接数"><span class="nav-number">1.</span> <span class="nav-text">一、Linux 查看打开的连接数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Linux-查看剩余内存"><span class="nav-number">2.</span> <span class="nav-text">二、Linux 查看剩余内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、服务器上查看文件内容命令："><span class="nav-number">3.</span> <span class="nav-text">三、服务器上查看文件内容命令：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cat"><span class="nav-number">3.1.</span> <span class="nav-text">cat:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tac"><span class="nav-number">3.2.</span> <span class="nav-text">tac:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nl"><span class="nav-number">3.3.</span> <span class="nav-text">nl:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#more"><span class="nav-number">3.4.</span> <span class="nav-text">more:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#less："><span class="nav-number">3.5.</span> <span class="nav-text">less：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#head-tail："><span class="nav-number">3.6.</span> <span class="nav-text">head&#x2F;tail：</span></a></li></ol></li></ol></div>
             
 
           </div>
