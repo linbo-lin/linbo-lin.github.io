@@ -3,7 +3,40 @@
   <entry>
     <title>计算机基础—Linux</title>
     <url>/2020/08/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94Linux/</url>
-    <content><![CDATA[<h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h4 id="二、Linux-查看剩余内存"><a href="#二、Linux-查看剩余内存" class="headerlink" title="二、Linux 查看剩余内存"></a>二、Linux 查看剩余内存</h4><h4 id="三、服务器上查看文件内容命令："><a href="#三、服务器上查看文件内容命令：" class="headerlink" title="三、服务器上查看文件内容命令："></a>三、服务器上查看文件内容命令：</h4><h5 id="cat"><a href="#cat" class="headerlink" title="cat:"></a><a href="https://www.runoob.com/linux/linux-comm-cat.html" target="_blank" rel="noopener">cat:</a></h5><p>cat 命令用于连接文件并打印到标准输出设备上，一次显示全部数据。</p>
+    <content><![CDATA[<h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h5 id="Netstat："><a href="#Netstat：" class="headerlink" title="Netstat："></a><strong><a href="https://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316661.html" target="_blank" rel="noopener">Netstat：</a></strong></h5><p>Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships。</p>
+<ul>
+<li><code>netstat -a</code>：检查所有连接</li>
+<li><code>netstat -at</code>：只列出tcp连接</li>
+<li><code>netstat -au</code>：只列出udp连接</li>
+<li><code>netstat -ax</code>：只列出Unix Socket连接</li>
+<li><code>netstat -l</code>：只列出监听端口</li>
+<li><code>netstat -lt</code>：只列出监听TCP端口</li>
+<li><code>netstat -s</code>：显示所有端口的统计信息</li>
+<li><code>netstat -st</code>：只显示TCP端口的统计信息</li>
+<li><code>netstat -p</code>：在结果中显示进程PID及进程名称</li>
+<li><code>netstat -n</code>：不显示主机、端口号和用户名</li>
+<li><code>netstat -ap | grep ssh</code>：查看指定程序(ssh)运行的端口</li>
+<li><code>netstat -an | grep &#39;:80&#39;</code>：查看运行在指定端口(80)的进程</li>
+<li><code>netstat -anp | grep 80 | wc -l</code>：统计指定端口的连接数量</li>
+</ul>
+<h4 id="二、Linux-查看剩余内存"><a href="#二、Linux-查看剩余内存" class="headerlink" title="二、Linux 查看剩余内存"></a>二、Linux 查看剩余内存</h4><h5 id="top"><a href="#top" class="headerlink" title="top:"></a><a href="https://www.cnblogs.com/peida/archive/2012/12/24/2831353.html" target="_blank" rel="noopener">top:</a></h5><p>Linux下常用的性能分析工具，能够实时的显示系统中各个进程的资源占用情况。</p>
+<p>输出结果前五行是系统情况的统计信息区，分别为：</p>
+<ul>
+<li>统计信息：当前系统时间；系统已运行时间；登录的用户数量；load average(每个5秒检查一次活跃的进程数，然后按特定算法计算出的数值)</li>
+<li>Tasks：当前共有多少个进程，处于running的个数，sleeping的个数，stopped的个数，zombie的个数</li>
+<li>CPU使用情况</li>
+<li>Memory使用情况</li>
+<li>swap交换分区信息</li>
+</ul>
+<p>后面是各个进程的状态监控，包括其进程id、所有者、优先级、CPU/内存的使用情况等。</p>
+<h5 id="free"><a href="#free" class="headerlink" title="free:"></a><a href="https://www.cnblogs.com/ultranms/p/9254160.html" target="_blank" rel="noopener">free:</a></h5><p>free命令可以显示系统内存的使用情况，包括物理内存、交换分区和内核缓冲区内存。</p>
+<p><strong>参数配置：</strong></p>
+<ul>
+<li>-h: 显示结果更友好</li>
+<li>-s num: 持续的观察内存的状况，使用-s 指定间隔的秒数</li>
+</ul>
+<h5 id="cat-proc-meminfo"><a href="#cat-proc-meminfo" class="headerlink" title="cat /proc/meminfo"></a><a href="https://blog.csdn.net/whbing1471/article/details/105468139/" target="_blank" rel="noopener">cat /proc/meminfo</a></h5><p>可以使用/proc/meminfo文件查看操作系统内存的使用状态，该文件其实是<code>top/free</code>等命令的数据来源。</p>
+<h4 id="三、服务器上查看文件内容命令："><a href="#三、服务器上查看文件内容命令：" class="headerlink" title="三、服务器上查看文件内容命令："></a>三、服务器上查看文件内容命令：</h4><h5 id="cat"><a href="#cat" class="headerlink" title="cat:"></a><a href="https://www.runoob.com/linux/linux-comm-cat.html" target="_blank" rel="noopener">cat:</a></h5><p>cat 命令用于连接文件并打印到标准输出设备上，一次显示全部数据。</p>
 <p><strong>可选参数：</strong></p>
 <ul>
 <li><p>-n: 显示行号（从1开始）</p>
