@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>字节跳动飞书一面面经</title>
+    <url>/2020/08/23/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%E9%A3%9E%E4%B9%A6%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<p>视频面试，2020年8月23日14:00-15:00</p>
+<hr>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ul>
+<li>自我介绍</li>
+<li>项目，收获</li>
+<li>爬虫反爬技术/IP 池</li>
+<li>子进程共享父进程的什么东西</li>
+<li>进程/线程区别</li>
+<li>如何判断是选用多进程还是多线程 </li>
+<li>一个进程能不能访问另一个进程的地址空间</li>
+<li>进程间通信</li>
+<li>tcp/udp区别，使用的场景</li>
+<li>tcp可靠传输依赖哪些机制</li>
+<li>一个tcp的连接：a进程作为server，b进程作为client，如果一直处于收发包，那server如果挂了，client会有什么表现？服务器崩和进程崩有什么区别</li>
+<li>Https与Http的区别</li>
+<li>Https加密，数字证书的作用</li>
+<li>索引类型</li>
+<li>索引实现的数据结构</li>
+<li>主键索引</li>
+<li>如果有一个id(主键)，A,B,C,D四个字段，建立A,B,C的联合索引，描述select * from table where A = 1 and B = 2的服务器执行过程</li>
+<li>用rand 7实现 rand 10 等概率</li>
+<li>有一个无序整型数组：[3, 7, 2, 0, -1, 9, 8 …]，长度1000w左右，要求设计一个算法，找到数组中位数</li>
+<li>快排的时间复杂度，为什么</li>
+<li>反问</li>
+</ul>
+<hr>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>感觉得到字节非常注重基础知识，和算法能力；回答问题逻辑性需要增强。</p>
+<p>感觉面试官在刷KPI。</p>
+]]></content>
+      <categories>
+        <category>面试/笔试</category>
+      </categories>
+      <tags>
+        <tag>字节跳动</tag>
+        <tag>视频面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机基础—Linux</title>
     <url>/2020/08/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94Linux/</url>
     <content><![CDATA[<h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h5 id="Netstat："><a href="#Netstat：" class="headerlink" title="Netstat："></a><strong><a href="https://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316661.html" target="_blank" rel="noopener">Netstat：</a></strong></h5><p>Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships。</p>
