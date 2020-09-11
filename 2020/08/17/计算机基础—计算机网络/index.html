@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Begin Now">
 <meta property="og:description" content="1. UDP如何实现可靠传输UDP本身是无连接的协议，作用于传输层，想要实现可靠传输，只能从应用层来实现。需要添加如下机制：  ack&#x2F;seq:  发送方为每个UDP报文添加一个序号，接收方收到后发送一个ack报文；  超时重传机制  发送方在一段时间后收不到某个报文的ack，就重传这个报文；  滑动窗口：  发送窗口&#x2F;接收窗口，控制发送方的发送速率，防止网络较差时，越丢包越重传、越重传越丢包的恶">
 <meta property="article:published_time" content="2020-08-17T12:14:54.000Z">
-<meta property="article:modified_time" content="2020-09-08T11:47:06.513Z">
+<meta property="article:modified_time" content="2020-09-11T12:29:13.370Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="面试基础知识">
@@ -594,7 +594,407 @@
 <p>TCP采用了一种自适应算犯，它记录一个报文段的往返时间RTT。同时维护了一个加权平均往返时间RTTs。</p>
 <p>RTTs = (1-α)（旧的RTTs） + α*（新的RTT）</p>
 <p>超时重传时间RTO=RTTs + 4*RTTD。其中RTTD是RTT的偏差的加权平均值。</p>
-<h4 id="11-TCP如何保证可靠性"><a href="#11-TCP如何保证可靠性" class="headerlink" title="11. TCP如何保证可靠性"></a>11. TCP如何保证可靠性</h4><h4 id="12-流量控制的作用，采用滑动窗口会有什么问题"><a href="#12-流量控制的作用，采用滑动窗口会有什么问题" class="headerlink" title="12. 流量控制的作用，采用滑动窗口会有什么问题"></a>12. 流量控制的作用，采用滑动窗口会有什么问题</h4><h4 id="13-TCP滑动窗口协议"><a href="#13-TCP滑动窗口协议" class="headerlink" title="13. TCP滑动窗口协议"></a>13. TCP滑动窗口协议</h4><h4 id="14-拥塞控制和流量控制的区别"><a href="#14-拥塞控制和流量控制的区别" class="headerlink" title="14. 拥塞控制和流量控制的区别"></a>14. 拥塞控制和流量控制的区别</h4><h4 id="15-TCP拥塞控制、算法名字"><a href="#15-TCP拥塞控制、算法名字" class="headerlink" title="15. TCP拥塞控制、算法名字"></a>15. TCP拥塞控制、算法名字</h4><h4 id="16-HTTP协议与TCP的区别和联系"><a href="#16-HTTP协议与TCP的区别和联系" class="headerlink" title="16. HTTP协议与TCP的区别和联系"></a>16. HTTP协议与TCP的区别和联系</h4><h4 id="17-HTTP1-0-HTTP-1-1"><a href="#17-HTTP1-0-HTTP-1-1" class="headerlink" title="17. HTTP1.0 / HTTP 1.1"></a>17. HTTP1.0 / HTTP 1.1</h4><h4 id="18-HTTP-的请求方法有哪些，get和post的区别"><a href="#18-HTTP-的请求方法有哪些，get和post的区别" class="headerlink" title="18. HTTP 的请求方法有哪些，get和post的区别"></a>18. HTTP 的请求方法有哪些，get和post的区别</h4><h4 id="19-HTTP状态码"><a href="#19-HTTP状态码" class="headerlink" title="19. HTTP状态码"></a>19. HTTP状态码</h4><h4 id="20-HTTP-HTTPS区别，由HTTP升级为HTTPS需要做哪些操作"><a href="#20-HTTP-HTTPS区别，由HTTP升级为HTTPS需要做哪些操作" class="headerlink" title="20. HTTP/HTTPS区别，由HTTP升级为HTTPS需要做哪些操作"></a>20. HTTP/HTTPS区别，由HTTP升级为HTTPS需要做哪些操作</h4><h4 id="21-HTTPS的具体实现，怎么确保安全性"><a href="#21-HTTPS的具体实现，怎么确保安全性" class="headerlink" title="21. HTTPS的具体实现，怎么确保安全性"></a>21. HTTPS的具体实现，怎么确保安全性</h4><h4 id="22-TCP三次握手时的第一次的seq序号是怎么产生的"><a href="#22-TCP三次握手时的第一次的seq序号是怎么产生的" class="headerlink" title="22. TCP三次握手时的第一次的seq序号是怎么产生的"></a>22. TCP三次握手时的第一次的seq序号是怎么产生的</h4><h4 id="23-一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？"><a href="#23-一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？" class="headerlink" title="23. 一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？"></a>23. 一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？</h4><h4 id="24-对称密码和非对称密码体系"><a href="#24-对称密码和非对称密码体系" class="headerlink" title="24. 对称密码和非对称密码体系"></a>24. 对称密码和非对称密码体系</h4><h4 id="25-数字证书的了解"><a href="#25-数字证书的了解" class="headerlink" title="25. 数字证书的了解"></a>25. 数字证书的了解</h4><h4 id="26-服务器出现大量close-wait的连接的原因以及解决办法"><a href="#26-服务器出现大量close-wait的连接的原因以及解决办法" class="headerlink" title="26. 服务器出现大量close_wait的连接的原因以及解决办法"></a>26. 服务器出现大量close_wait的连接的原因以及解决办法</h4><h4 id="27-消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？"><a href="#27-消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？" class="headerlink" title="27. 消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？"></a>27. 消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？</h4><h4 id="28-单条记录并发访问的优化"><a href="#28-单条记录并发访问的优化" class="headerlink" title="28. 单条记录并发访问的优化"></a>28. 单条记录并发访问的优化</h4><h4 id="29-介绍一下ping的过程，分别用到了哪些协议"><a href="#29-介绍一下ping的过程，分别用到了哪些协议" class="headerlink" title="29. 介绍一下ping的过程，分别用到了哪些协议"></a>29. 介绍一下ping的过程，分别用到了哪些协议</h4><h4 id="30-TCP-IP的粘包与避免介绍一下"><a href="#30-TCP-IP的粘包与避免介绍一下" class="headerlink" title="30. TCP/IP的粘包与避免介绍一下"></a>30. TCP/IP的粘包与避免介绍一下</h4><h4 id="31-说一下TCP的封包与拆包"><a href="#31-说一下TCP的封包与拆包" class="headerlink" title="31. 说一下TCP的封包与拆包"></a>31. 说一下TCP的封包与拆包</h4><h4 id="32-一个ip配置多个域名，靠什么识别"><a href="#32-一个ip配置多个域名，靠什么识别" class="headerlink" title="32. 一个ip配置多个域名，靠什么识别"></a>32. 一个ip配置多个域名，靠什么识别</h4><h4 id="33-服务器攻击"><a href="#33-服务器攻击" class="headerlink" title="33. 服务器攻击"></a>33. 服务器攻击</h4><h4 id="34-DNS的工作过程与原理"><a href="#34-DNS的工作过程与原理" class="headerlink" title="34. DNS的工作过程与原理"></a>34. DNS的工作过程与原理</h4><h4 id="35-OSA七层协议与五层协议"><a href="#35-OSA七层协议与五层协议" class="headerlink" title="35. OSA七层协议与五层协议"></a>35. OSA七层协议与五层协议</h4><h4 id="36-IP寻址与MAC寻址有什么不同，怎么实现的"><a href="#36-IP寻址与MAC寻址有什么不同，怎么实现的" class="headerlink" title="36. IP寻址与MAC寻址有什么不同，怎么实现的"></a>36. IP寻址与MAC寻址有什么不同，怎么实现的</h4><h4 id="37-建立TCP连接时，服务器的各个系统调用"><a href="#37-建立TCP连接时，服务器的各个系统调用" class="headerlink" title="37. 建立TCP连接时，服务器的各个系统调用"></a>37. 建立TCP连接时，服务器的各个系统调用</h4><h4 id="38-继上一题，说明socket网络编程有哪些系统调用？其中close-是一次就能直接关闭的吗，半关闭状态是怎么产生的？"><a href="#38-继上一题，说明socket网络编程有哪些系统调用？其中close-是一次就能直接关闭的吗，半关闭状态是怎么产生的？" class="headerlink" title="38. 继上一题，说明socket网络编程有哪些系统调用？其中close()是一次就能直接关闭的吗，半关闭状态是怎么产生的？"></a>38. 继上一题，说明socket网络编程有哪些系统调用？其中close()是一次就能直接关闭的吗，半关闭状态是怎么产生的？</h4><h4 id="39-对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。"><a href="#39-对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。" class="headerlink" title="39. 对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。"></a>39. 对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。</h4><h4 id="40-TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？"><a href="#40-TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？" class="headerlink" title="40. TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？"></a>40. TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？</h4><p>在TCP连接中，存在一个<strong>保活计时器</strong>。服务器每收到一次客户端的数据，就重新设置保活计时器，时间的设置通常是两个小时。若两个小时没有收到客户端的数据，服务器就发送一个探测报文段，以后则每个75分钟发送一次。若一连发送10个探测报文段后仍无客户的响应，服务器就认为客户端出现了故障，接着就关闭这个链接。</p>
+<h4 id="11-TCP如何保证可靠性"><a href="#11-TCP如何保证可靠性" class="headerlink" title="11. TCP如何保证可靠性"></a>11. TCP如何保证可靠性</h4><p>无差错、不丢失、不重复、按序到达</p>
+<ul>
+<li><p>检验和：检验和字段检验的范围包括首部和数据这两个部分；</p>
+</li>
+<li><p>确认应答/序号/确认号：接收方收到发送方的报文后，会发送一个确认报文。报文中有一个序号字段，表示此报文第一个字节的序号。还有一个确认号字段，表示期望收到对方下一个报文段的第一个数据字节的序号；</p>
+</li>
+<li><p>超时重传：发送方发送一个报文段后，启动时间计时器，等到接收方的确认报文，若超时未收到确认报文，则会重发一次刚才的报文段。</p>
+</li>
+<li><p>流量控制：让发送方的发送速率不要太快，要让接收方来得及接收。滑动窗口：发送方的发送窗口不能超过接收方的接收窗口。窗口单位是字节。</p>
+</li>
+<li><p>拥塞控制：拥塞控制是防止过得数据注入网络中，这样就可以使网络中的路由器或链路不致过载。（在某段时间内，若对网络中某一资源的需求超过了该资源所能提供的可能部分，网络的性能就要变坏，这种情况就叫做拥塞。）</p>
+</li>
+</ul>
+<h4 id="12-流量控制的作用，采用滑动窗口会有什么问题"><a href="#12-流量控制的作用，采用滑动窗口会有什么问题" class="headerlink" title="12. 流量控制的作用，采用滑动窗口会有什么问题"></a>12. 流量控制的作用，采用滑动窗口会有什么问题</h4><p>所谓流量控制就是让发送方的发送速率不要太快，要让接收方来得及接收。TCP的流量控制功能借助滑动窗口机制实现。</p>
+<p>发送方和接收方分别维护着发送窗口与接收窗口，TCP报文的首部中包含一个<strong>窗口</strong>的字段，窗口指的是发送本报文段的一方的接收窗口，窗口值告诉对方：从本报文段首部中的确认号算起，接收方目前允许对方发送的数据量。发送方的发送窗口不能超过接收方给出的接收窗口的数值。窗口单位为字节，不是报文段。</p>
+<ul>
+<li>问题1：死锁问题</li>
+</ul>
+<p>假设有发送方A和接收方B。</p>
+<p>B向A发送了一个零窗口报文段，不久后，B的接收缓存又有了一些存储空间，于是B向A发送了一个窗口非零的报文段，但这个报文段在网络中丢失了。A一直在等待B发送的窗口非零的报文段，B在等待A发来新的数据，如果没有其他措施，这种互相等待的死锁局面将一直存在下去。</p>
+<p>解决方法：TCP为每一个连接设置了一个<strong>持续计时器</strong>，只要一方收到一个零窗口报文段，就启动持续计时器。若持续计时器设置的时间到了，就发送一个零窗口<strong>探测报文段</strong>（仅携带1字节数据），而对方就在确认这个探测报文段时给出了现在的窗口值。如果窗口仍为零，则重置持续计时器，否则，死锁局面就打破了。</p>
+<ul>
+<li>问题2：糊涂窗口综合症</li>
+</ul>
+<p>设想这样一种情况：TCP接收方接收缓存已满，但交互式应用每次只从接收缓存取出一个字节，然后向发送方发送确认，窗口值设为1，发送方接收到确认后，又发送1个字节的数据，接收方发回确认，仍将窗口值设为1。这样持续下去，网络的效率会很低。（数据1个字节，TCP报文首部最小为20字节，IP报文首部为20字节）。</p>
+<p>解决办法：让接收方等待一段时间，使得接收缓存有足够的空间容纳一个最长的报文段，或者等到接收缓存已有一半空闲的空间。出现以上情况时，接收方才发出确认报文。另外，发送方也不要发送太小的报文段，而是把数据累积成足够大的报文段，或者达到接收方缓存空间大小的一半。</p>
+<h4 id="13-拥塞控制和流量控制的区别"><a href="#13-拥塞控制和流量控制的区别" class="headerlink" title="13. 拥塞控制和流量控制的区别"></a>13. 拥塞控制和流量控制的区别</h4><p>拥塞控制是防止过多的数据注入网络中，不至于使得网络中的路由器或链路不过载。拥塞控制是一个全局性的过程，涉及到所有的主机、路由器，以及与降低网络传输性能有关的所有因素。</p>
+<p>流量控制指的是点对点通信量的控制，是个端对端的问题。流量控制所要做的就是抑制发送端发送数据的速率，以便接收端来得及接收。</p>
+<h4 id="14-TCP拥塞控制、算法名字"><a href="#14-TCP拥塞控制、算法名字" class="headerlink" title="14. TCP拥塞控制、算法名字"></a>14. TCP拥塞控制、算法名字</h4><p>拥塞窗口cwnd，慢开始门限ssthresh，四种算法：</p>
+<ul>
+<li><p>慢开始：每经过一个传输轮次，拥塞窗口加倍；</p>
+</li>
+<li><p>拥塞避免：拥塞窗口大小达到慢开始门限时，每经过一个传输轮次，拥塞窗口加一；</p>
+</li>
+</ul>
+<p>如果发生了超时，即发送方设置的超时计时器时限已到但还没有收到确认，那么网络很可能是出现了拥塞，致使报文段在网络某处丢失。在这种情况下，TCP马上把拥塞窗口减小为1，并开始慢开始算法。同时，置慢开始门限为超时时拥塞窗口数值的一半。</p>
+<ul>
+<li>快重传：</li>
+</ul>
+<p>接收方没收到一个失序的报文段就立即发出重复确认。发送方一连收到三个重复确认就应当立即重传对方尚未收到的报文段，而不用等待设置的重传计时器到期。</p>
+<ul>
+<li>快恢复：</li>
+</ul>
+<p>当出现三个重复确认时，启动快恢复算法。置慢开始门限为当前拥塞窗口数值的一半，拥塞窗口值等于慢开始门限，进入拥塞避免阶段。</p>
+<h4 id="15-HTTP协议与TCP的联系和区别"><a href="#15-HTTP协议与TCP的联系和区别" class="headerlink" title="15. HTTP协议与TCP的联系和区别"></a>15. HTTP协议与TCP的联系和区别</h4><ul>
+<li>联系：</li>
+</ul>
+<p>HTTP协议是建立在TCP协议基础上的。</p>
+<p>当浏览器需要从服务器获取网页数据的时候，会发出一次HTTP请求，HTTP会通过TCP建立起一个到服务器的连接通道，当本次请求需要的数据传输完毕后，HTTP会立即将TCP连接断开。</p>
+<ul>
+<li>区别：</li>
+</ul>
+<p>HTTP协议与TCP协议位于不同的层级。</p>
+<p>TCP协议位于传输层，定义的是数据的传输和连接的规范。而HTTP协议位于应用层，定义的是数据的内容的规范。</p>
+<p>建立一个TCP连接需要三次握手，而由于HTTP是建立在TCP连接之上的，建立一个HTTP请求通常包含请求和响应两个步骤。</p>
+<h4 id="16-HTTP-1-0-HTTP-1-1"><a href="#16-HTTP-1-0-HTTP-1-1" class="headerlink" title="16. HTTP 1.0 / HTTP 1.1"></a>16. HTTP 1.0 / HTTP 1.1</h4><ul>
+<li>长连接</li>
+</ul>
+<p>HTTP 1.0为短连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接。</p>
+<p>HTTP 1.1为持久连接（HTTP 1.1的默认模式使用带流水线的持久连接），在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗。</p>
+<ul>
+<li>带宽优化及网络连接的使用</li>
+</ul>
+<p>HTTP 1.0存在浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了。HTTP 1.0不支持断点续传功能。</p>
+<p>HTTP 1.1在请求头引入了range头域，他允许只请求资源的某个部分。</p>
+<ul>
+<li>错误通知的管理</li>
+</ul>
+<p>在HTTP 1.1中新增了24个错误状态响应码。</p>
+<ul>
+<li>Host头处理</li>
+</ul>
+<p>HTTP 1.0认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机，并且他们共享一个IP地址。</p>
+<p>HTTP 1.1的请求消息和响应消息都支持Host头域，且请求消息中如果没有Host头域会报告一个错误。</p>
+<ul>
+<li>缓存处理</li>
+</ul>
+<p>在HTTP 1.0中主要使用header里的If-Modified-Since，Expires来作为缓存判断的标准。</p>
+<p>在HTTP 1.1中引入了更多的缓存控制策略，例如：Entity tag，If-Unmodified-Since, If-Match, If-None-Match。</p>
+<h4 id="17-HTTP-1-HTTP-2-0"><a href="#17-HTTP-1-HTTP-2-0" class="headerlink" title="17. HTTP 1.* / HTTP 2.0"></a>17. HTTP 1.* / HTTP 2.0</h4><ul>
+<li>新的二进制格式</li>
+</ul>
+<p>HTTP 1.*的解析是基于文本。HTTP2.0协议解析基于二进制格式，实现方便且健壮。</p>
+<ul>
+<li>多路复用</li>
+</ul>
+<p>即连接共享，每一个request都是用作连接共享机制的。一个request对应一个ID，这样一个连接上就可以由多个request，每个连接的request可以随机的混杂在一起，接收方根据request的ID将request归属到不同的服务端请求里面。</p>
+<ul>
+<li>Header压缩</li>
+</ul>
+<p>HTTP 1.*的header中带有大量信息，而且每次都要重复发送;</p>
+<p>HTTP 2.0使用encoder来减少需要传输的header大小，通讯双方各自缓存一份header fields表，即避免了重复header的传输，又减少了需要传输的大小。</p>
+<ul>
+<li>服务端推送</li>
+</ul>
+<p>HTTP 2.0具有server push的功能，允许服务端推送资源给浏览器。</p>
+<h4 id="18-HTTP-的请求方法有哪些"><a href="#18-HTTP-的请求方法有哪些" class="headerlink" title="18. HTTP 的请求方法有哪些"></a>18. HTTP 的请求方法有哪些</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>请求指定的页面信息，返回实体主体</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>向指定资源提交数据进行处理请求，例如提交表单或上传文件。数据被包含在请求体中。</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>类似于GET请求，只不过返回的响应中没有具体的内容，用于获取报头。</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>从客户端向服务器传送的数据取代指定的文档的内容。</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>请求服务器删除指定的页面。</td>
+</tr>
+<tr>
+<td>CONNECT</td>
+<td></td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td></td>
+</tr>
+<tr>
+<td>TRACE</td>
+<td></td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="19-get和post的区别"><a href="#19-get和post的区别" class="headerlink" title="19. get和post的区别"></a>19. get和post的区别</h4><ul>
+<li><p>get不会修改服务器上的资源；post可能会导致新的资源的建立或已有资源的修改；</p>
+</li>
+<li><p>get可以存为书签，能被缓存；post不能;</p>
+</li>
+<li><p>get后退按钮或刷新是无害的；post数据会被重新提交，浏览器应该提醒用户；</p>
+</li>
+<li><p>get把参数追加在URL中，会被完整保存在浏览器历史中（登录时密码会显示，不安全）；post把参数放在请求实体中，不会保存；</p>
+</li>
+<li><p>get的URL长度是有限制的；post无限制；</p>
+</li>
+<li><p>get参数数据类型只允许ASCII字符；post还支持二进制格式；</p>
+</li>
+</ul>
+<h4 id="20-HTTP状态码"><a href="#20-HTTP状态码" class="headerlink" title="20. HTTP状态码"></a>20. HTTP状态码</h4><p>参考：<a href="https://www.runoob.com/http/http-status-codes.html" target="_blank" rel="noopener">HTTP状态码——菜鸟教程</a></p>
+<h4 id="21-HTTP-HTTPS区别"><a href="#21-HTTP-HTTPS区别" class="headerlink" title="21. HTTP/HTTPS区别"></a>21. HTTP/HTTPS区别</h4><ul>
+<li><p>HTTP协议是超文本传输协议，信息是明文传输；HTTPS是具有安全性的SSL加密传输协议；</p>
+</li>
+<li><p>HTTPS协议需要到CA申请证书，一般免费证书比较少，因而需要一定费用；</p>
+</li>
+<li><p>HTTP与HTTPS使用不同的连接方式，用的端口也不一样，前者是80，后者是443；</p>
+</li>
+<li><p>HTTP连接很简单，是无状态的，HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比HTTP协议安全。</p>
+</li>
+<li><p>HTTPS协议需要多次握手，导致页面的加载时间延长近50%。</p>
+</li>
+<li><p>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</p>
+</li>
+</ul>
+<h4 id="22-由HTTP升级为HTTPS需要做哪些操作"><a href="#22-由HTTP升级为HTTPS需要做哪些操作" class="headerlink" title="22. 由HTTP升级为HTTPS需要做哪些操作  (?)"></a>22. 由HTTP升级为HTTPS需要做哪些操作  (?)</h4><ul>
+<li>申请证书</li>
+<li>配置服务器支持SSL</li>
+<li>将页面中所有链接由HTTP改为HTTPS</li>
+<li>…</li>
+</ul>
+<h4 id="23-HTTPS的具体实现，怎么确保安全性"><a href="#23-HTTPS的具体实现，怎么确保安全性" class="headerlink" title="23. HTTPS的具体实现，怎么确保安全性"></a>23. HTTPS的具体实现，怎么确保安全性</h4><ul>
+<li><p>客户端发送HTTPS连接请求，同时，会将客户端支持的加密算法/哈希算法（密钥算法套件）发送给服务器；</p>
+</li>
+<li><p>服务端收到请求后，与自己支持的加密算法进行对比，如果不符合，则断开连接；否则，选出一组加密算法和哈希算法，并将自己的身份信息已证书的形式发回给客户端；</p>
+</li>
+<li><p>客户端验证服务端的证书：</p>
+<ul>
+<li>客户端验证证书，包括颁发证书的机构是否合法与是否过期，证书中包含的网址是否与正在访问的地址一致等；</li>
+<li>验证通过后（或者用户选择接受了不信任的证书），客户端会生成一个随机字符串，然后用服务端的公钥进行加密。<strong>（这里就保证了只有服务端才能看到这串随机字符，因为只有服务端拥有公钥对应的密钥）</strong></li>
+<li>生成握手信息，用约定好的哈希算法，对握手信息进行HASH，然后用随机字符串加密握手信息和握手信息的HASH值，将结果发送给服务端。<strong>（这里之所以要带上握手信息的HASH是因为，防止信息被篡改，那么服务端接收到信息进行HASH时，就会发现HASH值和客户端传回来的不一样，这里就保证了信息不回被篡改）</strong></li>
+</ul>
+</li>
+<li><p>服务端接收到加密信息后，首先用私钥解密得到随机字符串。然后用随机字符串解密握手信息，获得握手信息和握手信息的HASH值，服务端对握手信息进行HASH，对比客户端发送过来的HASH，如果相同，则说明信息没有被篡改；</p>
+</li>
+<li><p>服务器验证完客户端的信息以后，同样使用随机字符串加密握手信息和握手信息的HASH值发给客户端。</p>
+</li>
+<li><p>客户端收到服务端发回来的握手信息后，用一开始生成的随机字符串对密文进行解密，得到握手信息和握手信息的HASH值，像服务端一样进行验证。验证完成后，握手完毕。</p>
+</li>
+<li><p>握手完成后，双方之间的通信数据将利用之前客户端生成的随机数通过对称加密算法进行加密。</p>
+</li>
+</ul>
+<p>参考：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/xtiger/p/11026870.html" target="_blank" rel="noopener">HTTPS安全通信过程</a></li>
+<li><a href="https://blog.csdn.net/qq_23960265/article/details/80075642" target="_blank" rel="noopener">HTTPS的通信过程</a></li>
+</ul>
+<h4 id="24-TCP三次握手时的第一次的seq序号是怎么产生的"><a href="#24-TCP三次握手时的第一次的seq序号是怎么产生的" class="headerlink" title="24. TCP三次握手时的第一次的seq序号是怎么产生的"></a>24. TCP三次握手时的第一次的seq序号是怎么产生的</h4><p>第一次的序号是随机的，但也不是完全随机的，它是由ISN算法得到的：</p>
+<p>ISN = M+ F（localhost，localport，remotehost，remoteport） </p>
+<ul>
+<li><p>M是一个计时器，这个计时器每隔四毫秒加1；</p>
+</li>
+<li><p>F是一个HASH算法，根据源IP、目的IP、源端口、目的端口生成一个随机数值。要保证HASH算法不能被外部轻易推算得出，使用MD5算法是一个比较好的选择；</p>
+</li>
+</ul>
+<h4 id="25-一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？"><a href="#25-一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？" class="headerlink" title="25. 一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？"></a>25. 一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？</h4><p>65536，因为在TCP报文段中端口号的长度为16bit，也就是最多能表示2^16=65536个不同的端口。但是由于0-1023是知名服务端口，所以实际上还要减少1024个端口号；</p>
+<p>对于服务器来说，可以开的端口号与65536无关，其实是受限于Linux可以打开的文件数量，并且可以通过MaxUserPort来进行配置。</p>
+<h4 id="26-对称密码和非对称密码"><a href="#26-对称密码和非对称密码" class="headerlink" title="26. 对称密码和非对称密码"></a>26. 对称密码和非对称密码</h4><ul>
+<li>对称加密算法：加密和解密使用的密钥是同一个</li>
+</ul>
+<p>优点是计算量小，算法速度快，加密效率高；缺点是密钥容易泄露。不同的会话需要不同的密钥，每对用户每次使用对称加密算法时，都需要使用其他人不知道的唯一密钥，管理起来很费劲；</p>
+<p>常用算法有：DES、AES、3DES等</p>
+<ul>
+<li>非对称加密：加密和解密使用的密钥为一对，公钥和私钥；使用公钥进行加密，使用私钥进行解密；</li>
+</ul>
+<p>优点是安全性更高，公钥是公开的，私钥自己保存，不需要交给别人。缺点是加密解密时间长，速度慢，只适合对少量数据进行加密。</p>
+<p>常用算法有：RSA，ECC等</p>
+<h4 id="27-数字证书的了解"><a href="#27-数字证书的了解" class="headerlink" title="27. 数字证书的了解"></a>27. 数字证书的了解</h4><p>权威CA利用私钥将网站的信息（URL、公钥、CA信息等）加密，形成消息摘要（签名S）进行打包形成数字证书。公钥发给客户端。</p>
+<p>在HTTPS握手时，网站将数字证书发送给客户端，客户端利用CA提供的公钥对数字证书进行解密，然后手动对A的网站信息（URL、公钥、CA信息等）进行HASH，得到签名S，将手动计算得到的签名S与证书中包含的签名S进行对比，如果一致，则说明网站是可以信任的。</p>
+<h4 id="28-服务器出现大量close-wait的连接的原因以及解决办法"><a href="#28-服务器出现大量close-wait的连接的原因以及解决办法" class="headerlink" title="28. 服务器出现大量close_wait的连接的原因以及解决办法"></a>28. 服务器出现大量close_wait的连接的原因以及解决办法</h4><p>CLOSE-WAIT状态是在TCP四次挥手过程中发生的。服务端收到FIN并确认后，没有发送自己的FIN，就会一直处于CLOSE-WAIT状态。</p>
+<p>原因可能有以下两个：</p>
+<ul>
+<li>服务器内部业务处理占用了太多时间，都没能处理完业务；或者还有数据需要发送；或者服务器的业务逻辑有问题，没有执行close()方法。</li>
+<li>服务器的父进程派生出子进程，子进程继承了socket，收到FIN的时候子进程处理但父进程没有处理该信号，导致socket的引用不为0，无法回收；</li>
+</ul>
+<p>处理方法：</p>
+<ul>
+<li>停止应用程序；</li>
+<li>修改程序里的bug；</li>
+</ul>
+<h4 id="29-消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？"><a href="#29-消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？" class="headerlink" title="29. 消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？"></a>29. 消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？</h4><p>常用的消息摘要算法有：MD家族（MD2、MD4、MD5）；SHA家族（SHA-1、SHA-256）；CRC家族（CRC8、CRC16、CRC32）等等；</p>
+<p>MD5算法：</p>
+<p>MD5以512位分组来处理输入的信息，且每一组又被划分为16个32位子分组，经过一系列的处理后，算法输出是由四个32位分组组成的128位散列值。</p>
+<ul>
+<li>如果输入信息的长度对512取余不等于448，就需要填充。填充的方法是填充一个1和若干个0。填充完成后的信息长度为N*512+448；</li>
+<li>用64位来记录填充前信息的长度，这64位追加在前一步的结果的后面。这样信息长度就变为了（N+1）*512；</li>
+<li>对每个512位的分组进行循环运算。使用四个幻数对第一个分组的数据进行四轮变换，得到四个变量；</li>
+<li>接下来对其中三个使用线性函数进行计算，与剩下一个相加，并赋值给其中某个变量，得到新的四个变量。以这四个变量再进行下一分组的运算；</li>
+<li>遍历完成所有分组，最后的四个变量即为MD5值。</li>
+</ul>
+<p>为什么是不可逆的：因为MD5在进行消息摘要的过程中，数据与原始数据相比发生了丢失，说以不能由结果进行恢复。</p>
+<p>加强安全性：加盐（加随机数）</p>
+<h4 id="30-单条记录并发访问的优化"><a href="#30-单条记录并发访问的优化" class="headerlink" title="30. 单条记录并发访问的优化"></a>30. 单条记录并发访问的优化</h4><p>服务端：</p>
+<ul>
+<li>使用缓存，比如redis等；</li>
+<li>使用分布式架构进行处理；</li>
+<li>将静态页面和静态资源存储在静态资源服务器，需要处理的数据使用服务器进行计算后返回；</li>
+<li>将静态资源尽可能在客户端进行缓存；</li>
+<li>采用nginx进行负载均衡；</li>
+</ul>
+<p>数据库：</p>
+<ul>
+<li>数据库采用主从赋值，读写分离措施；</li>
+<li>建立适当的索引；</li>
+<li>分库分表；</li>
+</ul>
+<h4 id="31-介绍一下ping的过程，分别用到了哪些协议"><a href="#31-介绍一下ping的过程，分别用到了哪些协议" class="headerlink" title="31. 介绍一下ping的过程，分别用到了哪些协议"></a>31. 介绍一下ping的过程，分别用到了哪些协议</h4><p>参考：<a href="https://www.cnblogs.com/Akagi201/archive/2012/03/26/2418475.html" target="_blank" rel="noopener">ping原理与ICMP协议</a></p>
+<p>ping程序是用来探测主机到主机之间是否可以通信。工作过程如下：</p>
+<ul>
+<li>首先，执行ping的主机会构建一个固定格式的ICMP请求数据包，ICMP协议会将这个数据包连同目的IP地址和源IP地址一起交给IP协议；</li>
+<li>然后IP协议根据这些信息构造一个IP数据报，并在映射表中查找目的IP对应的mac地址，将其交给数据链路层。</li>
+<li>然后数据链路层会构建一个数据帧，附上源mac地址和目的mac地址发送出去。</li>
+<li>目的主机接收到数据帧后，就会检查包上的mac地址与本机mac是否相符，如果相符，就接收并提取其中的信息交给IP协议，IP协议提取信息并交给ICMP协议。然后构建一个ICMP应答包，用相同的过程发送回去。</li>
+</ul>
+<h4 id="32-TCP-IP的粘包与避免介绍一下"><a href="#32-TCP-IP的粘包与避免介绍一下" class="headerlink" title="32. TCP/IP的粘包与避免介绍一下"></a>32. TCP/IP的粘包与避免介绍一下</h4><p>参考：<a href="https://mp.weixin.qq.com/s?__biz=MzI4MDYzNDc1Mg==&mid=2247484019&amp;idx=1&amp;sn=c8e0b7c7c5095c52481a6474d326172d&source=41#wechat_redirect" target="_blank" rel="noopener">TCP粘包，难道是一个伪命题？</a></p>
+<p>TCP层传输是流式传输，流，最大的问题就是没有边界，没有边界就会造成数据粘在一起，这种粘在一起就叫做粘包。</p>
+<p>粘包是指发送方发送的若干个包数据到接收方时粘成一个包，从接受方的缓冲区看，后一个包的头紧接着前一个包的数据结尾，无法区分。</p>
+<p>导致粘包的原因可能有以下原因：</p>
+<ol>
+<li>TCP连接复用：多个进程使用一个TCP连接，此时多种不同结构的数据进入到TCP的流式传输，边界分割可定会出这样那样的问题；</li>
+<li>发送端等待缓冲区满才进行发送（在发送较小的数据包的时候，会将几个包合并成一个包后发送）；</li>
+<li>接收方来不及接收缓冲区内的数据，造成多个包接收；</li>
+</ol>
+<p>如何避免：</p>
+<ul>
+<li>通过编程，强制TCP发生数据传送，不必等到缓冲区满（数据包小的时候也立即发送，不合并发送）；</li>
+<li>优化接受方接收数据的过程，使其来得及接收数据包，包括提到接收进程优先级等；</li>
+<li>设置固定长度的报文，或者设置报文头部指示报文的长度；</li>
+<li>设置尾部标记序列；</li>
+</ul>
+<p>参考：<a href="https://www.cnblogs.com/wiessharling/p/4230878.html" target="_blank" rel="noopener">TCP的封包与拆包</a></p>
+<h4 id="33-说一下TCP的封包与拆包"><a href="#33-说一下TCP的封包与拆包" class="headerlink" title="33. 说一下TCP的封包与拆包"></a>33. 说一下TCP的封包与拆包</h4><p>因为TCP是流传输，流，最大的问题就是没有边界，没有边界就会造成数据粘在一起，这种粘在一起就叫做粘包。为了解决这种问题，就需要进行封包和拆包，确保发送和接收的数据不粘连。</p>
+<ul>
+<li><p>封包：就是在发送数据包的时候为每个TCP数据包加上一个包头，将数据分为包头和包体两个部分。包头是一个固定长度的结构体，里面包含该数据包的总长度。</p>
+</li>
+<li><p>拆包：接收方在接收到报文后提取包头中的长度信息进行截取。</p>
+</li>
+</ul>
+<h4 id="34-一个ip配置多个域名，靠什么识别"><a href="#34-一个ip配置多个域名，靠什么识别" class="headerlink" title="34. 一个ip配置多个域名，靠什么识别"></a>34. 一个ip配置多个域名，靠什么识别</h4><ul>
+<li>Hostname 主机名</li>
+<li>端口号</li>
+</ul>
+<h4 id="35-服务器攻击"><a href="#35-服务器攻击" class="headerlink" title="35. 服务器攻击"></a>35. 服务器攻击</h4><h4 id="36-DNS的工作过程与原理"><a href="#36-DNS的工作过程与原理" class="headerlink" title="36. DNS的工作过程与原理"></a>36. DNS的工作过程与原理</h4><p>DNS解析有两种方式：递归查询和迭代查询</p>
+<p>递归查询：用户先向本地域名服务器查询，如果本地域名服务器的缓存没有IP地址映射记录，就向根域名服务器查询，根域名服务器向顶级域名服务器查询，顶级域名服务器向权限域名服务器查询，查到结果后依次返回；</p>
+<p>迭代查询：用户向本地域名服务器查询，如果没有缓存，本地域名系统会向根域名服务器查询，根域名服务器返回的顶级域名服务器的地址，本地域名服务器再向顶级域名服务器查询，得到权限域名服务器的地址，本地域名服务器再向权限域名服务器查询得到结果。</p>
+<h4 id="37-OSA七层协议与五层协议"><a href="#37-OSA七层协议与五层协议" class="headerlink" title="37. OSA七层协议与五层协议"></a>37. OSA七层协议与五层协议</h4><table>
+<thead>
+<tr>
+<th>七层网络协议</th>
+<th>TCP/IP 四层协议</th>
+<th>五层网络协议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>应用层</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>表示层</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>会话层</td>
+<td>应用层</td>
+<td>应用层</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>运输层</td>
+<td>传输层</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>网际层</td>
+<td>网络层</td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td></td>
+<td>数据链路层</td>
+</tr>
+<tr>
+<td>物理层</td>
+<td>网络接口层</td>
+<td>物理层</td>
+</tr>
+</tbody></table>
+<h4 id="38-IP寻址与MAC寻址有什么不同，怎么实现的"><a href="#38-IP寻址与MAC寻址有什么不同，怎么实现的" class="headerlink" title="38. IP寻址与MAC寻址有什么不同，怎么实现的"></a>38. IP寻址与MAC寻址有什么不同，怎么实现的</h4><p>MAC寻址是使用mac地址寻找主机；IP寻址是通过IP寻找主机；它们适用于不同的协议层，IP寻址是网络层，MAC寻址是数据链路层；</p>
+<ul>
+<li>MAC寻址：</li>
+</ul>
+<p>交换机使用MAC地址通过其指向相应端口的交换结构将网络通信转向目的节点。交换机为了知道要使用哪个端口来传送帧，它必须首先知道自己的每个端口上都存在哪些节点。</p>
+<p>交换机使用其MAC地址表来确定如何处理传入的数据帧。交换机通过记录与其每一个端口相连的节点的MAC地址来构建起MAC地址表。</p>
+<p>当交换机收到传入的数据帧时，会检查其MAC地址表，如果查到了，则从相应的端口发出；否则，交换机将把该帧从除接收该帧的端口之外的所有端口转发出去。收到该帧的节点会与自身的MAC地址进行比较，目的节点会发送一个响应。当目的节点响应时，交换机从响应帧的源地址段中获得该节点的MAC地址，并将其记录在地址表中；</p>
+<p>参考：<a href="https://blog.51cto.com/07net01/586888" target="_blank" rel="noopener">MAC寻址</a></p>
+<ul>
+<li>IP寻址：</li>
+</ul>
+<p>在网络层和传输层中，计算机之间通过IP地址定位目标主机，对应的数据报文中只包含目标主机的IP地址，而没有MAC地址。因此在发送前，需要根据IP地址来获取MAC地址，然后才能将数据报发送到正确的目标主机。这个获取的过程是通过ARP协议完成的。</p>
+<ol>
+<li>主机A首先在本机的ARP缓存中检查主机B的IP地址及MAC地址；</li>
+<li>如果在ARP缓存中没有找到主机B的IP地址及对应的MAC地址，它将寻址主机B的MAC地址，又分为本地网络寻址和非本地网络寻址;；</li>
+</ol>
+<p>本地网络寻址：主机A检查与主机B为与同一个网段</p>
+<ol>
+<li>将ARP请求帧广播到本地网络上的所有主机，源主机A的IP地址及MAC地址都在ARP请求中；</li>
+<li>本地网络上的所有主机都接收到ARP请求，并检查是否与自己的IP地址匹配。如果主机发现请求的IP地址与自己的IP地址不匹配，它将丢弃ARP请求。若匹配，则将A的IP地址与MAC地址映射添加到本地ARP缓存中。</li>
+<li>主机B将自身包含的MAC地址的ARP信息回复直接发送给主机A。</li>
+<li>当主机A收到B发来的ARP消息时，会用主机B的IP地址和MAC地址更新ARP缓存。</li>
+<li>主机B的MAC地址一旦确定，主机A就能向主机B发送IP数据包。本地缓存是有生存期的，过期后将重复上面过程。</li>
+</ol>
+<p>非本地网络寻址：处于不同的网段</p>
+<ol>
+<li>主机A将ARP请求帧发送给自己的缺省网关，即路由器的本地接口；</li>
+<li>数据帧到达路由器的缺省端口后先解封转，编程IP数据包，对IP进行处理，根据IP地址查找路由表，决定转发接口后做适应转发接口数据链路层协议帧的封装，并且发送到下一跳路由器，此过程继续直到到达目的网络与目的主机。</li>
+</ol>
+<p>参考：<a href="http://c.biancheng.net/view/6388.html" target="_blank" rel="noopener">ARP协议的工作机制详解</a></p>
+<h4 id="39-建立TCP连接时，服务器的各个系统调用"><a href="#39-建立TCP连接时，服务器的各个系统调用" class="headerlink" title="39. 建立TCP连接时，服务器的各个系统调用"></a>39. 建立TCP连接时，服务器的各个系统调用</h4><ul>
+<li>socket()：创建一个套接字，并将相应的资源分配给它，并返回一个整型套接字号。</li>
+<li>bind()：将创建的套接字绑定到指定的IP地址和端口上。</li>
+<li>listen()：启动监听服务。</li>
+<li>accept()：从已完成连接队列返回下一个建立成功的连接；</li>
+<li>send()：数据发送；</li>
+<li>recv()：数据接收；</li>
+</ul>
+<h4 id="40-继上一题，说明socket网络编程有哪些系统调用？其中close-是一次就能直接关闭的吗，半关闭状态是怎么产生的？"><a href="#40-继上一题，说明socket网络编程有哪些系统调用？其中close-是一次就能直接关闭的吗，半关闭状态是怎么产生的？" class="headerlink" title="40. 继上一题，说明socket网络编程有哪些系统调用？其中close()是一次就能直接关闭的吗，半关闭状态是怎么产生的？"></a>40. 继上一题，说明socket网络编程有哪些系统调用？其中close()是一次就能直接关闭的吗，半关闭状态是怎么产生的？</h4><p>系统调用补充：</p>
+<ul>
+<li>connect()：通常由客户端调用，建立连接；</li>
+<li>read()、recvfrom()：数据接收；</li>
+<li>write()、sendto()：数据发送；</li>
+<li>close()、shutdown()：关闭套接字；</li>
+</ul>
+<p>close()用来关闭套接字，使用close()时，只有当套接字的引用计数为0时才会终止连接。而用shutdown()是直接关闭连接。</p>
+<h4 id="41-对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。"><a href="#41-对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。" class="headerlink" title="41. 对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。"></a>41. 对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。</h4><p>内部网关协议，即在一个自治系统内部使用的路由选择协议，而这与在互联网中的其他自治系统选用什么路由选择协议无关。有RIP和OSPF；</p>
+<p>外部网关协议，若源主机和目的主机处在不同的自治系统中，当数据报传到一个自治系统的边界时，就需要一种协议将路由选择信息传递到另一个自治系统中。有BGP。</p>
+<ul>
+<li><p>RIP：一种基于距离向量的路由选择协议，其最大的优点就是简单。RIP协议中要求网络中每一个路由器都要维护一个从它自己到每一个目的网络的距离纪录。RIP协议规定：仅和相邻的路由器交换信息；交换的信息是当前本路由器所知道的全部信息，及自己的路由表；按照固定的时间间隔交换路由信息，当网络拓扑结构发生变化时，路由器也及时向相邻路由器通告拓扑变化后的路由信息。（距离向量算法）</p>
+<p>特点：好消息传播的快，坏消息传播的慢。</p>
+</li>
+<li><p>OSPF：使用分布式的链路状态协议。OSPF协议规定：向本自治系统中的所有路由器发送信息，使用洪泛法，即路由器通过所有输出端口向所有相邻的路由器发送信息。而每一个相邻路由器又再将此信息发往其所有的相邻路由器；发送的信息就是与本路由器相邻的所有路由器的链路状态，但这只是路由器所知道的部分信息；只有当链路状态发生变化时，路由器才向所有路由器用洪泛法发送此信息。（迪杰斯特拉算法）</p>
+</li>
+<li><p>BGP：边界网关协议BGP只是力求寻找一条能够到达目的网络且比较好的路由，而非要寻找一条最佳路由。采用路径向量路由选择协议。</p>
+</li>
+</ul>
+<h4 id="42-TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？"><a href="#42-TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？" class="headerlink" title="42. TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？"></a>42. TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？</h4><p>在TCP连接中，存在一个<strong>保活计时器</strong>。服务器每收到一次客户端的数据，就重新设置保活计时器，时间的设置通常是两个小时。若两个小时没有收到客户端的数据，服务器就发送一个探测报文段，以后则每个75分钟发送一次。若一连发送10个探测报文段后仍无客户的响应，服务器就认为客户端出现了故障，接着就关闭这个链接。</p>
 
       
     </div>
@@ -797,7 +1197,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-UDP如何实现可靠传输"><span class="nav-number">1.</span> <span class="nav-text">1. UDP如何实现可靠传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-TCP和UDP的区别"><span class="nav-number">2.</span> <span class="nav-text">2. TCP和UDP的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-TCP和UDP相关的协议与端口号"><span class="nav-number">3.</span> <span class="nav-text">3. TCP和UDP相关的协议与端口号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-TCP、UDP、IP、HTTP请求报文-响应报文等首部的认识"><span class="nav-number">4.</span> <span class="nav-text">4. TCP、UDP、IP、HTTP请求报文&#x2F;响应报文等首部的认识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-网页解析的过程与方法"><span class="nav-number">5.</span> <span class="nav-text">5. 网页解析的过程与方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-在浏览器中输入URL后执行的全部过程"><span class="nav-number">6.</span> <span class="nav-text">6. 在浏览器中输入URL后执行的全部过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-网络层分片的原因与具体实现"><span class="nav-number">7.</span> <span class="nav-text">7. 网络层分片的原因与具体实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-TCP三次握手与四次挥手的详细介绍（为什么、处于什么状态）"><span class="nav-number">8.</span> <span class="nav-text">8. TCP三次握手与四次挥手的详细介绍（为什么、处于什么状态）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-TIME-WAIT的状态，为什么要等2MSL"><span class="nav-number">9.</span> <span class="nav-text">9. TIME_WAIT的状态，为什么要等2MSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-超时重传机制"><span class="nav-number">10.</span> <span class="nav-text">10. 超时重传机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-TCP如何保证可靠性"><span class="nav-number">11.</span> <span class="nav-text">11. TCP如何保证可靠性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-流量控制的作用，采用滑动窗口会有什么问题"><span class="nav-number">12.</span> <span class="nav-text">12. 流量控制的作用，采用滑动窗口会有什么问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-TCP滑动窗口协议"><span class="nav-number">13.</span> <span class="nav-text">13. TCP滑动窗口协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-拥塞控制和流量控制的区别"><span class="nav-number">14.</span> <span class="nav-text">14. 拥塞控制和流量控制的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-TCP拥塞控制、算法名字"><span class="nav-number">15.</span> <span class="nav-text">15. TCP拥塞控制、算法名字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-HTTP协议与TCP的区别和联系"><span class="nav-number">16.</span> <span class="nav-text">16. HTTP协议与TCP的区别和联系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-HTTP1-0-HTTP-1-1"><span class="nav-number">17.</span> <span class="nav-text">17. HTTP1.0 &#x2F; HTTP 1.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-HTTP-的请求方法有哪些，get和post的区别"><span class="nav-number">18.</span> <span class="nav-text">18. HTTP 的请求方法有哪些，get和post的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-HTTP状态码"><span class="nav-number">19.</span> <span class="nav-text">19. HTTP状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-HTTP-HTTPS区别，由HTTP升级为HTTPS需要做哪些操作"><span class="nav-number">20.</span> <span class="nav-text">20. HTTP&#x2F;HTTPS区别，由HTTP升级为HTTPS需要做哪些操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-HTTPS的具体实现，怎么确保安全性"><span class="nav-number">21.</span> <span class="nav-text">21. HTTPS的具体实现，怎么确保安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-TCP三次握手时的第一次的seq序号是怎么产生的"><span class="nav-number">22.</span> <span class="nav-text">22. TCP三次握手时的第一次的seq序号是怎么产生的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？"><span class="nav-number">23.</span> <span class="nav-text">23. 一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-对称密码和非对称密码体系"><span class="nav-number">24.</span> <span class="nav-text">24. 对称密码和非对称密码体系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-数字证书的了解"><span class="nav-number">25.</span> <span class="nav-text">25. 数字证书的了解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-服务器出现大量close-wait的连接的原因以及解决办法"><span class="nav-number">26.</span> <span class="nav-text">26. 服务器出现大量close_wait的连接的原因以及解决办法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#27-消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？"><span class="nav-number">27.</span> <span class="nav-text">27. 消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#28-单条记录并发访问的优化"><span class="nav-number">28.</span> <span class="nav-text">28. 单条记录并发访问的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#29-介绍一下ping的过程，分别用到了哪些协议"><span class="nav-number">29.</span> <span class="nav-text">29. 介绍一下ping的过程，分别用到了哪些协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#30-TCP-IP的粘包与避免介绍一下"><span class="nav-number">30.</span> <span class="nav-text">30. TCP&#x2F;IP的粘包与避免介绍一下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#31-说一下TCP的封包与拆包"><span class="nav-number">31.</span> <span class="nav-text">31. 说一下TCP的封包与拆包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32-一个ip配置多个域名，靠什么识别"><span class="nav-number">32.</span> <span class="nav-text">32. 一个ip配置多个域名，靠什么识别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#33-服务器攻击"><span class="nav-number">33.</span> <span class="nav-text">33. 服务器攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#34-DNS的工作过程与原理"><span class="nav-number">34.</span> <span class="nav-text">34. DNS的工作过程与原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#35-OSA七层协议与五层协议"><span class="nav-number">35.</span> <span class="nav-text">35. OSA七层协议与五层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#36-IP寻址与MAC寻址有什么不同，怎么实现的"><span class="nav-number">36.</span> <span class="nav-text">36. IP寻址与MAC寻址有什么不同，怎么实现的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#37-建立TCP连接时，服务器的各个系统调用"><span class="nav-number">37.</span> <span class="nav-text">37. 建立TCP连接时，服务器的各个系统调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#38-继上一题，说明socket网络编程有哪些系统调用？其中close-是一次就能直接关闭的吗，半关闭状态是怎么产生的？"><span class="nav-number">38.</span> <span class="nav-text">38. 继上一题，说明socket网络编程有哪些系统调用？其中close()是一次就能直接关闭的吗，半关闭状态是怎么产生的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#39-对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。"><span class="nav-number">39.</span> <span class="nav-text">39. 对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#40-TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？"><span class="nav-number">40.</span> <span class="nav-text">40. TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-UDP如何实现可靠传输"><span class="nav-text">1. UDP如何实现可靠传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-TCP和UDP的区别"><span class="nav-text">2. TCP和UDP的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-TCP和UDP相关的协议与端口号"><span class="nav-text">3. TCP和UDP相关的协议与端口号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-TCP、UDP、IP、HTTP请求报文-响应报文等首部的认识"><span class="nav-text">4. TCP、UDP、IP、HTTP请求报文&#x2F;响应报文等首部的认识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-网页解析的过程与方法"><span class="nav-text">5. 网页解析的过程与方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-在浏览器中输入URL后执行的全部过程"><span class="nav-text">6. 在浏览器中输入URL后执行的全部过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-网络层分片的原因与具体实现"><span class="nav-text">7. 网络层分片的原因与具体实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-TCP三次握手与四次挥手的详细介绍（为什么、处于什么状态）"><span class="nav-text">8. TCP三次握手与四次挥手的详细介绍（为什么、处于什么状态）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-TIME-WAIT的状态，为什么要等2MSL"><span class="nav-text">9. TIME_WAIT的状态，为什么要等2MSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-超时重传机制"><span class="nav-text">10. 超时重传机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-TCP如何保证可靠性"><span class="nav-text">11. TCP如何保证可靠性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-流量控制的作用，采用滑动窗口会有什么问题"><span class="nav-text">12. 流量控制的作用，采用滑动窗口会有什么问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-拥塞控制和流量控制的区别"><span class="nav-text">13. 拥塞控制和流量控制的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-TCP拥塞控制、算法名字"><span class="nav-text">14. TCP拥塞控制、算法名字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-HTTP协议与TCP的联系和区别"><span class="nav-text">15. HTTP协议与TCP的联系和区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-HTTP-1-0-HTTP-1-1"><span class="nav-text">16. HTTP 1.0 &#x2F; HTTP 1.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-HTTP-1-HTTP-2-0"><span class="nav-text">17. HTTP 1.* &#x2F; HTTP 2.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-HTTP-的请求方法有哪些"><span class="nav-text">18. HTTP 的请求方法有哪些</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-get和post的区别"><span class="nav-text">19. get和post的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-HTTP状态码"><span class="nav-text">20. HTTP状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-HTTP-HTTPS区别"><span class="nav-text">21. HTTP&#x2F;HTTPS区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-由HTTP升级为HTTPS需要做哪些操作"><span class="nav-text">22. 由HTTP升级为HTTPS需要做哪些操作  (?)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-HTTPS的具体实现，怎么确保安全性"><span class="nav-text">23. HTTPS的具体实现，怎么确保安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-TCP三次握手时的第一次的seq序号是怎么产生的"><span class="nav-text">24. TCP三次握手时的第一次的seq序号是怎么产生的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？"><span class="nav-text">25. 一个机器能够使用的端口号上限是多少，为什么？可以改变吗？那如果想要用的端口超过这个限制怎么办？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-对称密码和非对称密码"><span class="nav-text">26. 对称密码和非对称密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#27-数字证书的了解"><span class="nav-text">27. 数字证书的了解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#28-服务器出现大量close-wait的连接的原因以及解决办法"><span class="nav-text">28. 服务器出现大量close_wait的连接的原因以及解决办法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#29-消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？"><span class="nav-text">29. 消息摘要算法列举一下，介绍MD5算法，为什么MD5是不可逆的，有什么方法可以加强消息摘要算法的安全性让它不那么容易被破解呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#30-单条记录并发访问的优化"><span class="nav-text">30. 单条记录并发访问的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#31-介绍一下ping的过程，分别用到了哪些协议"><span class="nav-text">31. 介绍一下ping的过程，分别用到了哪些协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32-TCP-IP的粘包与避免介绍一下"><span class="nav-text">32. TCP&#x2F;IP的粘包与避免介绍一下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#33-说一下TCP的封包与拆包"><span class="nav-text">33. 说一下TCP的封包与拆包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#34-一个ip配置多个域名，靠什么识别"><span class="nav-text">34. 一个ip配置多个域名，靠什么识别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#35-服务器攻击"><span class="nav-text">35. 服务器攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#36-DNS的工作过程与原理"><span class="nav-text">36. DNS的工作过程与原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#37-OSA七层协议与五层协议"><span class="nav-text">37. OSA七层协议与五层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#38-IP寻址与MAC寻址有什么不同，怎么实现的"><span class="nav-text">38. IP寻址与MAC寻址有什么不同，怎么实现的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#39-建立TCP连接时，服务器的各个系统调用"><span class="nav-text">39. 建立TCP连接时，服务器的各个系统调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#40-继上一题，说明socket网络编程有哪些系统调用？其中close-是一次就能直接关闭的吗，半关闭状态是怎么产生的？"><span class="nav-text">40. 继上一题，说明socket网络编程有哪些系统调用？其中close()是一次就能直接关闭的吗，半关闭状态是怎么产生的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#41-对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。"><span class="nav-text">41. 对路由协议的了解与介绍。内部网关协议IGP包括RIP，OSPF，和外部网关协议EGP和BGP。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#42-TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？"><span class="nav-text">42. TCP连接中，客户端主机突然故障，会发生什么，服务端的行为是怎样的？</span></a></li></ol></div>
             
 
           </div>
