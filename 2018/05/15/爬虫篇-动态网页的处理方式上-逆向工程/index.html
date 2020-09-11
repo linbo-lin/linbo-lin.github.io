@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="动态网页简介：在我们编写爬虫时，可能会碰到以下两种问题：  我们所需要爬取的数据在网页源代码中并不存在； 点击下一页跳转页面时，网页的URL 并没与发生变化；  造成这种问题原因是，你所正在爬取的页面采取了动态加载的方式，是一个动态网页。所谓的动态网页，是指跟静态网页相对的一种网页编程技术。静态网页，随着html代码生成，页面的内容和显示效果就不会发生变化了。而动态网页则不然，其显示的页面则是经过">
+<meta name="description" content="一、动态网页简介：在我们编写爬虫时，可能会碰到以下两种问题：  我们所需要爬取的数据在网页源代码中并不存在； 点击下一页跳转页面时，网页的URL 并没与发生变化；  造成这种问题原因是，你所正在爬取的页面采取了动态加载的方式，是一个动态网页。所谓的动态网页，是指跟静态网页相对的一种网页编程技术。静态网页，随着html代码生成，页面的内容和显示效果就不会发生变化了。而动态网页则不然，其显示的页面则是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="爬虫篇-动态网页的处理方式上:逆向工程">
 <meta property="og:url" content="http://yoursite.com/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Begin Now">
-<meta property="og:description" content="动态网页简介：在我们编写爬虫时，可能会碰到以下两种问题：  我们所需要爬取的数据在网页源代码中并不存在； 点击下一页跳转页面时，网页的URL 并没与发生变化；  造成这种问题原因是，你所正在爬取的页面采取了动态加载的方式，是一个动态网页。所谓的动态网页，是指跟静态网页相对的一种网页编程技术。静态网页，随着html代码生成，页面的内容和显示效果就不会发生变化了。而动态网页则不然，其显示的页面则是经过">
+<meta property="og:description" content="一、动态网页简介：在我们编写爬虫时，可能会碰到以下两种问题：  我们所需要爬取的数据在网页源代码中并不存在； 点击下一页跳转页面时，网页的URL 并没与发生变化；  造成这种问题原因是，你所正在爬取的页面采取了动态加载的方式，是一个动态网页。所谓的动态网页，是指跟静态网页相对的一种网页编程技术。静态网页，随着html代码生成，页面的内容和显示效果就不会发生变化了。而动态网页则不然，其显示的页面则是">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194144329.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194303975.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/2019012119433920.png">
@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194719925.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194737517.png">
 <meta property="article:published_time" content="2018-05-15T08:06:01.000Z">
-<meta property="article:modified_time" content="2020-07-26T12:57:25.188Z">
+<meta property="article:modified_time" content="2020-09-11T12:39:26.617Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="爬虫">
 <meta property="article:tag" content="Python">
@@ -422,7 +422,7 @@
       
 
       
-        <h4 id="动态网页简介："><a href="#动态网页简介：" class="headerlink" title="动态网页简介："></a>动态网页简介：</h4><p>在我们编写爬虫时，可能会碰到以下两种问题：</p>
+        <h4 id="一、动态网页简介："><a href="#一、动态网页简介：" class="headerlink" title="一、动态网页简介："></a>一、动态网页简介：</h4><p>在我们编写爬虫时，可能会碰到以下两种问题：</p>
 <ul>
 <li>我们所需要爬取的数据在网页源代码中并不存在；</li>
 <li>点击下一页跳转页面时，网页的URL 并没与发生变化；</li>
@@ -435,7 +435,7 @@
 </ol>
 <p>目前，越来越多的网站采取的是这种动态加载网页的方式，一来是可以实现web开发的前后端分离，减少服务器直接渲染页面的压力；二来是可以作为反爬虫的一种手段。</p>
 <hr>
-<h4 id="爬虫处理动态页面的三种方式："><a href="#爬虫处理动态页面的三种方式：" class="headerlink" title="爬虫处理动态页面的三种方式："></a>爬虫处理动态页面的三种方式：</h4><ul>
+<h4 id="二、爬虫处理动态页面的三种方式："><a href="#二、爬虫处理动态页面的三种方式：" class="headerlink" title="二、爬虫处理动态页面的三种方式："></a>二、爬虫处理动态页面的三种方式：</h4><ul>
 <li>逆向工程</li>
 <li>渲染动态网页：使用<code>pyside</code>或<code>ghost.py</code><ul>
 <li>selenium模拟浏览器</li>
@@ -443,14 +443,14 @@
 </li>
 </ul>
 <hr>
-<h4 id="逆向工程："><a href="#逆向工程：" class="headerlink" title="逆向工程："></a>逆向工程：</h4><p>对于动态加载的网页，我们想要获取其网页数据，需要了解网页是如何加载数据的，该过程就被成为<strong>逆向工程</strong>。对于使用了Ajax 请求技术的网页，我们可以找到Ajax请求的具体链接，直接得到Ajax请求得到的数据。需要注意的是，构造Ajax请求有两种方式：</p>
+<h4 id="三、逆向工程："><a href="#三、逆向工程：" class="headerlink" title="三、逆向工程："></a>三、逆向工程：</h4><p>对于动态加载的网页，我们想要获取其网页数据，需要了解网页是如何加载数据的，该过程就被成为<strong>逆向工程</strong>。对于使用了Ajax 请求技术的网页，我们可以找到Ajax请求的具体链接，直接得到Ajax请求得到的数据。需要注意的是，构造Ajax请求有两种方式：</p>
 <ul>
 <li>原生的Ajax请求，会直接创建一个<code>XMLHTTPReques</code>t对象。</li>
 <li>调用jQuery的ajax()方法。一般情况下，<code>$.ajax()</code>会返回其创建的<code>XMLHTTPRequest</code>对象；但是，如果<code>$.ajax()</code>的<code>dataType</code>参数指定了为<code>script</code>或<code>jsonp</code>类型，<code>$.ajax()</code>不再返回其创建的<code>XMLHTTPRequest</code>对象。</li>
 </ul>
 <p>对于这两种方式，只要创建返回了<code>XMLHTTPRequest</code>对象，就可以通过Chrome浏览器的调试工具在<code>NetWork</code>窗口通过设置<code>XHR</code>过滤条件，直接筛选出Ajax请求的链接；如果是<code>$.ajax()</code>并且<code>dataType</code>指定了为<code>script</code>或<code>jsonp</code>，则无法通过这种方式筛选出来。</p>
 <hr>
-<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>接下来以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘</a> 这个网站的爬取为例，介绍如何得到无法筛选出来的Ajax请求链接：</p>
+<h4 id="四、爬虫示例："><a href="#四、爬虫示例：" class="headerlink" title="四、爬虫示例："></a>四、爬虫示例：</h4><p>接下来以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘</a> 这个网站的爬取为例，介绍如何得到无法筛选出来的Ajax请求链接：</p>
 <p>在Chrome中打开网页，右键<code>检查</code>，会发现首页中书摘列表包含在一个id为<code>subShowContent1_static</code>的div中，而<code>查看网页源代码</code>会发现id为<code>subShowContent1_static</code>的div为空。点击<code>更多书摘</code>或<code>下一页</code>时，网页URL并没有发生变化。与我们最前面所说的两种情况相同。</p>
 <p><code>F12</code>打开调试工具，打开<code>NetWork</code>窗口<em>（功能是记录浏览器的活动记录<code>network activities</code>）</em>，<code>F5</code>刷新，可以看到浏览器发送以及接收到的数据记录，其实我们所找的Ajax请求链接就是其中一条。</p>
 <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194144329.png" alt="活动记录" style="zoom:80%;" />
@@ -498,7 +498,7 @@
 
 <p>对比发现：只有<code>jsonp**********</code>与<code>page=*</code>这两部分不同， <code>jsonp</code>后面跟的数字为当前时间的时间戳，是<code>jQuery.ajax()</code>方法自动计算添加的，<code>page</code>后面就是页数，这时候我们只要改变page后面的数字就可以构造翻页的链接了。</p>
 <hr>
-<h4 id="方法小结："><a href="#方法小结：" class="headerlink" title="方法小结："></a>方法小结：</h4><ul>
+<h4 id="五、方法小结："><a href="#五、方法小结：" class="headerlink" title="五、方法小结："></a>五、方法小结：</h4><ul>
 <li>首先通过设置<code>XHR</code>过滤条件，观察是否可以直接得到Ajax 请求；如果不可以，继续下一步。</li>
 <li>查找能够发送Ajax请求的元素绑定的事件或回调函数：首先在网页源代码中查找，没有的话，逐个查找嵌入的JS文件。</li>
 <li>找到之后，看函数内部是否直接构造Ajax请求，没有直接构造的话，根据函数调用关系一步一步查找，直到找到构造过程为止。</li>
@@ -511,7 +511,7 @@
 <p>代码见：<a href="https://github.com/linbo-lin/dynamic-web-process" target="_blank" rel="noopener">dynamic-web-process —— GitHub</a></p>
 </blockquote>
 <hr>
-<h4 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h4><p>本文以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘 </a>这个示例，介绍了如何得到Ajax请求链接，这是爬取动态网页时可以采取的一种方式，这种方式可能会在寻找Ajax请求的过程中浪费一点时间，并且要求对JavaScript有一定的了解，但找到链接后，爬取的过程可以很迅速。</p>
+<h4 id="六、最后："><a href="#六、最后：" class="headerlink" title="六、最后："></a>六、最后：</h4><p>本文以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘 </a>这个示例，介绍了如何得到Ajax请求链接，这是爬取动态网页时可以采取的一种方式，这种方式可能会在寻找Ajax请求的过程中浪费一点时间，并且要求对JavaScript有一定的了解，但找到链接后，爬取的过程可以很迅速。</p>
 <p>如果对爬虫执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，可以参看下一篇文章<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/#more" target="_blank" rel="noopener">爬虫篇-动态网页的处理方式中: 渲染动态网页</a>，这篇文章提供了爬取动态网页的另一种思路。</p>
 <blockquote>
 <p>文中有什么错误或不足之处，欢迎指出~~</p>
@@ -720,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态网页简介："><span class="nav-text">动态网页简介：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫处理动态页面的三种方式："><span class="nav-text">爬虫处理动态页面的三种方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逆向工程："><span class="nav-text">逆向工程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫示例："><span class="nav-text">爬虫示例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法小结："><span class="nav-text">方法小结：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后："><span class="nav-text">最后：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、动态网页简介："><span class="nav-text">一、动态网页简介：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、爬虫处理动态页面的三种方式："><span class="nav-text">二、爬虫处理动态页面的三种方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、逆向工程："><span class="nav-text">三、逆向工程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、爬虫示例："><span class="nav-text">四、爬虫示例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、方法小结："><span class="nav-text">五、方法小结：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、最后："><span class="nav-text">六、最后：</span></a></li></ol></div>
             
 
           </div>

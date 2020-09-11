@@ -1115,13 +1115,13 @@
   <entry>
     <title>leetcode刷题打卡提醒程序实现与部署</title>
     <url>/2020/03/30/leetcode%E5%88%B7%E9%A2%98%E6%89%93%E5%8D%A1%E6%8F%90%E9%86%92%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0%E4%B8%8E%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h3 id="前因后果"><a href="#前因后果" class="headerlink" title="前因后果"></a>前因后果</h3><p>今天是3月30号，还差一天 <a href="https://leetcode-cn.com/circle/article/9EZfRE/" target="_blank" rel="noopener">leetcode-cn每日一题</a> 活动就满一个月了，下面这张图是博主这一个月的打卡记录：</p>
+    <content><![CDATA[<h3 id="一、前因后果"><a href="#一、前因后果" class="headerlink" title="一、前因后果"></a>一、前因后果</h3><p>今天是3月30号，还差一天 <a href="https://leetcode-cn.com/circle/article/9EZfRE/" target="_blank" rel="noopener">leetcode-cn每日一题</a> 活动就满一个月了，下面这张图是博主这一个月的打卡记录：</p>
 <p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/%E6%89%93%E5%8D%A1.png" alt=""></p>
 <p>不要问我为什么有一个红叉叉，因为我也记不得当天为什么没有完成打卡了。但是就因为这一个红叉叉，我与下面的打卡奖励就无缘了。</p>
 <p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200330215802.png" alt=""></p>
 <p>为了更好的完成打卡任务，以及养成刷题的习惯，今天就写了一个leetcode-cn打卡提醒的程序，并且部署在了服务器上，这里记录一下实现的步骤。</p>
 <hr>
-<h3 id="打卡程序"><a href="#打卡程序" class="headerlink" title="打卡程序"></a>打卡程序</h3><p>打卡提醒程序的本质是一个定时的爬虫任务，工作原理是：从每天的上午九点开始，去查询一下我的个人提交记录，如果发现了在当天有提交通过的记录，就认为打卡成功了；否则就认为还未打卡，就会给我的邮箱发送一封提醒的邮件，并且会每隔一个小时再去查询一次，直到发现打卡成功或者时间到了23点。</p>
+<h3 id="二、打卡程序"><a href="#二、打卡程序" class="headerlink" title="二、打卡程序"></a>二、打卡程序</h3><p>打卡提醒程序的本质是一个定时的爬虫任务，工作原理是：从每天的上午九点开始，去查询一下我的个人提交记录，如果发现了在当天有提交通过的记录，就认为打卡成功了；否则就认为还未打卡，就会给我的邮箱发送一封提醒的邮件，并且会每隔一个小时再去查询一次，直到发现打卡成功或者时间到了23点。</p>
 <p>程序主要分为三个部分：</p>
 <ul>
 <li>爬虫，查询个人提交记录（登录状态）</li>
@@ -1152,7 +1152,7 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">job</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        flag = submission_check()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> flag:</span><br><span class="line">            mail_notice(<span class="string">"今天不要忘了打卡哦！"</span>)  <span class="comment"># 未打卡则发送邮件提醒</span></span><br><span class="line">            cur_hour = time.localtime().tm_hour</span><br><span class="line">            <span class="keyword">if</span> cur_hour == <span class="number">23</span>:   <span class="comment"># 时间超过23:00 今日不再提醒</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            time.sleep(<span class="number">60</span>*<span class="number">60</span>)  <span class="comment"># 一小时后再检查</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    schedule.every().day.at(<span class="string">"09:00"</span>).do(job)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        schedule.run_pending()</span><br><span class="line">        time.sleep(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="程序部署"><a href="#程序部署" class="headerlink" title="程序部署"></a>程序部署</h3><p>本来想将程序直接挂在自己电脑上一直运行的，但一直以来都想折腾一下服务器，然后就看了下阿里云，发现服务器正在做活动，价格还可以接受，就买了一个准备折腾一下。没有服务器的话，还是运行在自己电脑上吧。对于一台全新的服务器，部署过程如下：</p>
+<h3 id="三、程序部署"><a href="#三、程序部署" class="headerlink" title="三、程序部署"></a>三、程序部署</h3><p>本来想将程序直接挂在自己电脑上一直运行的，但一直以来都想折腾一下服务器，然后就看了下阿里云，发现服务器正在做活动，价格还可以接受，就买了一个准备折腾一下。没有服务器的话，还是运行在自己电脑上吧。对于一台全新的服务器，部署过程如下：</p>
 <ol>
 <li><p>使用root用户登录（阿里云买了之后只有root用户，需要在控制台管理界面设置下root用户的密码才能登录）后，创建一个新用户，并赋予相应的权限。（也可以使用root用户配置，但不推荐）。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -m newuser  <span class="comment"># 创建用户,-m表示自动创建用户的登入目录</span></span><br><span class="line">sudo passwd newuser  <span class="comment"># 为新建的用户创建密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新建的用户加入sudo组sudo </span></span><br><span class="line">chmod +w /etc/sudoers  <span class="comment"># /etc/sudoers文件只有读权限，先赋予写权限</span></span><br><span class="line">sudo vim /etc/sudoers  </span><br><span class="line"><span class="comment"># 编辑此文件，在 root　ALL=(ALL:ALL) ALL行下面添加 newuser ALL=(ALL:ALL) ALL</span></span><br><span class="line">sudo chmod -w /etc/sudoers  <span class="comment"># 将/etc/sudoers文件的权限改为只读权限</span></span><br><span class="line"></span><br><span class="line">su newuser  <span class="comment"># 切换到新用户</span></span><br></pre></td></tr></table></figure>
@@ -1188,7 +1188,7 @@
 </li>
 </ol>
 <hr>
-<h3 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h3><p>此打卡提醒程序只是为了满足日常的一个小需求，程序代码以及部署方式都很简单，很多方面都没有考虑，以后有需要和时间再来慢慢完善吧。大家有什么建议也可以在下方留言。</p>
+<h3 id="四、最后："><a href="#四、最后：" class="headerlink" title="四、最后："></a>四、最后：</h3><p>此打卡提醒程序只是为了满足日常的一个小需求，程序代码以及部署方式都很简单，很多方面都没有考虑，以后有需要和时间再来慢慢完善吧。大家有什么建议也可以在下方留言。</p>
 <blockquote>
 <p>文中有什么错误或不足之处，欢迎指出~</p>
 </blockquote>
@@ -2405,10 +2405,10 @@
     <url>/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8B-%E6%A8%A1%E6%8B%9F%E6%B5%8F%E8%A7%88%E5%99%A8%E8%A1%8C%E4%B8%BA/</url>
     <content><![CDATA[<p>在上篇文章<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/#more" target="_blank" rel="noopener">爬虫篇-动态网页的处理方式中:渲染动态网页</a>中，我们使用<code>WebKit</code>库，可以自定义浏览器渲染引擎，这样就可以完全控制想要执行的行为。如果不需要那么高的灵活性，那么还有一个不错的替代品 <a href="https://docs.seleniumhq.org/" target="_blank" rel="noopener">Selenium</a> 可以选择，它提供了使浏览器自动化的API 接口。</p>
 <hr>
-<h4 id="Selenium-简介："><a href="#Selenium-简介：" class="headerlink" title="Selenium 简介："></a>Selenium 简介：</h4><p>Selenium 是一个用于Web应用程序测试的工具。Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。支持市面上几乎所有的主流浏览器。</p>
+<h4 id="一、Selenium-简介："><a href="#一、Selenium-简介：" class="headerlink" title="一、Selenium 简介："></a>一、Selenium 简介：</h4><p>Selenium 是一个用于Web应用程序测试的工具。Selenium测试直接运行在浏览器中，就像真正的用户在操作一样。支持市面上几乎所有的主流浏览器。</p>
 <p>本来打算使用的是selenium + PhantomJS的组合，但发现Chrome以及FireFox也相继推出无头 ( <em>headless</em> ) 浏览器模式，个人比较倾向Chrome。本文采用的是Selenium+Chrome的组合。</p>
 <hr>
-<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>运用到爬虫中的思路是：</p>
+<h4 id="二、爬虫示例："><a href="#二、爬虫示例：" class="headerlink" title="二、爬虫示例："></a>二、爬虫示例：</h4><p>运用到爬虫中的思路是：</p>
 <ul>
 <li>使用Selenium 渲染网页，解析渲染后的网页源码，或者直接通过Selenium 接口获取页面中的元素。</li>
 </ul>
@@ -2428,7 +2428,7 @@
 <p>有关这三种方式的讲解可以看这里：<a href="https://huilansame.github.io/huilansame.github.io/archivers/sleep-implicitlywait-wait" target="_blank" rel="noopener">Python selenium —— 一定要会用selenium的等待，三种等待方式解读 —— 灰蓝的博客</a></p>
 </blockquote>
 <hr>
-<h4 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h4><p>到此，我们介绍了动态页面处理的三种思路：</p>
+<h4 id="三、小结："><a href="#三、小结：" class="headerlink" title="三、小结："></a>三、小结：</h4><p>到此，我们介绍了动态页面处理的三种思路：</p>
 <ul>
 <li><a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" target="_blank" rel="noopener">逆向工程</a></li>
 <li>渲染动态页面：<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/" target="_blank" rel="noopener">使用<code>PySide</code>或<code>ghost.py</code></a></li>
@@ -2465,7 +2465,7 @@
 <p>这种方式有一点美中不足：这种方式要求我们对JavaScript以及Ajax有一定的了解，而且当网页的JS代码混乱，难以分析的时候，上述过程会花费我们大量的时间和精力。</p>
 <p>这时候，如果对爬虫的执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，我们可以尝试另一种方式——<strong>渲染动态网页</strong> 。</p>
 <hr>
-<h4 id="浏览器渲染引擎："><a href="#浏览器渲染引擎：" class="headerlink" title="浏览器渲染引擎："></a>浏览器渲染引擎：</h4><p>在介绍这种方式之前，我们需要首先了解一些浏览器渲染引擎的基本知识。渲染引擎的职责就是渲染，即在浏览器窗口中显示所请求的内容。浏览器向服务器发送请求，得到服务器返回的资源文件后，经过需要渲染引擎的处理，将资源文件显示在浏览器窗口中。目前使用较为广泛的渲染引擎有两种：</p>
+<h4 id="一、浏览器渲染引擎："><a href="#一、浏览器渲染引擎：" class="headerlink" title="一、浏览器渲染引擎："></a>一、浏览器渲染引擎：</h4><p>在介绍这种方式之前，我们需要首先了解一些浏览器渲染引擎的基本知识。渲染引擎的职责就是渲染，即在浏览器窗口中显示所请求的内容。浏览器向服务器发送请求，得到服务器返回的资源文件后，经过需要渲染引擎的处理，将资源文件显示在浏览器窗口中。目前使用较为广泛的渲染引擎有两种：</p>
 <ul>
 <li>webkit——使用者有Chrome, Safari</li>
 <li>Geoko——使用者有Firefox</li>
@@ -2507,7 +2507,7 @@
 <li>在浏览器渲染引擎执行<code>layout</code>以及<code>printing</code>之前，得到<code>dom</code>树或者<code>render</code>树，从树中获取动态加载的数据。</li>
 </ul>
 <hr>
-<h4 id="渲染动态网页："><a href="#渲染动态网页：" class="headerlink" title="渲染动态网页："></a>渲染动态网页：</h4><p>有两种选择：</p>
+<h4 id="二、渲染动态网页："><a href="#二、渲染动态网页：" class="headerlink" title="二、渲染动态网页："></a>二、渲染动态网页：</h4><p>有两种选择：</p>
 <ul>
 <li><p>自己从头实现一个浏览器渲染引擎，在合适的时机返回构建的<code>dom</code>树或<code>render</code>树。这需要进行大量的工作，需要考虑html、js、css等不同格式文件的解析方式以及解析顺序等。</p>
 <p>本人参考以下资料进行了尝试，但最终没有成功，有兴趣的可以尝试下。</p>
@@ -2523,7 +2523,7 @@
 </ul>
 <p>接下来将使用WebKit 渲染引擎，通过 <a href="http://pyside.github.io/docs/pyside/" target="_blank" rel="noopener">PySide</a> 这个python库可以获得该引擎的一个便捷接口。</p>
 <hr>
-<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>还是以 <a href="http://book.sina.com.cn/excerpt/rwws/" target="_blank" rel="noopener">新浪读书——书摘</a> 为例，可以发现：页面中文章列表的部分是动态加载的。</p>
+<h4 id="三、爬虫示例："><a href="#三、爬虫示例：" class="headerlink" title="三、爬虫示例："></a>三、爬虫示例：</h4><p>还是以 <a href="http://book.sina.com.cn/excerpt/rwws/" target="_blank" rel="noopener">新浪读书——书摘</a> 为例，可以发现：页面中文章列表的部分是动态加载的。</p>
 <p><strong>爬虫代码：</strong></p>
 <p>使用<code>PySide</code>库进行处理的示例代码如下：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PySide.QtGui <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> PySide.QtCore <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> PySide.QtWebKit <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    url = <span class="string">"http://book.sina.com.cn/excerpt/rwws/"</span></span><br><span class="line"></span><br><span class="line">    app = QApplication([])  <span class="comment"># 完成其他Qt对象之前，必须先创建该对象</span></span><br><span class="line">    webview = QWebView()  <span class="comment"># 该对象是Web 对象的容器</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用show方法显示窗口</span></span><br><span class="line">    <span class="comment"># webview.show()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置循环事件， 并等待网页加载完成</span></span><br><span class="line">    loop = QEventLoop()</span><br><span class="line">    webview.loadFinished.connect(loop.quit)</span><br><span class="line">    webview.load(QUrl(url))</span><br><span class="line">    loop.exec_()</span><br><span class="line"></span><br><span class="line">    frame = webview.page().mainFrame()  <span class="comment"># QWebFrame类有很多与网页交互的有用方法</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 得到页面渲染后的html代码</span></span><br><span class="line">    html = frame.toHtml()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> html</span><br></pre></td></tr></table></figure>
@@ -2549,7 +2549,7 @@
 <p>更多有关PySide的内容请看这里：<a href="http://pyside.github.io/docs/pyside/" target="_blank" rel="noopener">PySide官方文档</a></p>
 </blockquote>
 <hr>
-<h4 id="ghost-py"><a href="#ghost-py" class="headerlink" title="ghost.py"></a>ghost.py</h4><p>但是<code>PySide</code>毕竟是一个为了Python的GUI 编程而开发的， 其功能对于爬虫来说实在是太过于庞大，所以我们可以把爬虫经常使用的功能进行封装，来提升编写爬虫的效率。<a href="http://ghost-py.readthedocs.io/en/latest/#" target="_blank" rel="noopener">ghost.py</a>  是目前一个针对爬虫且功能比较完善的<code>PySide</code>的封装模块，使用它可以很方便的进行数据采集。</p>
+<h4 id="四、ghost-py"><a href="#四、ghost-py" class="headerlink" title="四、ghost.py"></a>四、ghost.py</h4><p>但是<code>PySide</code>毕竟是一个为了Python的GUI 编程而开发的， 其功能对于爬虫来说实在是太过于庞大，所以我们可以把爬虫经常使用的功能进行封装，来提升编写爬虫的效率。<a href="http://ghost-py.readthedocs.io/en/latest/#" target="_blank" rel="noopener">ghost.py</a>  是目前一个针对爬虫且功能比较完善的<code>PySide</code>的封装模块，使用它可以很方便的进行数据采集。</p>
 <p>还是以获取列表页中每篇文章详情页地址为目标，直接看示例代码：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ghost <span class="keyword">import</span> Ghost, Session</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaBookSpider</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化相关参数</span></span><br><span class="line">    gh = Ghost()</span><br><span class="line">    ss = Session(gh, display=<span class="literal">True</span>)  <span class="comment"># 设置display为true, 方便调试</span></span><br><span class="line"></span><br><span class="line">    total = <span class="number">1526</span>  <span class="comment"># 预先计算的总数据量</span></span><br><span class="line">    count = <span class="number">0</span>  <span class="comment"># 已爬取的数据量</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 记录解析以及翻页位置</span></span><br><span class="line">    location = <span class="number">0</span></span><br><span class="line">    click_times = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        开始爬虫</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 打开网页</span></span><br><span class="line">        self.ss.open(<span class="string">"http://book.sina.com.cn/excerpt/rwws/"</span>)</span><br><span class="line">        <span class="comment"># 等待数据加载完成</span></span><br><span class="line">        self.ss.wait_for_selector(<span class="string">'#subShowContent1_static &gt; div:nth-child(20)'</span>)</span><br><span class="line"></span><br><span class="line">        self.parselist()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.count &lt; self.total:</span><br><span class="line">            <span class="keyword">if</span> self.click_times <span class="keyword">is</span> <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># 点击加载更多</span></span><br><span class="line">                self.ss.click(<span class="string">'#subShowContent1_loadMore'</span>)</span><br><span class="line">                <span class="comment"># 每次翻页，或加载更多，要等待至加载完成</span></span><br><span class="line">                self.ss.wait_for_selector(<span class="string">'#subShowContent1_static &gt; div:nth-child(21)'</span>)</span><br><span class="line"></span><br><span class="line">                self.click_times += <span class="number">1</span></span><br><span class="line">                self.parselist()</span><br><span class="line">            <span class="keyword">elif</span> self.click_times <span class="keyword">is</span> <span class="number">1</span>:</span><br><span class="line">                self.ss.click(<span class="string">'#subShowContent1_loadMore'</span>)</span><br><span class="line">                self.ss.wait_for_selector(<span class="string">'#subShowContent1_static &gt; div:nth-child(41)'</span>)</span><br><span class="line"></span><br><span class="line">                self.click_times += <span class="number">1</span></span><br><span class="line">                self.parselist()</span><br><span class="line">            <span class="keyword">elif</span> self.click_times <span class="keyword">is</span> <span class="number">2</span>:</span><br><span class="line">                self.ss.click(<span class="string">'#subShowContent1_page .pagebox_next a'</span>)</span><br><span class="line">                self.ss.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">                self.click_times = <span class="number">0</span></span><br><span class="line">                self.location = <span class="number">0</span></span><br><span class="line">                self.parselist()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parselist</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        解析列表页</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        html = self.ss.content.encode(<span class="string">'utf8'</span>)</span><br><span class="line">        <span class="comment"># print html</span></span><br><span class="line"></span><br><span class="line">        pattern = re.compile(<span class="string">r'&lt;div class="item"&gt;&lt;h4&gt;&lt;a href="(.*?)" target="_blank"&gt;'</span>, re.M)</span><br><span class="line">        links = pattern.findall(html)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.location, len(links)):</span><br><span class="line">            <span class="keyword">print</span> links[i]</span><br><span class="line">            self.count += <span class="number">1</span></span><br><span class="line">            self.location += <span class="number">1</span></span><br><span class="line">        <span class="keyword">print</span> self.count</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    spider = SinaBookSpider()</span><br><span class="line">    spider.run()</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -2585,7 +2585,7 @@
   <entry>
     <title>爬虫篇-动态网页的处理方式上:逆向工程</title>
     <url>/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8A-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</url>
-    <content><![CDATA[<h4 id="动态网页简介："><a href="#动态网页简介：" class="headerlink" title="动态网页简介："></a>动态网页简介：</h4><p>在我们编写爬虫时，可能会碰到以下两种问题：</p>
+    <content><![CDATA[<h4 id="一、动态网页简介："><a href="#一、动态网页简介：" class="headerlink" title="一、动态网页简介："></a>一、动态网页简介：</h4><p>在我们编写爬虫时，可能会碰到以下两种问题：</p>
 <ul>
 <li>我们所需要爬取的数据在网页源代码中并不存在；</li>
 <li>点击下一页跳转页面时，网页的URL 并没与发生变化；</li>
@@ -2598,7 +2598,7 @@
 </ol>
 <p>目前，越来越多的网站采取的是这种动态加载网页的方式，一来是可以实现web开发的前后端分离，减少服务器直接渲染页面的压力；二来是可以作为反爬虫的一种手段。</p>
 <hr>
-<h4 id="爬虫处理动态页面的三种方式："><a href="#爬虫处理动态页面的三种方式：" class="headerlink" title="爬虫处理动态页面的三种方式："></a>爬虫处理动态页面的三种方式：</h4><ul>
+<h4 id="二、爬虫处理动态页面的三种方式："><a href="#二、爬虫处理动态页面的三种方式：" class="headerlink" title="二、爬虫处理动态页面的三种方式："></a>二、爬虫处理动态页面的三种方式：</h4><ul>
 <li>逆向工程</li>
 <li>渲染动态网页：使用<code>pyside</code>或<code>ghost.py</code><ul>
 <li>selenium模拟浏览器</li>
@@ -2606,14 +2606,14 @@
 </li>
 </ul>
 <hr>
-<h4 id="逆向工程："><a href="#逆向工程：" class="headerlink" title="逆向工程："></a>逆向工程：</h4><p>对于动态加载的网页，我们想要获取其网页数据，需要了解网页是如何加载数据的，该过程就被成为<strong>逆向工程</strong>。对于使用了Ajax 请求技术的网页，我们可以找到Ajax请求的具体链接，直接得到Ajax请求得到的数据。需要注意的是，构造Ajax请求有两种方式：</p>
+<h4 id="三、逆向工程："><a href="#三、逆向工程：" class="headerlink" title="三、逆向工程："></a>三、逆向工程：</h4><p>对于动态加载的网页，我们想要获取其网页数据，需要了解网页是如何加载数据的，该过程就被成为<strong>逆向工程</strong>。对于使用了Ajax 请求技术的网页，我们可以找到Ajax请求的具体链接，直接得到Ajax请求得到的数据。需要注意的是，构造Ajax请求有两种方式：</p>
 <ul>
 <li>原生的Ajax请求，会直接创建一个<code>XMLHTTPReques</code>t对象。</li>
 <li>调用jQuery的ajax()方法。一般情况下，<code>$.ajax()</code>会返回其创建的<code>XMLHTTPRequest</code>对象；但是，如果<code>$.ajax()</code>的<code>dataType</code>参数指定了为<code>script</code>或<code>jsonp</code>类型，<code>$.ajax()</code>不再返回其创建的<code>XMLHTTPRequest</code>对象。</li>
 </ul>
 <p>对于这两种方式，只要创建返回了<code>XMLHTTPRequest</code>对象，就可以通过Chrome浏览器的调试工具在<code>NetWork</code>窗口通过设置<code>XHR</code>过滤条件，直接筛选出Ajax请求的链接；如果是<code>$.ajax()</code>并且<code>dataType</code>指定了为<code>script</code>或<code>jsonp</code>，则无法通过这种方式筛选出来。</p>
 <hr>
-<h4 id="爬虫示例："><a href="#爬虫示例：" class="headerlink" title="爬虫示例："></a>爬虫示例：</h4><p>接下来以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘</a> 这个网站的爬取为例，介绍如何得到无法筛选出来的Ajax请求链接：</p>
+<h4 id="四、爬虫示例："><a href="#四、爬虫示例：" class="headerlink" title="四、爬虫示例："></a>四、爬虫示例：</h4><p>接下来以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘</a> 这个网站的爬取为例，介绍如何得到无法筛选出来的Ajax请求链接：</p>
 <p>在Chrome中打开网页，右键<code>检查</code>，会发现首页中书摘列表包含在一个id为<code>subShowContent1_static</code>的div中，而<code>查看网页源代码</code>会发现id为<code>subShowContent1_static</code>的div为空。点击<code>更多书摘</code>或<code>下一页</code>时，网页URL并没有发生变化。与我们最前面所说的两种情况相同。</p>
 <p><code>F12</code>打开调试工具，打开<code>NetWork</code>窗口<em>（功能是记录浏览器的活动记录<code>network activities</code>）</em>，<code>F5</code>刷新，可以看到浏览器发送以及接收到的数据记录，其实我们所找的Ajax请求链接就是其中一条。</p>
 <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20190121194144329.png" alt="活动记录" style="zoom:80%;" />
@@ -2661,7 +2661,7 @@
 
 <p>对比发现：只有<code>jsonp**********</code>与<code>page=*</code>这两部分不同， <code>jsonp</code>后面跟的数字为当前时间的时间戳，是<code>jQuery.ajax()</code>方法自动计算添加的，<code>page</code>后面就是页数，这时候我们只要改变page后面的数字就可以构造翻页的链接了。</p>
 <hr>
-<h4 id="方法小结："><a href="#方法小结：" class="headerlink" title="方法小结："></a>方法小结：</h4><ul>
+<h4 id="五、方法小结："><a href="#五、方法小结：" class="headerlink" title="五、方法小结："></a>五、方法小结：</h4><ul>
 <li>首先通过设置<code>XHR</code>过滤条件，观察是否可以直接得到Ajax 请求；如果不可以，继续下一步。</li>
 <li>查找能够发送Ajax请求的元素绑定的事件或回调函数：首先在网页源代码中查找，没有的话，逐个查找嵌入的JS文件。</li>
 <li>找到之后，看函数内部是否直接构造Ajax请求，没有直接构造的话，根据函数调用关系一步一步查找，直到找到构造过程为止。</li>
@@ -2674,7 +2674,7 @@
 <p>代码见：<a href="https://github.com/linbo-lin/dynamic-web-process" target="_blank" rel="noopener">dynamic-web-process —— GitHub</a></p>
 </blockquote>
 <hr>
-<h4 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h4><p>本文以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘 </a>这个示例，介绍了如何得到Ajax请求链接，这是爬取动态网页时可以采取的一种方式，这种方式可能会在寻找Ajax请求的过程中浪费一点时间，并且要求对JavaScript有一定的了解，但找到链接后，爬取的过程可以很迅速。</p>
+<h4 id="六、最后："><a href="#六、最后：" class="headerlink" title="六、最后："></a>六、最后：</h4><p>本文以 <a href="http://book.sina.com.cn/excerpt/" target="_blank" rel="noopener">新浪读书——书摘 </a>这个示例，介绍了如何得到Ajax请求链接，这是爬取动态网页时可以采取的一种方式，这种方式可能会在寻找Ajax请求的过程中浪费一点时间，并且要求对JavaScript有一定的了解，但找到链接后，爬取的过程可以很迅速。</p>
 <p>如果对爬虫执行效率没有过多要求，又不想浪费太多时间在了解JavaScript代码逻辑、找寻Ajax请求链接上，可以参看下一篇文章<a href="https://linbo-lin.github.io/2018/05/15/%E7%88%AC%E8%99%AB%E7%AF%87-%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%AD-%E6%B8%B2%E6%9F%93%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/#more" target="_blank" rel="noopener">爬虫篇-动态网页的处理方式中: 渲染动态网页</a>，这篇文章提供了爬取动态网页的另一种思路。</p>
 <blockquote>
 <p>文中有什么错误或不足之处，欢迎指出~~</p>
@@ -2693,7 +2693,7 @@
   <entry>
     <title>解决ConfigParser模块读取、写入文件时自动转换为小写字符的问题</title>
     <url>/2018/01/03/%E8%A7%A3%E5%86%B3ConfigParser%E6%A8%A1%E5%9D%97%E8%AF%BB%E5%8F%96%E3%80%81%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6%E6%97%B6%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%B0%8F%E5%86%99%E5%AD%97%E7%AC%A6%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h4 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h4><p>最近在使用ConfigParser模块时，发现一个问题：</p>
+    <content><![CDATA[<h4 id="一、问题："><a href="#一、问题：" class="headerlink" title="一、问题："></a>一、问题：</h4><p>最近在使用ConfigParser模块时，发现一个问题：</p>
 <ul>
 <li><strong>在写入文件时，无论原字符是大写还是小写，ConfigParser option 总是把它转换为小写字符，然后再写入。</strong></li>
 </ul>
@@ -2702,7 +2702,7 @@
 
 
 
-<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><ul>
+<h4 id="二、解决方案："><a href="#二、解决方案：" class="headerlink" title="二、解决方案："></a>二、解决方案：</h4><ul>
 <li>第一种解决法案是改源码，直接将<code>def optionxform()</code>函数中<code>.lower()</code>去掉：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">optionxform</span><span class="params">(self, optionstr)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> optionstr</span><br></pre></td></tr></table></figure>

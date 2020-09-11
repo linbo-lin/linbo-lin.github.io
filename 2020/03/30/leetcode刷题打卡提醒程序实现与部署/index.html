@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="前因后果今天是3月30号，还差一天 leetcode-cn每日一题 活动就满一个月了，下面这张图是博主这一个月的打卡记录：  不要问我为什么有一个红叉叉，因为我也记不得当天为什么没有完成打卡了。但是就因为这一个红叉叉，我与下面的打卡奖励就无缘了。  为了更好的完成打卡任务，以及养成刷题的习惯，今天就写了一个leetcode-cn打卡提醒的程序，并且部署在了服务器上，这里记录一下实现的步骤。  打卡">
+<meta name="description" content="一、前因后果今天是3月30号，还差一天 leetcode-cn每日一题 活动就满一个月了，下面这张图是博主这一个月的打卡记录：  不要问我为什么有一个红叉叉，因为我也记不得当天为什么没有完成打卡了。但是就因为这一个红叉叉，我与下面的打卡奖励就无缘了。  为了更好的完成打卡任务，以及养成刷题的习惯，今天就写了一个leetcode-cn打卡提醒的程序，并且部署在了服务器上，这里记录一下实现的步骤。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode刷题打卡提醒程序实现与部署">
 <meta property="og:url" content="http://yoursite.com/2020/03/30/leetcode%E5%88%B7%E9%A2%98%E6%89%93%E5%8D%A1%E6%8F%90%E9%86%92%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0%E4%B8%8E%E9%83%A8%E7%BD%B2/index.html">
 <meta property="og:site_name" content="Begin Now">
-<meta property="og:description" content="前因后果今天是3月30号，还差一天 leetcode-cn每日一题 活动就满一个月了，下面这张图是博主这一个月的打卡记录：  不要问我为什么有一个红叉叉，因为我也记不得当天为什么没有完成打卡了。但是就因为这一个红叉叉，我与下面的打卡奖励就无缘了。  为了更好的完成打卡任务，以及养成刷题的习惯，今天就写了一个leetcode-cn打卡提醒的程序，并且部署在了服务器上，这里记录一下实现的步骤。  打卡">
+<meta property="og:description" content="一、前因后果今天是3月30号，还差一天 leetcode-cn每日一题 活动就满一个月了，下面这张图是博主这一个月的打卡记录：  不要问我为什么有一个红叉叉，因为我也记不得当天为什么没有完成打卡了。但是就因为这一个红叉叉，我与下面的打卡奖励就无缘了。  为了更好的完成打卡任务，以及养成刷题的习惯，今天就写了一个leetcode-cn打卡提醒的程序，并且部署在了服务器上，这里记录一下实现的步骤。">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/%E6%89%93%E5%8D%A1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200330215802.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200402182452.png">
 <meta property="article:published_time" content="2020-03-30T13:43:37.000Z">
-<meta property="article:modified_time" content="2020-07-26T10:29:44.496Z">
+<meta property="article:modified_time" content="2020-09-11T12:40:47.910Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="leetcode">
 <meta property="article:tag" content="爬虫">
@@ -414,13 +414,13 @@
       
 
       
-        <h3 id="前因后果"><a href="#前因后果" class="headerlink" title="前因后果"></a>前因后果</h3><p>今天是3月30号，还差一天 <a href="https://leetcode-cn.com/circle/article/9EZfRE/" target="_blank" rel="noopener">leetcode-cn每日一题</a> 活动就满一个月了，下面这张图是博主这一个月的打卡记录：</p>
+        <h3 id="一、前因后果"><a href="#一、前因后果" class="headerlink" title="一、前因后果"></a>一、前因后果</h3><p>今天是3月30号，还差一天 <a href="https://leetcode-cn.com/circle/article/9EZfRE/" target="_blank" rel="noopener">leetcode-cn每日一题</a> 活动就满一个月了，下面这张图是博主这一个月的打卡记录：</p>
 <p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/%E6%89%93%E5%8D%A1.png" alt=""></p>
 <p>不要问我为什么有一个红叉叉，因为我也记不得当天为什么没有完成打卡了。但是就因为这一个红叉叉，我与下面的打卡奖励就无缘了。</p>
 <p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20200330215802.png" alt=""></p>
 <p>为了更好的完成打卡任务，以及养成刷题的习惯，今天就写了一个leetcode-cn打卡提醒的程序，并且部署在了服务器上，这里记录一下实现的步骤。</p>
 <hr>
-<h3 id="打卡程序"><a href="#打卡程序" class="headerlink" title="打卡程序"></a>打卡程序</h3><p>打卡提醒程序的本质是一个定时的爬虫任务，工作原理是：从每天的上午九点开始，去查询一下我的个人提交记录，如果发现了在当天有提交通过的记录，就认为打卡成功了；否则就认为还未打卡，就会给我的邮箱发送一封提醒的邮件，并且会每隔一个小时再去查询一次，直到发现打卡成功或者时间到了23点。</p>
+<h3 id="二、打卡程序"><a href="#二、打卡程序" class="headerlink" title="二、打卡程序"></a>二、打卡程序</h3><p>打卡提醒程序的本质是一个定时的爬虫任务，工作原理是：从每天的上午九点开始，去查询一下我的个人提交记录，如果发现了在当天有提交通过的记录，就认为打卡成功了；否则就认为还未打卡，就会给我的邮箱发送一封提醒的邮件，并且会每隔一个小时再去查询一次，直到发现打卡成功或者时间到了23点。</p>
 <p>程序主要分为三个部分：</p>
 <ul>
 <li>爬虫，查询个人提交记录（登录状态）</li>
@@ -451,7 +451,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">job</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        flag = submission_check()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> flag:</span><br><span class="line">            mail_notice(<span class="string">"今天不要忘了打卡哦！"</span>)  <span class="comment"># 未打卡则发送邮件提醒</span></span><br><span class="line">            cur_hour = time.localtime().tm_hour</span><br><span class="line">            <span class="keyword">if</span> cur_hour == <span class="number">23</span>:   <span class="comment"># 时间超过23:00 今日不再提醒</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            time.sleep(<span class="number">60</span>*<span class="number">60</span>)  <span class="comment"># 一小时后再检查</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    schedule.every().day.at(<span class="string">"09:00"</span>).do(job)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        schedule.run_pending()</span><br><span class="line">        time.sleep(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="程序部署"><a href="#程序部署" class="headerlink" title="程序部署"></a>程序部署</h3><p>本来想将程序直接挂在自己电脑上一直运行的，但一直以来都想折腾一下服务器，然后就看了下阿里云，发现服务器正在做活动，价格还可以接受，就买了一个准备折腾一下。没有服务器的话，还是运行在自己电脑上吧。对于一台全新的服务器，部署过程如下：</p>
+<h3 id="三、程序部署"><a href="#三、程序部署" class="headerlink" title="三、程序部署"></a>三、程序部署</h3><p>本来想将程序直接挂在自己电脑上一直运行的，但一直以来都想折腾一下服务器，然后就看了下阿里云，发现服务器正在做活动，价格还可以接受，就买了一个准备折腾一下。没有服务器的话，还是运行在自己电脑上吧。对于一台全新的服务器，部署过程如下：</p>
 <ol>
 <li><p>使用root用户登录（阿里云买了之后只有root用户，需要在控制台管理界面设置下root用户的密码才能登录）后，创建一个新用户，并赋予相应的权限。（也可以使用root用户配置，但不推荐）。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -m newuser  <span class="comment"># 创建用户,-m表示自动创建用户的登入目录</span></span><br><span class="line">sudo passwd newuser  <span class="comment"># 为新建的用户创建密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新建的用户加入sudo组sudo </span></span><br><span class="line">chmod +w /etc/sudoers  <span class="comment"># /etc/sudoers文件只有读权限，先赋予写权限</span></span><br><span class="line">sudo vim /etc/sudoers  </span><br><span class="line"><span class="comment"># 编辑此文件，在 root　ALL=(ALL:ALL) ALL行下面添加 newuser ALL=(ALL:ALL) ALL</span></span><br><span class="line">sudo chmod -w /etc/sudoers  <span class="comment"># 将/etc/sudoers文件的权限改为只读权限</span></span><br><span class="line"></span><br><span class="line">su newuser  <span class="comment"># 切换到新用户</span></span><br></pre></td></tr></table></figure>
@@ -487,7 +487,7 @@
 </li>
 </ol>
 <hr>
-<h3 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h3><p>此打卡提醒程序只是为了满足日常的一个小需求，程序代码以及部署方式都很简单，很多方面都没有考虑，以后有需要和时间再来慢慢完善吧。大家有什么建议也可以在下方留言。</p>
+<h3 id="四、最后："><a href="#四、最后：" class="headerlink" title="四、最后："></a>四、最后：</h3><p>此打卡提醒程序只是为了满足日常的一个小需求，程序代码以及部署方式都很简单，很多方面都没有考虑，以后有需要和时间再来慢慢完善吧。大家有什么建议也可以在下方留言。</p>
 <blockquote>
 <p>文中有什么错误或不足之处，欢迎指出~</p>
 </blockquote>
@@ -695,7 +695,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前因后果"><span class="nav-text">前因后果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打卡程序"><span class="nav-text">打卡程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫，查询提交记录："><span class="nav-text">爬虫，查询提交记录：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#邮件提醒功能："><span class="nav-text">邮件提醒功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时任务功能："><span class="nav-text">定时任务功能：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序部署"><span class="nav-text">程序部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后："><span class="nav-text">最后：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前因后果"><span class="nav-text">一、前因后果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、打卡程序"><span class="nav-text">二、打卡程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫，查询提交记录："><span class="nav-text">爬虫，查询提交记录：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#邮件提醒功能："><span class="nav-text">邮件提醒功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时任务功能："><span class="nav-text">定时任务功能：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、程序部署"><span class="nav-text">三、程序部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、最后："><span class="nav-text">四、最后：</span></a></li></ol></div>
             
 
           </div>
