@@ -91,7 +91,8 @@
   <entry>
     <title>计算机基础—C/C++</title>
     <url>/2020/08/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94C-C++/</url>
-    <content><![CDATA[<h4 id="一、Const-Static-的区别"><a href="#一、Const-Static-的区别" class="headerlink" title="一、Const/Static 的区别"></a>一、Const/Static 的区别</h4><h5 id="static："><a href="#static：" class="headerlink" title="static："></a>static：</h5><ul>
+    <content><![CDATA[<h4 id="一、Const-Static-的区别"><a href="#一、Const-Static-的区别" class="headerlink" title="一、Const/Static 的区别"></a>一、Const/Static 的区别</h4><p>static：</p>
+<ul>
 <li>static 局部变量：将一个变量声明为函数的局部变量，但该变量在函数执行完成后不会被释放，而是继续保留在内存中，因此其值在下次调用时仍维持上次的值；</li>
 <li>static 全局变量：表示一个变量在当前文件的全局内可访问，不能被模块外其他函数访问；</li>
 <li>static 函数：表示一个函数只能在当前文件中被访问；</li>
@@ -99,7 +100,8 @@
 <li>static 类成员函数：表示这个函数为全类所共有，而且只能访问静态成员变量，这个函数不接受this指针；</li>
 </ul>
 <p>static成员变量和普通static变量一样，都在内存分区的全局数据区分配内存，到程序结束后释放。这就意味着，static成员变量不随对象的创建而分配内存，也不随对象的销毁而释放内存。而普通成员变量在对象创建时分配内存，在对象销毁时释放内存。</p>
-<h5 id="const"><a href="#const" class="headerlink" title="const:"></a>const:</h5><ul>
+<p>const:</p>
+<ul>
 <li>const 常量：定义时就初始化，以后不能更改；</li>
 <li>const 形参：该形参在函数里不能改变；</li>
 <li>const 修饰类成员函数：该函数对成员变量只能进行读操作；</li>
@@ -108,7 +110,7 @@
 <p>对于类的成员函数，有时候必须指定其返回值为const类型，以使其返回值不为“左值”。</p>
 <p>C++中const修饰的全局常量的作用域LOCAL的，即只在本文件中。可以通过配合使用<code>extern</code>关键字来声明该常量可以作用于其他编译模块中。</p>
 <p>C中const修饰的全局常量的作用域是GLOBAL的，作用域整个编译工程。</p>
-]]></content>
+<h4 id="指针和引用的区别"><a href="#指针和引用的区别" class="headerlink" title="指针和引用的区别"></a>指针和引用的区别</h4><h4 id="在函数参数传递时，什么时候用指针，什么时候用引用"><a href="#在函数参数传递时，什么时候用指针，什么时候用引用" class="headerlink" title="在函数参数传递时，什么时候用指针，什么时候用引用"></a>在函数参数传递时，什么时候用指针，什么时候用引用</h4><h4 id="堆和栈有什么区别"><a href="#堆和栈有什么区别" class="headerlink" title="堆和栈有什么区别"></a>堆和栈有什么区别</h4><h4 id="堆快一点还是栈快一点"><a href="#堆快一点还是栈快一点" class="headerlink" title="堆快一点还是栈快一点"></a>堆快一点还是栈快一点</h4><h4 id="new和delete是如何实现的，new与malloc的异同处"><a href="#new和delete是如何实现的，new与malloc的异同处" class="headerlink" title="new和delete是如何实现的，new与malloc的异同处"></a>new和delete是如何实现的，new与malloc的异同处</h4><h4 id="既然有了malloc-free，c-中为什么还需要new-delete呢"><a href="#既然有了malloc-free，c-中为什么还需要new-delete呢" class="headerlink" title="既然有了malloc/free，c++中为什么还需要new/delete呢"></a>既然有了malloc/free，c++中为什么还需要new/delete呢</h4><h4 id="C和C-的区别"><a href="#C和C-的区别" class="headerlink" title="C和C++的区别"></a>C和C++的区别</h4><h4 id="delete和delete-的区别"><a href="#delete和delete-的区别" class="headerlink" title="delete和delete[]的区别"></a>delete和delete[]的区别</h4><h4 id="c-、Java的联系与区别，包括语言特性、垃圾回收、应用场景等"><a href="#c-、Java的联系与区别，包括语言特性、垃圾回收、应用场景等" class="headerlink" title="c++、Java的联系与区别，包括语言特性、垃圾回收、应用场景等"></a>c++、Java的联系与区别，包括语言特性、垃圾回收、应用场景等</h4><h4 id="C-和Python的区别"><a href="#C-和Python的区别" class="headerlink" title="C++和Python的区别"></a>C++和Python的区别</h4><h4 id="Struct和class的区别"><a href="#Struct和class的区别" class="headerlink" title="Struct和class的区别"></a>Struct和class的区别</h4><h4 id="define和const的联系与区别（编译阶段安全性、内存占用等）"><a href="#define和const的联系与区别（编译阶段安全性、内存占用等）" class="headerlink" title="define和const的联系与区别（编译阶段安全性、内存占用等）"></a>define和const的联系与区别（编译阶段安全性、内存占用等）</h4><h4 id="计算下面几个类的大小"><a href="#计算下面几个类的大小" class="headerlink" title="计算下面几个类的大小"></a>计算下面几个类的大小</h4><h4 id="c-的STL介绍，其中包括内存管理、allocator、函数、实现机制、多线程实现等"><a href="#c-的STL介绍，其中包括内存管理、allocator、函数、实现机制、多线程实现等" class="headerlink" title="c++的STL介绍，其中包括内存管理、allocator、函数、实现机制、多线程实现等"></a>c++的STL介绍，其中包括内存管理、allocator、函数、实现机制、多线程实现等</h4><h4 id="STL源码中的hash表的实现"><a href="#STL源码中的hash表的实现" class="headerlink" title="STL源码中的hash表的实现"></a>STL源码中的hash表的实现</h4><h4 id="解决哈希冲突的方式"><a href="#解决哈希冲突的方式" class="headerlink" title="解决哈希冲突的方式"></a>解决哈希冲突的方式</h4><h4 id="STL中unordered-map和map的区别"><a href="#STL中unordered-map和map的区别" class="headerlink" title="STL中unordered_map和map的区别"></a>STL中unordered_map和map的区别</h4><h4 id="STL中vector的实现"><a href="#STL中vector的实现" class="headerlink" title="STL中vector的实现"></a>STL中vector的实现</h4><h4 id="vector使用的注意点及其原因，频繁对vector调用push-back-对性能的影响和原因"><a href="#vector使用的注意点及其原因，频繁对vector调用push-back-对性能的影响和原因" class="headerlink" title="vector使用的注意点及其原因，频繁对vector调用push_back()对性能的影响和原因"></a>vector使用的注意点及其原因，频繁对vector调用push_back()对性能的影响和原因</h4><h4 id="c-中vector和list的区别"><a href="#c-中vector和list的区别" class="headerlink" title="c++中vector和list的区别"></a>c++中vector和list的区别</h4><h4 id="C-中重载和重写的区别"><a href="#C-中重载和重写的区别" class="headerlink" title="C++中重载和重写的区别"></a>C++中重载和重写的区别</h4><h4 id="C-内存管理"><a href="#C-内存管理" class="headerlink" title="C++内存管理"></a>C++内存管理</h4><h4 id="介绍面向对象的三大特性"><a href="#介绍面向对象的三大特性" class="headerlink" title="介绍面向对象的三大特性"></a>介绍面向对象的三大特性</h4><h4 id="多态的实现"><a href="#多态的实现" class="headerlink" title="多态的实现"></a>多态的实现</h4><h4 id="C-虚函数相关，虚函数的实现原理"><a href="#C-虚函数相关，虚函数的实现原理" class="headerlink" title="C++虚函数相关，虚函数的实现原理"></a>C++虚函数相关，虚函数的实现原理</h4><h4 id="实现编译器处理虚函数表该如何处理"><a href="#实现编译器处理虚函数表该如何处理" class="headerlink" title="实现编译器处理虚函数表该如何处理"></a>实现编译器处理虚函数表该如何处理</h4><h4 id="基类的析构函数一般写成虚函数的原因"><a href="#基类的析构函数一般写成虚函数的原因" class="headerlink" title="基类的析构函数一般写成虚函数的原因"></a>基类的析构函数一般写成虚函数的原因</h4><h4 id="构造函数为什么一般不定义为虚函数"><a href="#构造函数为什么一般不定义为虚函数" class="headerlink" title="构造函数为什么一般不定义为虚函数"></a>构造函数为什么一般不定义为虚函数</h4><h4 id="构造函数或者析构函数中调用虚函数会怎么样"><a href="#构造函数或者析构函数中调用虚函数会怎么样" class="headerlink" title="构造函数或者析构函数中调用虚函数会怎么样"></a>构造函数或者析构函数中调用虚函数会怎么样</h4><h4 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h4><h4 id="静态绑定和动态绑定的介绍"><a href="#静态绑定和动态绑定的介绍" class="headerlink" title="静态绑定和动态绑定的介绍"></a>静态绑定和动态绑定的介绍</h4><h4 id="深拷贝和浅拷贝的区别（举例说明深拷贝的安全性）"><a href="#深拷贝和浅拷贝的区别（举例说明深拷贝的安全性）" class="headerlink" title="深拷贝和浅拷贝的区别（举例说明深拷贝的安全性）"></a>深拷贝和浅拷贝的区别（举例说明深拷贝的安全性）</h4><h4 id="对象复用的了解，零拷贝的了解"><a href="#对象复用的了解，零拷贝的了解" class="headerlink" title="对象复用的了解，零拷贝的了解"></a>对象复用的了解，零拷贝的了解</h4><h4 id="介绍c-所有的构造函数"><a href="#介绍c-所有的构造函数" class="headerlink" title="介绍c++所有的构造函数"></a>介绍c++所有的构造函数</h4><h4 id="什么情况下会调用构造拷贝函数"><a href="#什么情况下会调用构造拷贝函数" class="headerlink" title="什么情况下会调用构造拷贝函数"></a>什么情况下会调用构造拷贝函数</h4><h4 id="结构体内存对齐方式和为什么要进行内存对齐"><a href="#结构体内存对齐方式和为什么要进行内存对齐" class="headerlink" title="结构体内存对齐方式和为什么要进行内存对齐"></a>结构体内存对齐方式和为什么要进行内存对齐</h4><h4 id="内存泄露的定义，如何检测与避免"><a href="#内存泄露的定义，如何检测与避免" class="headerlink" title="内存泄露的定义，如何检测与避免"></a>内存泄露的定义，如何检测与避免</h4><h4 id="C-的智能指针有哪些"><a href="#C-的智能指针有哪些" class="headerlink" title="C++的智能指针有哪些"></a>C++的智能指针有哪些</h4><h4 id="调试程序的方法"><a href="#调试程序的方法" class="headerlink" title="调试程序的方法"></a>调试程序的方法</h4><h4 id="遇到coredump要怎么调试"><a href="#遇到coredump要怎么调试" class="headerlink" title="遇到coredump要怎么调试"></a>遇到coredump要怎么调试</h4><h4 id="inline关键字说一下，和宏定义有什么区别"><a href="#inline关键字说一下，和宏定义有什么区别" class="headerlink" title="inline关键字说一下，和宏定义有什么区别"></a>inline关键字说一下，和宏定义有什么区别</h4><h4 id="模板的用法与适用场景-实现原理"><a href="#模板的用法与适用场景-实现原理" class="headerlink" title="模板的用法与适用场景 实现原理"></a>模板的用法与适用场景 实现原理</h4><h4 id="成员初始化列表的概念，为什么用成员初始化列表会快一点"><a href="#成员初始化列表的概念，为什么用成员初始化列表会快一点" class="headerlink" title="成员初始化列表的概念，为什么用成员初始化列表会快一点"></a>成员初始化列表的概念，为什么用成员初始化列表会快一点</h4><h4 id="用过C11吗，知道C11新特性吗"><a href="#用过C11吗，知道C11新特性吗" class="headerlink" title="用过C11吗，知道C11新特性吗"></a>用过C11吗，知道C11新特性吗</h4><h4 id="C-的调用惯例"><a href="#C-的调用惯例" class="headerlink" title="C++的调用惯例"></a>C++的调用惯例</h4><h4 id="C-的四种强制转换"><a href="#C-的四种强制转换" class="headerlink" title="C++的四种强制转换"></a>C++的四种强制转换</h4><h4 id="string的底层实现"><a href="#string的底层实现" class="headerlink" title="string的底层实现"></a>string的底层实现</h4><h4 id="一个函数或者可执行文件的生成过程或者编译过程是怎样的"><a href="#一个函数或者可执行文件的生成过程或者编译过程是怎样的" class="headerlink" title="一个函数或者可执行文件的生成过程或者编译过程是怎样的"></a>一个函数或者可执行文件的生成过程或者编译过程是怎样的</h4><h4 id="set、map和vector的插入复杂度"><a href="#set、map和vector的插入复杂度" class="headerlink" title="set、map和vector的插入复杂度"></a>set、map和vector的插入复杂度</h4><h4 id="定义和声明的区别"><a href="#定义和声明的区别" class="headerlink" title="定义和声明的区别"></a>定义和声明的区别</h4><h4 id="type和define的区别"><a href="#type和define的区别" class="headerlink" title="type和define的区别"></a>type和define的区别</h4><h4 id="被free回收的内存是立即返还给操作系统吗？为什么"><a href="#被free回收的内存是立即返还给操作系统吗？为什么" class="headerlink" title="被free回收的内存是立即返还给操作系统吗？为什么"></a>被free回收的内存是立即返还给操作系统吗？为什么</h4><h4 id="引用作为函数参数以及返回值的好处"><a href="#引用作为函数参数以及返回值的好处" class="headerlink" title="引用作为函数参数以及返回值的好处"></a>引用作为函数参数以及返回值的好处</h4><h4 id="友元函数和友元类"><a href="#友元函数和友元类" class="headerlink" title="友元函数和友元类"></a>友元函数和友元类</h4><h4 id="说一下Volatile关键字的作用"><a href="#说一下Volatile关键字的作用" class="headerlink" title="说一下Volatile关键字的作用"></a>说一下Volatile关键字的作用</h4><h4 id="STL中sort-算法是用什么实现的，stable-sort-呢"><a href="#STL中sort-算法是用什么实现的，stable-sort-呢" class="headerlink" title="STL中sort()算法是用什么实现的，stable_sort()呢"></a>STL中sort()算法是用什么实现的，stable_sort()呢</h4><h4 id="vector会迭代器失效吗？什么情况下会迭代器失效"><a href="#vector会迭代器失效吗？什么情况下会迭代器失效" class="headerlink" title="vector会迭代器失效吗？什么情况下会迭代器失效"></a>vector会迭代器失效吗？什么情况下会迭代器失效</h4><h4 id="为什么C-没有垃圾回收"><a href="#为什么C-没有垃圾回收" class="headerlink" title="为什么C++没有垃圾回收"></a>为什么C++没有垃圾回收</h4>]]></content>
       <categories>
         <category>计算机基础</category>
       </categories>
@@ -317,7 +319,7 @@
 <ul>
 <li>超时重传时间的选择：</li>
 </ul>
-<p>TCP采用了一种自适应算犯，它记录一个报文段的往返时间RTT。同时维护了一个加权平均往返时间RTTs。</p>
+<p>TCP采用了一种自适应算法，它记录一个报文段的往返时间RTT。同时维护了一个加权平均往返时间RTTs。</p>
 <p>RTTs = (1-α)（旧的RTTs） + α*（新的RTT）</p>
 <p>超时重传时间RTO=RTTs + 4*RTTD。其中RTTD是RTT的偏差的加权平均值。</p>
 <h4 id="11-TCP如何保证可靠性"><a href="#11-TCP如何保证可靠性" class="headerlink" title="11. TCP如何保证可靠性"></a>11. TCP如何保证可靠性</h4><p>无差错、不丢失、不重复、按序到达</p>
@@ -734,7 +736,82 @@
   <entry>
     <title>计算机基础—操作系统</title>
     <url>/2020/08/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h3 id="一、死锁"><a href="#一、死锁" class="headerlink" title="一、死锁"></a>一、死锁</h3><h4 id="1-死锁："><a href="#1-死锁：" class="headerlink" title="1. 死锁："></a>1. 死锁：</h4><h4 id="2-死锁产生的条件："><a href="#2-死锁产生的条件：" class="headerlink" title="2. 死锁产生的条件："></a>2. 死锁产生的条件：</h4><h4 id="3-死锁避免："><a href="#3-死锁避免：" class="headerlink" title="3. 死锁避免："></a>3. 死锁避免：</h4>]]></content>
+    <content><![CDATA[<h4 id="1-进程与线程的区别和联系-："><a href="#1-进程与线程的区别和联系-：" class="headerlink" title="1. 进程与线程的区别和联系 ："></a>1. 进程与线程的区别和联系 ：</h4><p>区别：</p>
+<ul>
+<li>进程是对运行时程序的封装，使系统进行资源分配的最小单元；线程是进程的子任务，是处理器进行调度的最小单元；</li>
+<li>一个进程可以有多个线程，一个线程只能属于一个进程；</li>
+<li>每个进程都有独立的代码和数据空间（程序上下文），进程之间的切换会有较大的开销；线程可以看做轻量级的进程，同一类线程共享代码和数据空间，每个线程有自己独立运行的运行栈和程序计数器，线程之间切换的开销小。</li>
+<li>进程之间不会相互影响，一个进程崩溃后不会影响其他进程；而一个线程崩溃后会导致进程崩溃，从而影响进程里面其他线程；</li>
+</ul>
+<p>联系：</p>
+<p>线程是存在进程的内部，一个进程可以有多个线程，一个线程只能存在与一个进程中。</p>
+<h4 id="2-Linux理论上最多可以创建多少个进程，一个进程可以创建多少个线程，和什么有关"><a href="#2-Linux理论上最多可以创建多少个进程，一个进程可以创建多少个线程，和什么有关" class="headerlink" title="2. Linux理论上最多可以创建多少个进程，一个进程可以创建多少个线程，和什么有关"></a>2. Linux理论上最多可以创建多少个进程，一个进程可以创建多少个线程，和什么有关</h4><p>32768。因为进程的pid是用pid_t（short类型，两个字节，2^15）来表示的，pid_t的最大值是32768，所以理论上最多有32768个进程。</p>
+<p>进程最多可以创建的线程数取决于分配给调用栈的大小。此外还有操作系统等因素。例如：一个进程虚拟内存时4G，在Linux32位平台下，内核分走了1G，留给用户的只有3G，创建一个线程占有10M内存，总共有3G内存可以使用，于是，最多差不多可以创建300个左右的线程。</p>
+<h4 id="3-冯诺依曼结构有哪几个模块，分别对应现代计算机的哪几个部分？"><a href="#3-冯诺依曼结构有哪几个模块，分别对应现代计算机的哪几个部分？" class="headerlink" title="3. 冯诺依曼结构有哪几个模块，分别对应现代计算机的哪几个部分？"></a>3. 冯诺依曼结构有哪几个模块，分别对应现代计算机的哪几个部分？</h4><ul>
+<li>存储器：内存、外存等</li>
+<li>输入设备：键盘、鼠标、摄像头等</li>
+<li>输出设备：显示器、打印机等</li>
+<li>控制器：</li>
+<li>运算器：</li>
+</ul>
+<p>控制器和运算器：CPU</p>
+<h4 id="4-进程之间的通信方法有哪几种？线程之间通信方式"><a href="#4-进程之间的通信方法有哪几种？线程之间通信方式" class="headerlink" title="4. 进程之间的通信方法有哪几种？线程之间通信方式"></a>4. 进程之间的通信方法有哪几种？线程之间通信方式</h4><p>进程间通信方式主要有六种：管道、信号量、消息队列、信号、共享内存、套接字</p>
+<ul>
+<li><p>管道：管道的实质是一个内核缓冲区，进程以先进先出的方式从缓冲区存取数据，管道的一段的进程顺序的将进程数据写入缓冲区，另一端的进程则顺序的读取数据。有匿名管道和命名管道，匿名管道只允许父子进程通信，命名管道允许具有非血缘关系的进程通信。</p>
+</li>
+<li><p>信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问，信号量只有等待和发送两种操作，等待就是将其值减一或者挂起进程，发送就是将其值加一或者将进程恢复运行。</p>
+</li>
+<li><p>信号：信号是Linux系统中用于进程间通信或操作的一种机制，信号可在任何时候发送给某一进程，而无需知道该进程的状态。如果该进程并未处于执行状态，则该信号就由内核保存起来，直到该进程恢复执行并传递给它为止。如果一个信号被进程设置为阻塞，则该信号的传递被延迟，直到其阻塞被取消时才被传递给进程，信号是开销最小的。</p>
+</li>
+<li><p>共享内存：两个或多个进程共享一个给定的存储区，这一段存储区可以被两个或以上的进程映射到自身的地址空间中。一个进程写入共享内存的信息，可以被其他使用这个共享内存的进程通过一个简单的内存读取读出，从而实现了进程间的通信。效率最高，缺点是没有提供同步机制，需要使用锁等其他机制进行同步。</p>
+</li>
+<li><p>消息队列：消息队列是一个消息的链表，是一系列保存在内核中消息的列表。用户进程可以向消息队列添加消息，也可以向消息队列读取消息。其特点是，每个消息对应特定的类型，接收的时候不需要按照队列次序，而是可以根据自定义条件接收特定类型的消息。</p>
+</li>
+<li><p>套接字：它可用于不同设备及其间的进程通信。</p>
+</li>
+</ul>
+<p>线程之间通信方式：</p>
+<ul>
+<li>使用全局变量</li>
+<li>使用信号机制</li>
+<li>使用事件</li>
+</ul>
+<h4 id="5-进程之间的同步方式有哪些？多线程同步？"><a href="#5-进程之间的同步方式有哪些？多线程同步？" class="headerlink" title="5. 进程之间的同步方式有哪些？多线程同步？"></a>5. 进程之间的同步方式有哪些？多线程同步？</h4><p>进程同步：</p>
+<ul>
+<li>信号量</li>
+<li>管程：其基本思想是将共享变量和对它们的操作集中在一个模块中。</li>
+</ul>
+<p>参考：<a href="https://www.cnblogs.com/sonic4x/archive/2011/07/05/2098036.html" target="_blank" rel="noopener">进程同步的几种机制</a></p>
+<p>线程同步：</p>
+<ul>
+<li>互斥锁</li>
+<li>条件变量：当程序在等待满足某些条件时使线程进入睡眠状态，一旦条件满足，就唤醒因等待满足特定条件而睡眠的线程。</li>
+<li>读写锁</li>
+<li>信号量</li>
+</ul>
+<h4 id="6-什么时候用多进程，什么时候用多线程"><a href="#6-什么时候用多进程，什么时候用多线程" class="headerlink" title="6. 什么时候用多进程，什么时候用多线程"></a>6. 什么时候用多进程，什么时候用多线程</h4><ul>
+<li>频繁修改：需要频繁创建和销毁的优先使用多线程</li>
+<li>计算量：需要大量计算的优先使用多线程，因为需要消耗大量CPU资源且切换频繁；</li>
+<li>相关性：任务间相关性比较强的用多线程，相关性比较弱的用多进程，因为线程间的数据共享和同步比较简单。</li>
+<li>多分布：可能要扩展到多机分布的用多进程，多核分布的用多线程</li>
+</ul>
+<p>但是实际中更常见的是进程加线程的结合方式，并不是非此即彼的。</p>
+<h4 id="7-进程调度方法详细介绍"><a href="#7-进程调度方法详细介绍" class="headerlink" title="7. 进程调度方法详细介绍"></a>7. 进程调度方法详细介绍</h4><ul>
+<li>先来先服务（FCFS，first come first serve）：按照作业到达任务队列的顺序调度调度，FCFS是非抢占式的，易于实现，效率不高，性能不好，有利于长作业（CPU繁忙性）不利于短作业（I/O繁忙性）</li>
+<li>短作业优先（SJF，short job first）：每次从队列里选择预计时间最短的作业运行。SJF是非抢占式的，优先照顾短作业，具有很好的性能，降低平均等待时间，提高吞吐量。不利于长作业，长作业可能一直处于等待状态，处于饥饿状态。完全未考虑作业的优先紧迫程度，不能用于实时系统。</li>
+<li>最短剩余时间优先：该算法首先按照作业的服务时间挑选最短的作用运行，在该作业运行期间，一旦有新作业到达系统，并且该作业的服务时间比当前运行作业的剩余服务时间短，则法神抢占。否则，当前作业继续运行，该算法保证一旦新的短作业或短进程进入系统，能够很快得到处理。</li>
+<li>高响应比优先调度算法：非抢占式的，主要用于作业调度。基本思想是：每次进行作业调度时，先计算后备作业队列中每个作业的响应比，挑选最高的作业投入系统运行。因为都需要计算响应比，所以比较耗费系统资源。</li>
+<li>时间片轮转：用于分时系统的进程调度。基本思想是：系统将CPU处理时间划分为若干个时间片，进程按照先后顺序到达后顺序排列，每次调度选择对首的进程，执行完一个时间片后，计时器发出时钟中断请求，该进程移至队尾。以后每次调度都是如此。该算法能够在给定的时间内响应所有用户的请求，达到分时系统的目的。</li>
+<li>多级反馈队列：</li>
+</ul>
+<h4 id="8-进程的执行过程是什么样的，执行一个进程需要做哪些工作"><a href="#8-进程的执行过程是什么样的，执行一个进程需要做哪些工作" class="headerlink" title="8. 进程的执行过程是什么样的，执行一个进程需要做哪些工作"></a>8. 进程的执行过程是什么样的，执行一个进程需要做哪些工作</h4><p>进程的执行需要经过三大步骤：编译、链接和装入</p>
+<ul>
+<li>编译：将源代码编译成若干模块</li>
+<li>链接：将编译后的模块和所需要的库函数进行链接。链接包括三种形式：静态链接、装入时动态链接（将编译后的模块在链接时一边链接一边装入），运行时动态链接（在执行时才把需要的模块进行链接）</li>
+<li>装入：讲模块装入内存运行</li>
+</ul>
+<p>进程装入内存时，通常使用分页技术，将内存分成固定大小的页，进程分为固定大小的块，加载时将进程的块装入页中，并使用页表记录，减少外部碎片。</p>
+<h4 id="操作系统的内存管理说一下"><a href="#操作系统的内存管理说一下" class="headerlink" title="操作系统的内存管理说一下"></a>操作系统的内存管理说一下</h4><h4 id="实现一个LRU算法"><a href="#实现一个LRU算法" class="headerlink" title="实现一个LRU算法"></a>实现一个LRU算法</h4><h4 id="死锁产生的必要条件"><a href="#死锁产生的必要条件" class="headerlink" title="死锁产生的必要条件"></a>死锁产生的必要条件</h4><h4 id="死锁的恢复"><a href="#死锁的恢复" class="headerlink" title="死锁的恢复"></a>死锁的恢复</h4><h4 id="死锁的避免"><a href="#死锁的避免" class="headerlink" title="死锁的避免"></a>死锁的避免</h4><h4 id="什么是饥饿"><a href="#什么是饥饿" class="headerlink" title="什么是饥饿"></a>什么是饥饿</h4><h4 id="如果要实现一个mutex互斥锁，你要怎么实现"><a href="#如果要实现一个mutex互斥锁，你要怎么实现" class="headerlink" title="如果要实现一个mutex互斥锁，你要怎么实现"></a>如果要实现一个mutex互斥锁，你要怎么实现</h4><h4 id="文件读写使用的系统调用"><a href="#文件读写使用的系统调用" class="headerlink" title="文件读写使用的系统调用"></a>文件读写使用的系统调用</h4><h4 id="孤儿进程、僵尸进程"><a href="#孤儿进程、僵尸进程" class="headerlink" title="孤儿进程、僵尸进程"></a>孤儿进程、僵尸进程</h4><h4 id="说一下PCB-说一下进程地址空间"><a href="#说一下PCB-说一下进程地址空间" class="headerlink" title="说一下PCB/说一下进程地址空间"></a>说一下PCB/说一下进程地址空间</h4><h4 id="内核空间和用户空间是怎么区分的"><a href="#内核空间和用户空间是怎么区分的" class="headerlink" title="内核空间和用户空间是怎么区分的"></a>内核空间和用户空间是怎么区分的</h4><h4 id="同一个进程内的线程会共享什么资源"><a href="#同一个进程内的线程会共享什么资源" class="headerlink" title="同一个进程内的线程会共享什么资源"></a>同一个进程内的线程会共享什么资源</h4><h4 id="异常和中断的区别"><a href="#异常和中断的区别" class="headerlink" title="异常和中断的区别"></a>异常和中断的区别</h4><h4 id="一般情况下在Linux-Windows平台下栈空间的大小"><a href="#一般情况下在Linux-Windows平台下栈空间的大小" class="headerlink" title="一般情况下在Linux/Windows平台下栈空间的大小"></a>一般情况下在Linux/Windows平台下栈空间的大小</h4><h4 id="虚拟内存的了解"><a href="#虚拟内存的了解" class="headerlink" title="虚拟内存的了解"></a>虚拟内存的了解</h4><h4 id="服务器高并发的解决方案"><a href="#服务器高并发的解决方案" class="headerlink" title="服务器高并发的解决方案"></a>服务器高并发的解决方案</h4><h4 id="协程了解吗？"><a href="#协程了解吗？" class="headerlink" title="协程了解吗？"></a>协程了解吗？</h4><h4 id="协程的底层是怎么实现的，怎么使用协程"><a href="#协程的底层是怎么实现的，怎么使用协程" class="headerlink" title="协程的底层是怎么实现的，怎么使用协程"></a>协程的底层是怎么实现的，怎么使用协程</h4><h4 id="进程的状态以及转换图"><a href="#进程的状态以及转换图" class="headerlink" title="进程的状态以及转换图"></a>进程的状态以及转换图</h4><h4 id="在执行malloc申请内存的时候，操作系统是怎么做的？-内存分配的原理说一下-malloc函数底层是怎么实现的？-进程是怎么分配内存的。"><a href="#在执行malloc申请内存的时候，操作系统是怎么做的？-内存分配的原理说一下-malloc函数底层是怎么实现的？-进程是怎么分配内存的。" class="headerlink" title="在执行malloc申请内存的时候，操作系统是怎么做的？/ 内存分配的原理说一下 / malloc函数底层是怎么实现的？ / 进程是怎么分配内存的。"></a>在执行malloc申请内存的时候，操作系统是怎么做的？/ 内存分配的原理说一下 / malloc函数底层是怎么实现的？ / 进程是怎么分配内存的。</h4><h4 id="什么是字节序？怎么判断是大端还是小端？有什么用？"><a href="#什么是字节序？怎么判断是大端还是小端？有什么用？" class="headerlink" title="什么是字节序？怎么判断是大端还是小端？有什么用？"></a>什么是字节序？怎么判断是大端还是小端？有什么用？</h4>]]></content>
       <categories>
         <category>计算机基础</category>
       </categories>
@@ -893,11 +970,11 @@
 <li>负载均衡集群：通过集群或者分布式的方式解决并发压力；</li>
 </ul>
 <h4 id="11-MySQL数据库引擎介绍（InnoDB和Myisam的区别）"><a href="#11-MySQL数据库引擎介绍（InnoDB和Myisam的区别）" class="headerlink" title="11. MySQL数据库引擎介绍（InnoDB和Myisam的区别）"></a>11. MySQL数据库引擎介绍（InnoDB和Myisam的区别）</h4><ul>
-<li>InnoDB：</li>
-</ul>
-<p>MySQL默认引擎，支持事务和外键，支持容灾恢复。适合更新频繁和多并发，表\行级锁。</p>
-<ul>
-<li>Myisam：</li>
+<li><p>InnoDB：</p>
+<p>恢复。适合更新频繁和多并发，表\行级锁。</p>
+</li>
+<li><p>Myisam：</p>
+</li>
 </ul>
 <p>插入和查询速度比较高，支持大文件，但是不支持事务，适合在web和数据仓库场景下使用，表级锁。</p>
 <ul>

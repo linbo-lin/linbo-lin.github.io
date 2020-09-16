@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Begin Now">
 <meta property="og:description" content="1. UDP如何实现可靠传输UDP本身是无连接的协议，作用于传输层，想要实现可靠传输，只能从应用层来实现。需要添加如下机制：  ack&#x2F;seq:  发送方为每个UDP报文添加一个序号，接收方收到后发送一个ack报文；  超时重传机制  发送方在一段时间后收不到某个报文的ack，就重传这个报文；  滑动窗口：  发送窗口&#x2F;接收窗口，控制发送方的发送速率，防止网络较差时，越丢包越重传、越重传越丢包的恶">
 <meta property="article:published_time" content="2020-08-17T12:14:54.000Z">
-<meta property="article:modified_time" content="2020-09-11T12:29:13.370Z">
+<meta property="article:modified_time" content="2020-09-15T02:07:33.503Z">
 <meta property="article:author" content="linbo">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="面试基础知识">
@@ -591,7 +591,7 @@
 <ul>
 <li>超时重传时间的选择：</li>
 </ul>
-<p>TCP采用了一种自适应算犯，它记录一个报文段的往返时间RTT。同时维护了一个加权平均往返时间RTTs。</p>
+<p>TCP采用了一种自适应算法，它记录一个报文段的往返时间RTT。同时维护了一个加权平均往返时间RTTs。</p>
 <p>RTTs = (1-α)（旧的RTTs） + α*（新的RTT）</p>
 <p>超时重传时间RTO=RTTs + 4*RTTD。其中RTTD是RTT的偏差的加权平均值。</p>
 <h4 id="11-TCP如何保证可靠性"><a href="#11-TCP如何保证可靠性" class="headerlink" title="11. TCP如何保证可靠性"></a>11. TCP如何保证可靠性</h4><p>无差错、不丢失、不重复、按序到达</p>
