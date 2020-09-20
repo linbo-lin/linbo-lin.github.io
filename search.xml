@@ -3,7 +3,35 @@
   <entry>
     <title>计算机基础—Linux</title>
     <url>/2020/08/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E2%80%94Linux/</url>
-    <content><![CDATA[<h4 id="一、Linux-查看打开的连接数"><a href="#一、Linux-查看打开的连接数" class="headerlink" title="一、Linux 查看打开的连接数"></a>一、Linux 查看打开的连接数</h4><h5 id="Netstat："><a href="#Netstat：" class="headerlink" title="Netstat："></a><strong><a href="https://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316661.html" target="_blank" rel="noopener">Netstat：</a></strong></h5><p>Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships。</p>
+    <content><![CDATA[<h4 id="1-Linux的I-O模型介绍以及同步异步阻塞非阻塞的区别"><a href="#1-Linux的I-O模型介绍以及同步异步阻塞非阻塞的区别" class="headerlink" title="1. Linux的I/O模型介绍以及同步异步阻塞非阻塞的区别"></a>1. Linux的I/O模型介绍以及同步异步阻塞非阻塞的区别</h4><p>I/O过程包括两个阶段：数据准备阶段（内核从设备读取数据到内核空间的缓冲区）；数据复制阶段（内核空间复制回用户进程缓冲区阶段）</p>
+<ul>
+<li>阻塞I/O：</li>
+</ul>
+<p>I/O进程在数据准备阶段阻塞，等待数据准备完成；在数据复制阶段也阻塞，等待数据复制完成；</p>
+<ul>
+<li>非阻塞I/O：</li>
+</ul>
+<p>I/O进程在数据准备阶段不阻塞，但是会来轮询数据是否准备完成；在数据复制杰顿会阻塞，等待数据复制完成；</p>
+<ul>
+<li>I/O复用模型：</li>
+</ul>
+<p>使用select、poll、epoll进行I/O调用，在数据准备阶段会阻塞于select、poll、epoll，单个进程可以同时处理多个连接的I/O，当有数据准备完成后，通知用户进程；在数据复制阶段会阻塞，等待数据复制完成；</p>
+<p>以上都属于同步I/O。</p>
+<ul>
+<li>异步I/O：</li>
+</ul>
+<p>在数据准备阶段不阻塞，在数据复制阶段也不阻塞，数据准备完成后，内核执行复制，完成后给用户进程发送一个完成的信号。</p>
+<p><strong>参考：</strong><a href="https://www.cnblogs.com/euphie/p/6376508.html" target="_blank" rel="noopener">同步I/O、异步I/O …</a></p>
+<h4 id="2-I-O复用的三种方法（select、poll、epoll）深入理解，包括三者区别，内部实现原理"><a href="#2-I-O复用的三种方法（select、poll、epoll）深入理解，包括三者区别，内部实现原理" class="headerlink" title="2. I/O复用的三种方法（select、poll、epoll）深入理解，包括三者区别，内部实现原理"></a>2. I/O复用的三种方法（select、poll、epoll）深入理解，包括三者区别，内部实现原理</h4><p>参考：</p>
+<ul>
+<li><p><a href="https://zhuanlan.zhihu.com/p/56486633" target="_blank" rel="noopener">Epoll的简介与原理</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/397449cadc9a" target="_blank" rel="noopener">I/O多路复用的三种机制</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/davidsguo008/article/details/73556811" target="_blank" rel="noopener">深入理解select、poll和epoll</a></p>
+</li>
+</ul>
+<h4 id="Epoll的ET模式和LT模式"><a href="#Epoll的ET模式和LT模式" class="headerlink" title="Epoll的ET模式和LT模式"></a>Epoll的ET模式和LT模式</h4><h4 id="查询进程占用CPU的命令"><a href="#查询进程占用CPU的命令" class="headerlink" title="查询进程占用CPU的命令"></a>查询进程占用CPU的命令</h4><h4 id="Linux常用其他命令"><a href="#Linux常用其他命令" class="headerlink" title="Linux常用其他命令"></a>Linux常用其他命令</h4><h4 id="shell脚本用法"><a href="#shell脚本用法" class="headerlink" title="shell脚本用法"></a>shell脚本用法</h4><h4 id="硬链接和软连接"><a href="#硬链接和软连接" class="headerlink" title="硬链接和软连接"></a>硬链接和软连接</h4><h4 id="文件权限怎么看"><a href="#文件权限怎么看" class="headerlink" title="文件权限怎么看"></a>文件权限怎么看</h4><h4 id="文件的三种时间（mtime-atime-ctime），分别在什么时候会改变"><a href="#文件的三种时间（mtime-atime-ctime），分别在什么时候会改变" class="headerlink" title="文件的三种时间（mtime/atime/ctime），分别在什么时候会改变"></a>文件的三种时间（mtime/atime/ctime），分别在什么时候会改变</h4><h4 id="Linux查看网络带宽的命令，查看特定进程的占用网络资源情况的命令"><a href="#Linux查看网络带宽的命令，查看特定进程的占用网络资源情况的命令" class="headerlink" title="Linux查看网络带宽的命令，查看特定进程的占用网络资源情况的命令"></a>Linux查看网络带宽的命令，查看特定进程的占用网络资源情况的命令</h4><h4 id="怎么修改一个文件的权限"><a href="#怎么修改一个文件的权限" class="headerlink" title="怎么修改一个文件的权限"></a>怎么修改一个文件的权限</h4><h4 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h4><h4 id="怎么找出含有关键字的前后4行"><a href="#怎么找出含有关键字的前后4行" class="headerlink" title="怎么找出含有关键字的前后4行"></a>怎么找出含有关键字的前后4行</h4><h4 id="Linux的GDB调试"><a href="#Linux的GDB调试" class="headerlink" title="Linux的GDB调试"></a>Linux的GDB调试</h4><h4 id="coredump是什么，怎么才能coredump"><a href="#coredump是什么，怎么才能coredump" class="headerlink" title="coredump是什么，怎么才能coredump"></a>coredump是什么，怎么才能coredump</h4><h4 id="tcpdump常用命令"><a href="#tcpdump常用命令" class="headerlink" title="tcpdump常用命令"></a>tcpdump常用命令</h4><h4 id="crontab命令"><a href="#crontab命令" class="headerlink" title="crontab命令"></a>crontab命令</h4><h4 id="查看后台进程"><a href="#查看后台进程" class="headerlink" title="查看后台进程"></a>查看后台进程</h4><h4 id="文件系统的理解（EXT4，XFS，BTRFS）"><a href="#文件系统的理解（EXT4，XFS，BTRFS）" class="headerlink" title="文件系统的理解（EXT4，XFS，BTRFS）"></a>文件系统的理解（EXT4，XFS，BTRFS）</h4><h4 id="一、Lin-ux-查看打开的连接数"><a href="#一、Lin-ux-查看打开的连接数" class="headerlink" title="一、Lin  ux 查看打开的连接数"></a>一、Lin  ux 查看打开的连接数</h4><h5 id="Netstat："><a href="#Netstat：" class="headerlink" title="Netstat："></a><strong><a href="https://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316661.html" target="_blank" rel="noopener">Netstat：</a></strong></h5><p>Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships。</p>
 <ul>
 <li><code>netstat -a</code>：检查所有连接</li>
 <li><code>netstat -at</code>：只列出tcp连接</li>

@@ -409,9 +409,13 @@
       
         
           
-          一、Linux 查看打开的连接数Netstat：Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships。
+          1. Linux的I/O模型介绍以及同步异步阻塞非阻塞的区别I/O过程包括两个阶段：数据准备阶段（内核从设备读取数据到内核空间的缓冲区）；数据复制阶段（内核空间复制回用户进程缓冲区阶段）
 
-netstat -
+阻塞I/O：
+
+I/O进程在数据准备阶段阻塞，等待数据准备完成；在数据复制阶段也阻塞，等待数据复制完成；
+
+非
           ...
           <!--noindex-->
           <div class="post-button text-center">
