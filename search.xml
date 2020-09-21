@@ -1246,7 +1246,7 @@
 </ul>
 <h4 id="11-MySQL数据库引擎介绍（InnoDB和Myisam的区别）"><a href="#11-MySQL数据库引擎介绍（InnoDB和Myisam的区别）" class="headerlink" title="11. MySQL数据库引擎介绍（InnoDB和Myisam的区别）"></a>11. MySQL数据库引擎介绍（InnoDB和Myisam的区别）</h4><ul>
 <li><p>InnoDB：</p>
-<p>恢复。适合更新频繁和多并发，表\行级锁。</p>
+<p>默认。适合更新频繁和多并发，表\行级锁。</p>
 </li>
 <li><p>Myisam：</p>
 </li>
