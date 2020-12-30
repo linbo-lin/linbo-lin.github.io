@@ -50,6 +50,14 @@
 <p>文中有什么错误或者不足之处，欢迎指出~</p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgreSQL</tag>
+        <tag>PG插件</tag>
+        <tag>UUID</tag>
+      </tags>
   </entry>
   <entry>
     <title>Prepare-Execute语句执行以及Plan-Cache基本原理</title>
