@@ -260,8 +260,8 @@
         <category>计算机基础</category>
       </categories>
       <tags>
-        <tag>面试基础知识</tag>
         <tag>计算机基础</tag>
+        <tag>面试基础知识</tag>
         <tag>Linux</tag>
       </tags>
   </entry>
@@ -292,9 +292,9 @@
         <category>计算机基础</category>
       </categories>
       <tags>
-        <tag>面试基础知识</tag>
         <tag>计算机基础</tag>
         <tag>C/C++</tag>
+        <tag>面试基础知识</tag>
       </tags>
   </entry>
   <entry>
@@ -305,8 +305,8 @@
         <category>计算机基础</category>
       </categories>
       <tags>
-        <tag>面试基础知识</tag>
         <tag>计算机基础</tag>
+        <tag>面试基础知识</tag>
         <tag>数据结构</tag>
         <tag>算法基础</tag>
       </tags>
@@ -905,9 +905,9 @@
         <category>计算机基础</category>
       </categories>
       <tags>
-        <tag>计算机网络</tag>
-        <tag>面试基础知识</tag>
         <tag>计算机基础</tag>
+        <tag>面试基础知识</tag>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -1184,9 +1184,9 @@
         <category>计算机基础</category>
       </categories>
       <tags>
+        <tag>面试基础知识</tag>
         <tag>计算机网络</tag>
         <tag>操作系统</tag>
-        <tag>面试基础知识</tag>
       </tags>
   </entry>
   <entry>
@@ -1550,8 +1550,8 @@
         <category>计算机基础</category>
       </categories>
       <tags>
-        <tag>面试基础知识</tag>
         <tag>计算机基础</tag>
+        <tag>面试基础知识</tag>
         <tag>数据库</tag>
       </tags>
   </entry>
@@ -1786,8 +1786,8 @@
         <category>Python</category>
       </categories>
       <tags>
-        <tag>dict</tag>
         <tag>Python</tag>
+        <tag>dict</tag>
       </tags>
   </entry>
   <entry>
@@ -1875,10 +1875,10 @@
         <category>软件开发</category>
       </categories>
       <tags>
-        <tag>leetcode</tag>
-        <tag>爬虫</tag>
-        <tag>脚本工具</tag>
         <tag>Python</tag>
+        <tag>爬虫</tag>
+        <tag>leetcode</tag>
+        <tag>脚本工具</tag>
       </tags>
   </entry>
   <entry>
@@ -2449,8 +2449,8 @@
         <category>Python</category>
       </categories>
       <tags>
-        <tag>内置序列类型</tag>
         <tag>Python</tag>
+        <tag>内置序列类型</tag>
       </tags>
   </entry>
   <entry>
@@ -2516,8 +2516,8 @@
         <category>Python</category>
       </categories>
       <tags>
-        <tag>python内置模块</tag>
         <tag>Python</tag>
+        <tag>python内置模块</tag>
         <tag>二分查找</tag>
       </tags>
   </entry>
@@ -2894,8 +2894,8 @@
         <category>Python</category>
       </categories>
       <tags>
-        <tag>python内置模块</tag>
         <tag>Python</tag>
+        <tag>python内置模块</tag>
         <tag>queue</tag>
       </tags>
   </entry>
@@ -3131,8 +3131,8 @@
         <category>爬虫</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
         <tag>Python</tag>
+        <tag>爬虫</tag>
         <tag>selenium</tag>
       </tags>
   </entry>
@@ -3255,8 +3255,8 @@
         <category>爬虫</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
         <tag>Python</tag>
+        <tag>爬虫</tag>
         <tag>动态网页</tag>
       </tags>
   </entry>
@@ -3362,8 +3362,8 @@
         <category>爬虫</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
         <tag>Python</tag>
+        <tag>爬虫</tag>
         <tag>Ajax</tag>
         <tag>逆向工程</tag>
       </tags>
