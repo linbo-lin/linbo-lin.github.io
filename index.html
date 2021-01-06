@@ -411,13 +411,12 @@
           
           本篇文章介绍如何向PG 12中添加自定义的系统表。
 目标：
-
 添加一张名为pg_sqltext的系统表；
 根据表中的sql_handle字段建立索引；
 添加系统表pg_sqltext对应的本地缓存；
 
 
-一、实现过程：1. 添加名为pg_sqltext的系统表1.1 为需要添加的系统表分配可用的OI
+实现过程：1. 添加名为pg_sqltext的系统表1.1 为需要添加的系统表分配可用的OID12
           ...
           <!--noindex-->
           <div class="post-button text-center">
