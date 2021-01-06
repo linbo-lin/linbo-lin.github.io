@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PostgreSQL内核-添加自定义系统表</title>
+    <url>/2021/01/06/PostgreSQL%E5%86%85%E6%A0%B8-%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B3%BB%E7%BB%9F%E8%A1%A8/</url>
+    <content><![CDATA[<p>本篇文章介绍如何向PG 12中添加自定义的系统表。</p>
+<p><strong>目标：</strong></p>
+<ul>
+<li>添加一张名为<code>pg_sqltext</code>的系统表；</li>
+<li>根据表中的<code>sql_handle</code>字段建立索引；</li>
+<li>添加系统表<code>pg_sqltext</code>对应的本地缓存；</li>
+</ul>
+<hr>
+<h3 id="一、实现过程："><a href="#一、实现过程：" class="headerlink" title="一、实现过程："></a>一、实现过程：</h3><h4 id="1-添加名为pg-sqltext的系统表"><a href="#1-添加名为pg-sqltext的系统表" class="headerlink" title="1. 添加名为pg_sqltext的系统表"></a>1. 添加名为<code>pg_sqltext</code>的系统表</h4><h5 id="1-1-为需要添加的系统表分配可用的OID"><a href="#1-1-为需要添加的系统表分配可用的OID" class="headerlink" title="1.1 为需要添加的系统表分配可用的OID"></a>1.1 为需要添加的系统表分配可用的OID</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> src/include/catalog</span><br><span class="line">chmod +x unused_oids</span><br><span class="line">./unused_oids</span><br></pre></td></tr></table></figure>
+
+<p>从列出的未使用OID中选择一个分配给<code>pg_sqltext</code>，本文选择的是<code>3434</code>。</p>
+<h5 id="1-2-在src-include-catalog目录下添加相应的系统表头文件"><a href="#1-2-在src-include-catalog目录下添加相应的系统表头文件" class="headerlink" title="1.2 在src/include/catalog目录下添加相应的系统表头文件"></a>1.2 在<code>src/include/catalog</code>目录下添加相应的系统表头文件</h5><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> PG_SQLTEXT_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PG_SQLTEXT_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"catalog/genbki.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"catalog/pg_sqltext_d.h"</span></span></span><br><span class="line"></span><br><span class="line">CATALOG(pg_sqltext, <span class="number">3434</span>, SQLTEXTRELATIONID)</span><br><span class="line">&#123;</span><br><span class="line">	Oid			oid;			<span class="comment">/* oid */</span></span><br><span class="line">    int32       executions;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CATALOG_VARLEN			<span class="comment">/* variable-length fields start here */</span></span></span><br><span class="line">	<span class="built_in">text</span>        sql_handle;</span><br><span class="line">    <span class="built_in">text</span>        sql_text;</span><br><span class="line">    timestamptz created;</span><br><span class="line">    timestamptz last_executed;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>    </span></span><br><span class="line">&#125; FormData_pg_sqltext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> FormData_pg_sqltext *Form_pg_sqltext;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>						<span class="comment">/* PG_SQLTEXT_H */</span></span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-3-在src-backend-catalog-MakeFile文件中添加对应的系统表头文件"><a href="#1-3-在src-backend-catalog-MakeFile文件中添加对应的系统表头文件" class="headerlink" title="1.3 在src/backend/catalog/MakeFile文件中添加对应的系统表头文件"></a>1.3 在<code>src/backend/catalog/MakeFile</code>文件中添加对应的系统表头文件</h5> <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20210106113144.jpg" alt="image-20201211194016448" style="zoom:80%;" />
+
+<h4 id="2-根据表中的sql-handle字段建立索引"><a href="#2-根据表中的sql-handle字段建立索引" class="headerlink" title="2. 根据表中的sql_handle字段建立索引"></a>2. 根据表中的<code>sql_handle</code>字段建立索引</h4><h5 id="2-1-在src-include-catalog-indexing-h添加相应的索引数据"><a href="#2-1-在src-include-catalog-indexing-h添加相应的索引数据" class="headerlink" title="2.1 在src/include/catalog/indexing.h添加相应的索引数据"></a>2.1 在<code>src/include/catalog/indexing.h</code>添加相应的索引数据</h5><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">DECLARE_UNIQUE_INDEX(pg_sqltext_sql_handle_index, <span class="number">4187</span>, on pg_sqltext <span class="keyword">using</span> btree(sql_handle text_ops));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SqlTextSqlHandleIndexId  4187</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：这里在<code>sql_handle</code>字段上建立了一个名为<code>pg_sqltext_sql_handle_index</code>的唯一索引，内部使用BTee实现。</p>
+<p>注意：索引同样需要分配OID，参考1.1的方式为该索引分配合适的OID。</p>
+<h4 id="3-添加系统表pg-sqltext对应的本地缓存"><a href="#3-添加系统表pg-sqltext对应的本地缓存" class="headerlink" title="3. 添加系统表pg_sqltext对应的本地缓存"></a>3. 添加系统表<code>pg_sqltext</code>对应的本地缓存</h4><h5 id="3-1-在头文件src-include-utils-syscache-h中添加pg-sqltext对应的缓存标识"><a href="#3-1-在头文件src-include-utils-syscache-h中添加pg-sqltext对应的缓存标识" class="headerlink" title="3.1 在头文件src/include/utils/syscache.h中添加pg_sqltext对应的缓存标识"></a>3.1 在头文件<code>src/include/utils/syscache.h</code>中添加<code>pg_sqltext</code>对应的缓存标识</h5><p>在枚举类型<code>SysCacheIdentifier</code>中添加<code>pg_sqltext</code>对应的缓存标识:</p>
+<p> <img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20210106114402.png" alt="image-20210106114402063"></p>
+<p>注意：这里需要按照字母顺序进行添加</p>
+<h5 id="3-2-在src-backend-utils-cache-syscache-c添加pg-sqltext对应的缓存结构"><a href="#3-2-在src-backend-utils-cache-syscache-c添加pg-sqltext对应的缓存结构" class="headerlink" title="3.2 在src/backend/utils/cache/syscache.c添加pg_sqltext对应的缓存结构"></a>3.2 在<code>src/backend/utils/cache/syscache.c</code>添加<code>pg_sqltext</code>对应的缓存结构</h5><p>在数组<code>cacheinfo</code>中添加<code>pg_sqltext</code>对应的缓存结构:</p>
+<p><img src="https://raw.githubusercontent.com/linbo-lin/cloudimg/master/img/20210106114820.png" alt="image-20210106114820062">    </p>
+<p>注意：这里需要与2.1中添加的索引名字对应，同时需要与<code>SysCacheIdentifier</code>中对应的缓存标识顺序一致。</p>
+<hr>
+<p>以上就是向PG内核中添加一个系统表的全部过程，可以编译安装后使用<code>\d+ pg_sqltext</code>命令测试下是否添加成功。</p>
+<blockquote>
+<p>本文有什么错误或不足之处，欢迎指出~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgreSQL</tag>
+        <tag>数据库内核开发</tag>
+        <tag>系统表</tag>
+        <tag>Catalog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PostgreSQL中UUID的使用</title>
     <url>/2020/12/30/PostgreSQL%E4%B8%ADUUID%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h3 id="一、UUID的概念"><a href="#一、UUID的概念" class="headerlink" title="一、UUID的概念"></a>一、UUID的概念</h3><h4 id="1-什么是UUID"><a href="#1-什么是UUID" class="headerlink" title="1. 什么是UUID"></a>1. 什么是UUID</h4><p>UUID，全称<code>通用唯一标识码</code>-<code>Universally Unique Identifier</code>。其目的是让分布式系统中的所有元素，都能有唯一的辨识信息。由一组16进制的32位数字组成，占128位，标准的UUID形式为<code>8-4-4-4-12</code>：</p>
