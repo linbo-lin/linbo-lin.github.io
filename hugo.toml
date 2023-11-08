@@ -1,0 +1,4 @@
+baseURL = 'https://linbo-lin.github.io/'
+languageCode = 'en-us'
+title = 'Begin Now'
+theme = 'PaperMod'
