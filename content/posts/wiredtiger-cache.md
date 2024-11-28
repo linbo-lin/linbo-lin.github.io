@@ -1,7 +1,7 @@
 +++
-title = 'WiredTiger - Cache相关概念梳理'
+title = 'WiredTiger-Cache相关概念梳理'
 date = 2024-11-29T00:17:04+08:00
-tags = []
+tags = ['WiredTiger','数据库','存储引擎','Cache']
 draft = false
 +++
 
